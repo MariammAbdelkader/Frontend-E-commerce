@@ -1,0 +1,367 @@
+// import { useState } from "react";
+// import "./SignupPage.css";
+
+// export default function SignupPage() {
+//   return (
+//     <div className="signup-container">
+//       <Header />
+//       <Form />
+//       <Footer />
+//     </div>
+//   );
+// }
+
+// function Header() {
+//   return (
+//     <header>
+//       {/* logo is here */}
+//       <h2 className="form-title">SignUp</h2>
+//     </header>
+//   );
+// }
+
+// function Form() {
+//   const [firstName, setFirstName] = useState("");
+//   const [lastName, setLastName] = useState("");
+//   const [email, setEmail] = useState("");
+//   const [password, setPassword] = useState("");
+//   const [confirmPassword, setConfirmPassword] = useState("");
+//   const [error, setError] = useState("");
+//   const [isSubmitting, setIsSubmitting] = useState(false);
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     if (password !== confirmPassword) {
+//       setError("Passwords do not match");
+//       return;
+//     }
+
+//     const userData = {
+//       firstName,
+//       lastName,
+//       email,
+//       password,
+//     };
+
+//     try {
+//       setIsSubmitting(true);
+//       setError("");
+
+//       const response = await fetch("https://your-backend-api.com/signup", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(userData),
+//       });
+
+//       const result = await response.json();
+
+//       if (response.ok) {
+//         alert("Sign-up successful!");
+//       } else {
+//         setError(result.message || "Something went wrong. Please try again.");
+//       }
+//     } catch (err) {
+//       setError(err.message);
+//     } finally {
+//       setIsSubmitting(false);
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <form className="signup-form" onSubmit={handleSubmit}>
+//         <InputField
+//           type="text"
+//           placeholder="First Name"
+//           icon="person"
+//           value={firstName}
+//           onChange={(e) => setFirstName(e.target.value)}
+//         />
+//         <InputField
+//           type="text"
+//           placeholder="Last Name"
+//           icon="person"
+//           value={lastName}
+//           onChange={(e) => setLastName(e.target.value)}
+//         />
+//         <InputField
+//           type="email"
+//           placeholder="Email Address"
+//           icon="mail"
+//           value={email}
+//           onChange={(e) => setEmail(e.target.value)}
+//         />
+//         <InputField
+//           type="password"
+//           placeholder="Password"
+//           icon="lock"
+//           value={password}
+//           onChange={(e) => setPassword(e.target.value)}
+//         />
+//         <InputField
+//           type="password"
+//           placeholder="Confirm Password"
+//           icon="lock"
+//           value={confirmPassword}
+//           onChange={(e) => setConfirmPassword(e.target.value)}
+//         />
+//         {error && <p className="error-message">{error}</p>}
+//         <button className="signup-button" type="submit" disabled={isSubmitting}>
+//           {isSubmitting ? "Signing up..." : "SignUp"}
+//         </button>
+//       </form>
+//     </div>
+//   );
+// }
+
+// function InputField({ type, placeholder, icon, value, onChange }) {
+//   const [isPasswordShown, setIsPasswordShown] = useState(false);
+//   return (
+//     <div className="input-wrapper">
+//       <input
+//         type={isPasswordShown ? "text" : type}
+//         placeholder={placeholder}
+//         className="input-field"
+//         value={value}
+//         onChange={onChange}
+//         required
+//       />
+//       <i class="material-symbols-rounded input-icon">{icon}</i>
+//       {type === "password" && (
+//         <i
+//           onClick={() => setIsPasswordShown((prevState) => !prevState)}
+//           class="material-symbols-rounded eye-icon">
+//           {isPasswordShown ? "visibility" : "visibility_off"}
+//         </i>
+//       )}
+//     </div>
+//   );
+// }
+
+// function Footer() {
+//   return (
+//     <footer>
+//       <p className="policy" style={{ marginBottom: 20 }}>
+//         Already have an account? <a href="/login">Login</a>
+//       </p>
+//       <p className="policy">
+//         I agree to the Terms and Conditions and Privacy Policy.
+//       </p>
+//     </footer>
+//   );
+// }
+
+/******************************************  2  ****************************************************/
+
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./SignupPage2.css";
+
+export default function SignUpPage() {
+  return (
+    <div className="signup-body">
+      <Container />
+    </div>
+  );
+}
+
+function Container() {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [userRole, setUserRole] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    const userData = {
+      firstName,
+      lastName,
+      email,
+      password,
+      userRole,
+    };
+
+    try {
+      setIsSubmitting(true);
+      setError("");
+
+      const response = await fetch("https://your-backend-api.com/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        alert("Sign-up successful!");
+      } else {
+        setError(result.message || "Something went wrong. Please try again.");
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div className="signup-container">
+      <Form
+        handleSubmit={handleSubmit}
+        firstName={firstName}
+        setFirstName={setFirstName}
+        lastName={lastName}
+        setEmail={setEmail}
+        email={email}
+        password={password}
+        setPassword={setPassword}
+        error={error}
+        setLastName={setLastName}
+        confirmPassword={confirmPassword}
+        setConfirmPassword={setConfirmPassword}
+        isSubmitting={isSubmitting}
+        userRole={userRole}
+        setUserRole={setUserRole}
+      />
+      <SWitch />
+    </div>
+  );
+}
+
+function Form({
+  handleSubmit,
+  firstName,
+  lastName,
+  setEmail,
+  email,
+  setPassword,
+  password,
+  confirmPassword,
+  error,
+  setFirstName,
+  setLastName,
+  setConfirmPassword,
+  isSubmitting,
+  userRole,
+  setUserRole,
+}) {
+  return (
+    <div className="form-signup-container">
+      <form onSubmit={handleSubmit}>
+        <h1 style={{ marginBottom: 10 }}>Create Account</h1>
+
+        <InputField
+          type="text"
+          placeholder="First Name"
+          icon="person"
+          value={firstName}
+          onChange={(e) => setFirstName(e.target.value)}
+        />
+        <InputField
+          type="text"
+          placeholder="Last Name"
+          icon="person"
+          value={lastName}
+          onChange={(e) => setLastName(e.target.value)}
+        />
+        <InputField
+          type="email"
+          placeholder="Email Address"
+          icon="mail"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <InputField
+          type="password"
+          placeholder="Password"
+          icon="lock"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <InputField
+          type="password"
+          placeholder="Confirm Password"
+          icon="lock"
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
+        <div className="select-wrapper">
+          <select
+            id="userRole"
+            value={userRole}
+            onChange={(e) => setUserRole(e.target.value)}
+            required>
+            <option value="" disabled selected>
+              --- Select ---
+            </option>
+            <option value="user">User</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+
+        <button className="signup-btn" type="submit" disabled={isSubmitting}>
+          {isSubmitting ? "Signing up..." : "SignUp"}
+        </button>
+        {error && <p className="error-message">{error}</p>}
+      </form>
+    </div>
+  );
+}
+
+function SWitch() {
+  const navigate = useNavigate();
+  return (
+    <div className="toggle-signup-container">
+      <div className="signup-toggle">
+        <div className="signup-toggle-panel">
+          <h1>Welcome Back!</h1>
+          <p>Enter your Personal details to use all of site features</p>
+          <button className="sign-btn" onClick={() => navigate("/login")}>
+            Sign In
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function InputField({ type, placeholder, icon, value, onChange }) {
+  const [isPasswordShown, setIsPasswordShown] = useState(false);
+
+  return (
+    <div className="input-wrapper">
+      <input
+        type={isPasswordShown ? "text" : type}
+        placeholder={placeholder}
+        className="input-field"
+        value={value}
+        onChange={onChange}
+        required
+      />
+      <i class="material-symbols-rounded input-icon">{icon}</i>
+      {type === "password" && (
+        <i
+          onClick={() => setIsPasswordShown((prevState) => !prevState)}
+          class="material-symbols-rounded eye-icon">
+          {isPasswordShown ? "visibility" : "visibility_off"}
+        </i>
+      )}
+    </div>
+  );
+}
