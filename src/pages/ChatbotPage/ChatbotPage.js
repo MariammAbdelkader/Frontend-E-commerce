@@ -36,7 +36,10 @@ function Header() {
     </header>
   );
 }
+
 function ChatBody() {
+  const [conversationId, setConversationId]=useState("")
+  const [isInitialized, setIsInitialized] = useState(false);
   const [messages, setMessages] = useState([
     {
       sender: "AI",
@@ -45,6 +48,47 @@ function ChatBody() {
   ]);
   const [userInput, setUserInput] = useState("");
   const lastMessageRef = useRef(null);
+
+  useEffect(() => {
+    const startConversation = async () => {
+      if (isInitialized) return;
+      setIsInitialized(true);
+
+
+
+      try {
+        const response = await fetch("http://localhost:3000/chatbot/conversation", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+      });
+
+        if (response.ok) {
+          const data = await response.json();
+
+          console.log(data)
+        
+           await setConversationId(data.conversationId); // Save conversationId for further use
+        
+        } else {
+          console.error("Failed to start conversation");
+        }
+      } catch (error) {
+        console.error("Error starting conversation:", error);
+      }
+    };
+
+    startConversation();
+  }, [isInitialized]);
+
+  
+  useEffect(() => {
+    if (conversationId) {
+      console.log("Conversation started with ID:", conversationId);
+    }
+  }, [conversationId]); // This will run every time conversationId changes
 
   useEffect(() => {
     if (lastMessageRef.current) {
