@@ -22,7 +22,7 @@ const HomePage = () => {
             Login
           </Button>
           <Button href="/signup" color="inherit">
-            Sing Up
+            Sign Up
           </Button>
         </Toolbar>
       </AppBar>
