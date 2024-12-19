@@ -174,9 +174,11 @@ function Container() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [address, setAddress] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [userRole, setUserRole] = useState("");
+  const [userRole, setUserRole] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -191,14 +193,17 @@ function Container() {
       lastName,
       email,
       password,
+      phoneNumber,
+      address,
       userRole,
     };
+
 
     try {
       setIsSubmitting(true);
       setError("");
 
-      const response = await fetch("https://your-backend-api.com/signup", {
+      const response = await fetch("http://localhost:3000/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -238,6 +243,10 @@ function Container() {
         isSubmitting={isSubmitting}
         userRole={userRole}
         setUserRole={setUserRole}
+        phoneNumber={phoneNumber}
+        setPhoneNumber={setPhoneNumber}
+        address={address}
+        setAddress={setAddress}
       />
       <SWitch />
     </div>
@@ -260,6 +269,10 @@ function Form({
   isSubmitting,
   userRole,
   setUserRole,
+  phoneNumber,
+  setPhoneNumber,
+  address,
+  setAddress,
 }) {
   return (
     <div className="form-signup-container">
@@ -301,11 +314,25 @@ function Form({
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
         />
+           <InputField
+          type="text"
+          placeholder="phoneNumber"
+          ///TODO icon=
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
+        />
+         <InputField
+          type="text"
+          placeholder="Address"
+          ///TODO icon=
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
+        />
         <div className="select-wrapper">
           <select
             id="userRole"
-            value={userRole}
-            onChange={(e) => setUserRole(e.target.value)}
+            value={userRole ? "admin" : "user"} 
+            onChange={(e) => setUserRole(e.target.value === "admin")} 
             required>
             <option value="" disabled selected>
               --- Select ---
