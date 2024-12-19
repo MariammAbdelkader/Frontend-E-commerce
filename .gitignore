@@ -9,7 +9,8 @@
 /coverage
 
 # production
-/build
+/builda
+ dcsv
 
 # misc
 .DS_Store
