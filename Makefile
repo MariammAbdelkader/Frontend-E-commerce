@@ -1,5 +1,5 @@
 # Specify Docker image name for the Frontend
-IMAGE_NAME=my-frontend-app
+IMAGE_NAME ?= my-frontend-app
 
 # Build the Docker image using Dockerfile
 build:
@@ -19,5 +19,5 @@ clean:
 
 # Restart the container (stop, build, and run again)
 restart:
-	make down
-	make up
+	make down IMAGE_NAME=$(IMAGE_NAME)
+	make up IMAGE_NAME=$(IMAGE_NAME)

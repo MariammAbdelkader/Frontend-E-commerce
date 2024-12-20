@@ -17,7 +17,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 echo 'Building Docker image...'
-                sh 'make build'  
+                sh "make build IMAGE_NAME=${IMAGE_NAME}"   
                 sh 'docker images' // Verify the image build
             }
         }
@@ -36,7 +36,7 @@ pipeline {
         stage('Start Application') {
             steps {
                 echo 'Starting application using Makefile...'
-                sh 'make up' 
+                sh "make up IMAGE_NAME=${IMAGE_NAME}" 
             }
         }
     }
@@ -48,7 +48,7 @@ pipeline {
         }
         failure {
             echo 'Pipeline failed. Cleaning up resources...'
-            sh 'make down'
+            sh "make down IMAGE_NAME=${IMAGE_NAME}"
         }
         success {
             echo 'Pipeline executed successfully!'
