@@ -21,7 +21,7 @@ function Header() {
 
       <div className="header-links">
         <a href="/HomePage">Home</a>
-        <a href="/HomePage">Store</a>
+        <a href="/store">Store</a>
         <a href="/chatbot">Chatbot</a>
         <a href="/upload">Upload File</a>
       </div>
@@ -38,7 +38,7 @@ function Header() {
 }
 
 function ChatBody() {
-  const [conversationId, setConversationId]=useState("")
+  const [conversationId, setConversationId] = useState("");
   const [isInitialized, setIsInitialized] = useState(false);
   const [messages, setMessages] = useState([
     {
@@ -54,24 +54,24 @@ function ChatBody() {
       if (isInitialized) return;
       setIsInitialized(true);
 
-
-
       try {
-        const response = await fetch("http://localhost:3000/chatbot/conversation", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-      });
+        const response = await fetch(
+          "http://localhost:3000/chatbot/conversation",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          }
+        );
 
         if (response.ok) {
           const data = await response.json();
 
-          console.log(data)
-        
-           await setConversationId(data.conversationId); // Save conversationId for further use
-        
+          console.log(data);
+
+          await setConversationId(data.conversationId); // Save conversationId for further use
         } else {
           console.error("Failed to start conversation");
         }
@@ -83,7 +83,6 @@ function ChatBody() {
     startConversation();
   }, [isInitialized]);
 
-  
   useEffect(() => {
     if (conversationId) {
       console.log("Conversation started with ID:", conversationId);
