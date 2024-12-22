@@ -7,175 +7,178 @@
   box-sizing: border-box;
 }
 
-/****************************** body ***************************************/
-/* body {
+/**************body*****************/
+.login-body {
+  background-color: #c9d6ff;
+  background: linear-gradient(to right, #e2e2e2, #c9d6ff);
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
-  background-color: #ced4da;
-} */
-
-/****************************** login container ***************************************/
-.login-container {
-  max-width: 410px;
-  border: #fff 2px solid;
-  border-radius: 1rem;
-  padding: 2rem 1.5rem;
-  /* background-color: #fff; */
-  box-shadow: 0 10px 20px;
+  flex-direction: column;
+  height: 100vh;
 }
 
-/****************************** Header ***************************************/
-.login-container .form-title {
-  text-align: center;
-  font-size: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.login-container .separator {
-  position: relative;
-  margin-bottom: 2rem;
-}
-
-.login-container .separator::after {
-  position: absolute;
-  content: "";
-  left: 0;
-  top: 50%;
-  width: 100%;
-  height: 1px;
+/**********container**********/
+.container {
   background-color: #fff;
-}
-
-/****************************** Form ***************************************/
-.login-form {
-  padding-top: 30px;
-}
-
-.login-form .input-wrapper {
-  height: 54px;
-  width: 100%;
-  margin-bottom: 1.5rem;
+  border-radius: 30px;
+  box-shadow: 0 5px 15px rgb(0, 0, 0, 035);
   position: relative;
+  overflow: hidden;
+  width: 768px;
+  max-width: 100%;
+  min-height: 480px;
 }
 
-.login-form .input-wrapper .input-field {
-  width: 100%;
-  border: none;
-  height: 100%;
-  padding: 0 1rem 0 3rem;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  background-color: #fff;
-  transition: all 0.3s ease;
+.container p {
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: 0.3px;
+  margin: 20px 0;
 }
 
-.login-form .input-wrapper .input-field::placeholder {
-  color: #ccc;
+.container a {
+  color: #333;
+  font-size: 13px;
+  text-decoration: none;
+  margin: 15px 0 10px 0;
 }
 
-.login-form .input-wrapper .input-field:hover {
-  background-color: #f5f5ff;
-}
-
-/* icons */
-.login-form .input-wrapper i {
-  color: #ccc;
-  position: absolute;
-  pointer-events: none;
-  transform: translateY(-50%);
-  transition: all 0.3s ease;
-}
-
-.login-form .input-wrapper i:not(.eye-icon) {
-  top: 50%;
-  left: 1rem;
-}
-
-.login-form .input-wrapper .input-field:focus ~ i:not(.eye-icon) {
-  color: #000;
-}
-
-.login-form .input-wrapper i.eye-icon {
-  font-size: 1.25rem;
-  display: none;
+.container button {
+  background-color: #512da8;
+  color: #fff;
+  font-size: 12px;
+  padding: 10px 45px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-top: 10px;
   cursor: pointer;
-  right: 0.9rem;
+}
+.container button:hover {
+  background-color: #1c2971;
+  transform: scale(1.1);
+}
+
+.container .register-btn {
+  background-color: transparent;
+  border-color: #fff;
+}
+
+/****************form************/
+.container form {
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 40px;
+  height: 100%;
+}
+
+.container input {
+  background-color: #eee;
+  border: none;
+  margin: 8px 0;
+  padding: 10px 40px;
+  font-size: 13px;
+  border-radius: 8px;
+  width: 100%;
+  outline: none;
+}
+
+.form-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+}
+
+.toggle-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 150px 0 0 100px;
+}
+
+.toggle {
+  background-color: #512da8;
+  background: linear-gradient(to right, #5c6bc0, #512da8);
+  color: #fff;
+  height: 100%;
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+  transform: translateX(0);
+}
+
+.toggle-panel {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  transform: translateX(100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 30px;
+  text-align: center;
+}
+
+/********************icons*********************/
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.input-icon {
+  position: absolute;
   top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #ccc;
+}
+
+.input-field:focus ~ .input-icon {
+  color: #512da8;
+}
+
+.eye-icon {
+  position: absolute;
   display: none;
-  pointer-events: auto;
-  transform: translateY(-50%) scale(1);
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #ccc;
+  cursor: pointer;
   transition: transform 0.3s ease, color 0.3s ease;
 }
 
-.login-form .input-wrapper .input-field:valid ~ i.eye-icon {
+.input-field:valid ~ i.eye-icon {
   display: block;
 }
 
-.login-form .input-wrapper i.eye-icon:hover {
+.eye-icon:hover {
+  color: #5c6bc0;
   transform: translateY(-50%) scale(1.2);
-  color: #10639e;
 }
 
-.login-form .input-wrapper i.eye-icon:active {
+.eye-icon:active {
+  color: #512da8;
   transform: translateY(-50%) scale(0.9);
-  color: #10639e;
 }
-
-/* button */
-.login-form .login-button {
-  width: 100%;
-  border: none;
-  height: 50px;
-  border-radius: 50px;
-  color: #fff;
-  background-color: #000;
-  margin: 50px 0 0px 0;
-  cursor: pointer;
-  font-size: 1.25rem;
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.login-form .login-button:hover {
-  background-color: #10639e;
-  color: #fff;
-  transform: scale(1.05);
-  box-shadow: 0 8px 15px rgba(0, 119, 204, 0.4);
-}
-
-/****************************** Footer ***************************************/
-
-.login-container .signup-text {
+/**********************error**********************/
+.error-message {
+  font-size: 10px;
+  color: #512da8;
   text-align: center;
-  font-weight: 500;
-  margin-bottom: 0.9rem;
-  margin-top: 0.5rem;
-}
-
-.login-container .policy {
-  text-align: center;
-  font-weight: 500;
-  font-size: 14px;
-  width: 90%;
-  margin: 0 auto;
-}
-
-.login-container a {
-  font-weight: 500;
-  text-decoration: none;
-  color: blue;
-}
-
-.login-container a:hover {
-  text-decoration: underline;
-}
-
-.login-form .forget-pass-link {
-  display: block;
-  margin-top: -1rem;
-  width: fit-content;
-  font-size: 14px;
-  padding-left: 5px;
 }

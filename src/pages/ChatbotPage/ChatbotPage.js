@@ -21,7 +21,7 @@ function Header() {
 
       <div className="header-links">
         <a href="/HomePage">Home</a>
-        <a href="/HomePage">Store</a>
+        <a href="/store">Store</a>
         <a href="/chatbot">Chatbot</a>
         <a href="/upload">Upload File</a>
       </div>
@@ -38,7 +38,7 @@ function Header() {
 }
 
 function ChatBody() {
-  const [conversationId, setConversationId]=useState("")
+  const [conversationId, setConversationId] = useState("");
   const [isInitialized, setIsInitialized] = useState(false);
   const [messages, setMessages] = useState([
     {
@@ -54,24 +54,24 @@ function ChatBody() {
       if (isInitialized) return;
       setIsInitialized(true);
 
-
-
       try {
-        const response = await fetch("http://localhost:3000/chatbot/conversation", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-      });
+        const response = await fetch(
+          "http://localhost:3000/chatbot/start-conversation",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          }
+        );
 
         if (response.ok) {
           const data = await response.json();
 
-          console.log(data)
-        
-           await setConversationId(data.conversationId); // Save conversationId for further use
-        
+          console.log(data);
+
+          await setConversationId(data.conversationId); // Save conversationId for further use
         } else {
           console.error("Failed to start conversation");
         }
@@ -83,7 +83,6 @@ function ChatBody() {
     startConversation();
   }, [isInitialized]);
 
-  
   useEffect(() => {
     if (conversationId) {
       console.log("Conversation started with ID:", conversationId);
@@ -99,20 +98,49 @@ function ChatBody() {
     }
   }, [messages]);
 
-  const sendMessage = () => {
+  const sendMessage = async ()=> {
     if (userInput.trim()) {
-      setMessages((prev) => [...prev, { sender: "User", text: userInput }]);
-
-      setTimeout(() => {
-        setMessages((prev) => [
-          ...prev,
-          {
-            sender: "AI",
-            text: "I'm here to help! What do you need assistance with?",
+      
+      setTimeout(setMessages((prev) => [...prev, { sender: "User", text: userInput }]),1000)
+      try {
+        // Send the message to the backend
+        const response = await fetch("http://localhost:3000/chatbot/sendmessage", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-        ]);
-      }, 1000);
+          credentials: "include", 
+          body: JSON.stringify({
+            conversationId: conversationId,
+            message: userInput,
+          }),
+        });
+  
+        if (response.ok) {
+          const data = await response.json();
+  
+          // Add the AI's response to the UI
+          setTimeout(setMessages((prev) => [
+            ...prev,
+            { sender: "AI", text: data.reply || "Sorry, I couldn't process that." },
+          ]),1000);
 
+        } else {
+          console.error("Failed to send message:", await response.text());
+         setTimeout( setMessages((prev) => [
+          ...prev,
+          { sender: "AI", text: "There was an error processing your message." },
+        ]),1000)
+        }
+      } catch (error) {
+        console.error("Error sending message:", error);
+       setTimeout( setMessages((prev) => [
+        ...prev,
+        { sender: "AI", text: "An unexpected error occurred." },
+      ]),1000)
+      }
+  
+      // Clear the input field
       setUserInput("");
     }
   };

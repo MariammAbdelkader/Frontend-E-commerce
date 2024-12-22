@@ -22,7 +22,7 @@ function Header() {
 
       <div className="header-links">
         <a href="/HomePage">Home</a>
-        <a href="/HomePage">Store</a>
+        <a href="/store">Store</a>
         <a href="/chatbot">Chatbot</a>
         <a href="/upload">Upload File</a>
       </div>
@@ -85,17 +85,21 @@ function File() {
       const formData = new FormData();
       formData.append("file", selectedFile);
 
-      const response = await axios.post("http://localhost:3000/upload/csv", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        onUploadProgress: (progressEvent) => {
-          const percentCompleted = Math.round(
-            (progressEvent.loaded * 100) / progressEvent.total
-          );
-          setProgress(percentCompleted);
-        },
-      });
+      const response = await axios.post(
+        "http://localhost:3000/upload/csv",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+          onUploadProgress: (progressEvent) => {
+            const percentCompleted = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            setProgress(percentCompleted);
+          },
+        }
+      );
 
       if (response.status >= 200 && response.status < 300) {
         console.log("Upload response:", response.data);
