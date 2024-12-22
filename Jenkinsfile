@@ -35,6 +35,9 @@ pipeline {
 
         stage('Start Application') {
             steps {
+                echo 'Stopping any running container...'
+                sh "make down IMAGE_NAME=${IMAGE_NAME}"
+
                 echo 'Starting application using Makefile...'
                 sh "make up IMAGE_NAME=${IMAGE_NAME}" 
             }

@@ -11,7 +11,7 @@ up:
 
 # Stop and remove the Docker container
 down:
-	docker stop $(CONTAINER_NAME) && docker rm $(CONTAINER_NAME)
+	@docker ps -q --filter "name=$(IMAGE_NAME)" | grep -q . && docker stop $(IMAGE_NAME) && docker rm $(IMAGE_NAME) || echo "No running container to stop"
 
 # Clean up unused Docker images and containers
 clean:
