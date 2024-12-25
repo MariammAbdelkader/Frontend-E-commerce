@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./StorePage.css";
-
+import Header from "../Header/Header";
 export default function ProductPage() {
   const productsData = [
     {
@@ -178,34 +178,6 @@ export default function ProductPage() {
         </p>
       </footer>
     </div>
-  );
-}
-
-function Header() {
-  const navigate = useNavigate();
-  return (
-    <header className="csv-header">
-      <div className="logo">
-        <p>Logo</p>
-      </div>
-
-      <div className="header-links">
-        <a href="/HomePage">Home</a>
-        <a href="/store">Store</a>
-        <a href="/chatbot">Chatbot</a>
-        <a href="/upload">Upload File</a>
-      </div>
-
-      <div className="Head-right">
-        <div className="profile">
-          <span className="material-symbols-rounded head-icon">person</span>
-          <a href="/">Profile</a>
-        </div>
-        <button className="logout-btn" onClick={() => navigate("/login")}>
-          Log Out
-        </button>
-      </div>
-    </header>
   );
 }
 

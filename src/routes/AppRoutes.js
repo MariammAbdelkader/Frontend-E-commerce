@@ -7,6 +7,8 @@ import LoginPage from "../pages/LoginPage/LoginPage";
 import SignUpPage from "../pages/SignupPage/SignupPage";
 import UploadCSVPage from "../pages/UploadCsvPage/UploadCsvPage";
 import HomePage from "../pages/HomePage/HomePage";
+import ProfilePage from '../pages/ProfilePage/ProfilePage'; 
+
 
 const AppRoutes = () => {
   return (
@@ -19,6 +21,9 @@ const AppRoutes = () => {
         <Route path="/chatbot" element={<ChatbotPage />} />
         <Route path="/store" element={<StorePage />} />
         <Route path="/upload" element={<UploadCSVPage />} />
+        <Route path="/upload" element={<UploadCSVPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+
       </Routes>
     </Router>
   );
