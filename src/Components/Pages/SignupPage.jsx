@@ -59,7 +59,7 @@ export const RightPanel = styled.div`
 `;
 
 
-const SignupPage = () => {
+const SignupPage = ({ formData, handleChange, passwordMismatch,handleSubmit, loading, error, success }) => {
   return (
     <PageContainer>
       <SignupWrapper>
@@ -71,7 +71,17 @@ const SignupPage = () => {
           />
         </LeftPanel>
         <RightPanel>
-          <SignupForm />
+
+            <SignupForm
+                formData={formData}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+                loading={loading}
+                error={error}
+                success={success}
+                passwordMismatch={passwordMismatch}
+            />
+            
         </RightPanel>
       </SignupWrapper>
     </PageContainer>

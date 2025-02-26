@@ -12,7 +12,7 @@ const StyledButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px; /* لو حبينا نضيف أيقونة جنب النص */
+  gap: 8px;
 
   &:hover {
     background-color: ${({ hoverColor }) => hoverColor};

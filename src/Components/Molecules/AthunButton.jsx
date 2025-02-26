@@ -21,8 +21,8 @@ const StyledButton = styled(ButtonAtom)`
   }
 `;
 
-const AuthButton = ({ text, onClick }) => {
-  return <StyledButton onClick={onClick}>{text}</StyledButton>;
+const AuthButton = ({ text,type, onClick }) => {
+  return <StyledButton type={type} onClick={onClick}>{text}</StyledButton>;
 };
 
 

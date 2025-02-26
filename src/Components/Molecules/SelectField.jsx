@@ -9,11 +9,11 @@ const SelectWrapper = styled.div`
     margin: 10px 0;
 `;
 
-const SelectField = ({ label, options }) => {
+const SelectField = ({ label, name, options,onChange}) => {
     return (
         <SelectWrapper>
         <LabelAtom text={label} fontSize="14px" />
-        <SelectAtom options={options} />
+        <SelectAtom name={name} options={options}  onChange={onChange}/>
         </SelectWrapper>
     );
 };

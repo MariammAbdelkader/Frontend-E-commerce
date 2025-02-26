@@ -15,8 +15,8 @@ const StyledInput = styled.input`
   }
 `;
 
-const InputAtom = ({ type = "text", placeholder, ...styles }) => {
-  return <StyledInput type={type} placeholder={placeholder} {...styles} />;
+const InputAtom = ({ name,type = "text", placeholder, value, onChange, ...styles }) => {
+  return <StyledInput name={name} type={type} placeholder={placeholder} value={value}  onChange={onChange} {...styles} />;
 };
 
 export default InputAtom;

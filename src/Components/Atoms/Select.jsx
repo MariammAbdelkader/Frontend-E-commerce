@@ -17,9 +17,9 @@ const StyledSelect = styled.select`
   }
 `;
 
-const SelectAtom = ({ options, ...props }) => {
+const SelectAtom = ({ options,onChange,name, ...props }) => {
   return (
-    <StyledSelect {...props}>
+    <StyledSelect {...props} name={name} onChange={onChange}>
       {options.map((option, index) => (
         <option key={index} value={option.value}>
           {option.label}
