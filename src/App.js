@@ -1,10 +1,8 @@
 import React from "react";
-import LoginPage from "./Components/Pages/LoginPage";
-import SignupPage from "./Components/Pages/SignupPage";
-import SignupContainer from "./Containers/SignupContainer";
+import AppRoutes from "./routes/AppRoutes.js";
 
 const App = () => {
-  return( <SignupContainer />);
+  return <AppRoutes />;
 };
 
 export default App;
