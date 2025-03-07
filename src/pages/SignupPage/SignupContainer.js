@@ -10,6 +10,9 @@ const SignupContainer = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [gender, setGender] = useState("");
+  const [address, setAddress] = useState("");
+  const [phone, setPhone] = useState("");
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -29,6 +32,11 @@ const SignupContainer = () => {
     else if (password !== confirmPassword)
       tempErrors.confirmPassword = "Passwords do not match";
 
+    if (!gender.trim()) tempErrors.gender = "Gender is required";
+    if (!address.trim()) tempErrors.address = "Address is required";
+    if (!phone.trim()) tempErrors.phone = "Phone number is required";
+    else if (!/^\d{10}$/.test(phone)) tempErrors.phone = "Invalid phone number";
+
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
   };
@@ -37,7 +45,15 @@ const SignupContainer = () => {
     if (!validateForm()) return;
 
     setLoading(true);
-    const userData = { firstName, lastName, email, password };
+    const userData = {
+      firstName,
+      lastName,
+      email,
+      password,
+      gender,
+      address,
+      phone,
+    };
 
     const response = await signupUser(userData);
 
@@ -70,6 +86,12 @@ const SignupContainer = () => {
     setPassword,
     confirmPassword,
     setConfirmPassword,
+    gender,
+    setGender,
+    address,
+    setAddress,
+    phone,
+    setPhone,
     errors,
     handleSignup,
     handleSignIn,
