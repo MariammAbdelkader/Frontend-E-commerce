@@ -28,6 +28,7 @@ const LoginPresentation = () => {
     setPassword,
     handleLogin,
     handleSignUp,
+    errors,
   } = LoginContainer();
 
   const handleGoogleLogin = async (credentialResponse) => {
@@ -57,12 +58,15 @@ const LoginPresentation = () => {
 
             <Divider sx={loginStyles.divider}>OR</Divider>
 
+            {/* Email Field */}
             <TextField
               fullWidth
               placeholder="Email Address"
               variant="outlined"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              error={!!errors.email}
+              helperText={errors.email}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -71,8 +75,10 @@ const LoginPresentation = () => {
                 ),
               }}
               sx={loginStyles.inputField}
+              required
             />
 
+            {/* Password Field */}
             <TextField
               placeholder="Password"
               type={showPassword ? "text" : "password"}
@@ -80,6 +86,8 @@ const LoginPresentation = () => {
               fullWidth
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              error={!!errors.password}
+              helperText={errors.password}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
@@ -99,12 +107,14 @@ const LoginPresentation = () => {
                 ),
               }}
               sx={loginStyles.inputField}
+              required
             />
 
             <Typography variant="body2" sx={loginStyles.forgotPassword}>
               Forgot Your Password?
             </Typography>
 
+            {/* Sign In Button */}
             <Button
               variant="contained"
               fullWidth
@@ -112,6 +122,15 @@ const LoginPresentation = () => {
               onClick={handleLogin}>
               SIGN IN
             </Button>
+
+            {/* Show API error below the button */}
+            {errors.apiError && (
+              <Typography
+                variant="body2"
+                sx={{ color: "red", textAlign: "center", mt: 3 }}>
+                {errors.apiError}
+              </Typography>
+            )}
           </Box>
 
           <Box sx={loginStyles.rightContainer}>
@@ -119,7 +138,7 @@ const LoginPresentation = () => {
               Hello, Friend!
             </Typography>
             <Typography variant="body2" textAlign="center" mt={1} mb={2}>
-              Register with your Personal details to use all of site features
+              Register with your personal details to use all of site features
             </Typography>
 
             <Button
