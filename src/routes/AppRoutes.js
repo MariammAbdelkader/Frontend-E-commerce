@@ -1,6 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+import MainLayout from "../Layouts/MainLayoutPresnations"
 import StorePage from "../pages/StorePage/StorePage";
 import ChatbotPage from "../pages/ChatbotPage/ChatbotPage";
 import LoginPage from "../pages/LoginPage/LoginPresentation";
@@ -13,7 +14,8 @@ const AppRoutes = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<MainLayout />}/>
+        
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/home" element={<HomePage />} />
