@@ -1,4 +1,4 @@
-const API_BASE_URL = "https://your-backend-api.com";
+const API_BASE_URL = "http://localhost:3000";
 
 export const loginUser = async (credentials) => {
   try {
@@ -9,6 +9,7 @@ export const loginUser = async (credentials) => {
     });
 
     const result = await response.json();
+
     return { success: response.ok, data: result };
   } catch (error) {
     return { success: false, error: "Server error. Please try again." };

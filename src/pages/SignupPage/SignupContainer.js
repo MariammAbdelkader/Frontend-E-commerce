@@ -35,7 +35,7 @@ const SignupContainer = () => {
     if (!gender.trim()) tempErrors.gender = "Gender is required";
     if (!address.trim()) tempErrors.address = "Address is required";
     if (!phone.trim()) tempErrors.phone = "Phone number is required";
-    else if (!/^\d{10}$/.test(phone)) tempErrors.phone = "Invalid phone number";
+    else if (!/(010|011|012|015)\d{8}$/.test(phone)) tempErrors.phone = "Invalid phone number";
 
     setErrors(tempErrors);
     return Object.keys(tempErrors).length === 0;
