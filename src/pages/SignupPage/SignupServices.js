@@ -1,21 +1,20 @@
+import axios from "axios";
+
 const API_BASE_URL = "http://localhost:3000";
 
 export const signupUser = async (userData) => {
   try {
-    console.log("FROM SERVICES FRONT END")
-    console.log(userData)
-    const response = await fetch(`${API_BASE_URL}/signup`, {
-      method: "POST",
+
+    const response = await axios.post(`${API_BASE_URL}/signup`, userData, {
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(userData),
+      withCredentials: true, // Ensures cookies (JWT) are sent & received
     });
 
-    const result = await response.json();
-    return { success: response.ok, data: result };
+    return { success: true, data: response.data };
   } catch (error) {
     return {
       success: false,
-      error: "Something went wrong. Please try again later.",
+      error: error.response?.data?.message || "Something went wrong. Please try again later.",
     };
   }
 };

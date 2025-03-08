@@ -1,32 +1,35 @@
+import axios from "axios";
+
 const API_BASE_URL = "http://localhost:3000";
 
 export const loginUser = async (credentials) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/login`, {
-      method: "POST",
+    const response = await axios.post(`${API_BASE_URL}/login`, credentials, {
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(credentials),
+      withCredentials: true, // Ensures cookies (JWT) are sent & received
     });
 
-    const result = await response.json();
-
-    return { success: response.ok, data: result };
+    return { success: true, data: response.data };
   } catch (error) {
-    return { success: false, error: "Server error. Please try again." };
+    return {
+      success: false,
+      error: error.response?.data?.message || "Server error. Please try again.",
+    };
   }
 };
 
 export const loginWithGoogle = async (googleToken) => {
   try {
-    const response = await fetch(`${API_BASE_URL}/google-login`, {
-      method: "POST",
+    const response = await axios.post(`${API_BASE_URL}/google-login`, { token: googleToken }, {
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ token: googleToken }),
+      withCredentials: true,
     });
 
-    const result = await response.json();
-    return { success: response.ok, data: result };
+    return { success: true, data: response.data };
   } catch (error) {
-    return { success: false, error: "Google login failed. Please try again." };
+    return {
+      success: false,
+      error: error.response?.data?.message || "Google login failed. Please try again.",
+    };
   }
 };
