@@ -1,45 +1,47 @@
 import axios from "axios";
 
 const API_BASE_URL = "http://localhost:3000/product";
-
 /**
- * Fetches a product by its ID.
+ * Fetches a product by its ID, including its category, subcategory, 
+ * and applicable discount percentages.
  * 
  * @param {number} productId - The ID of the product to fetch.
- * @returns {Promise<{ 
-*   productId: number, 
-*   name: string, 
-*   description: string, 
-*   category: string, 
-*   subcategory: string, 
-*   price: number, 
-*   discountPrice: number, 
-*   status: string 
+ * @returns {Promise<{
+*   productId: number,
+*   name: string,
+*   description: string,
+*   category: string | null,
+*   subcategory: string | null,
+*   price: number,
+*   discountprice: number | null,
+*   status: string,
+*   productDiscountPercentage: number | null,
+*   categoryDiscountPercentage: number | null
 * } | { success: false, error: string }>} - The product data or an error object.
 */
-export const getProductById= async (productId)=>{
-    try{
-
+export const getProductById = async (productId) => {
+    try {
         productId = Number(productId);
-        if (typeof productId !== "number") {
-        throw new Error("Invalid productId.");
+        if (isNaN(productId)) {
+            throw new Error("Invalid productId.");
         }
+
         const response = await axios.get(`${API_BASE_URL}/${productId}`, {
             withCredentials: true // Ensures cookies are sent with the request
         });
-        const product =response.data.data;
-        return product;
 
-    }catch(error){
+        return response.data.data;
+    } catch (error) {
         return {
             success: false,
             error:
-              error.response?.data?.message || // Backend error message
-              error.message || // Axios error message
-              "Server error. Please try again.", // Fallback message
+                error.response?.data?.message || // Backend error message
+                error.message || // Axios error message
+                "Server error. Please try again.", // Fallback message
         };
     }
-}
+};
+
 
 
 /**
@@ -52,14 +54,16 @@ export const getProductById= async (productId)=>{
  * 
  * @returns {Promise<{
 *     Array<{
-*     productId: number,
-*     name: string,
-*     description: string,
-*     category: string,
-*     subcategory: string,
-*     price: number,
-*     discountPrice: number,
-*     status: string
+*   productId: number,
+*   name: string,
+*   description: string,
+*   category: string | null,
+*   subcategory: string | null,
+*   price: number,
+*   discountprice: number | null,
+*   status: string,
+*   productDiscountPercentage: number | null,
+*   categoryDiscountPercentage: number | null
 *   }>
 * } | { success: false, error: string }>} - Returns product data if successful, otherwise an error object.
 */
