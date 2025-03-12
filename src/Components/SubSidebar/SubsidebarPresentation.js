@@ -11,9 +11,11 @@ const SubSidebar = ({ subSidebarItems, SetActiveSubItem, activeSubItem }) => {
             button
             key={text}
             onClick={() => SetActiveSubItem(text)}
-            sx={styles.subSidebarItem(activeSubItem === text)}
-          >
-            <ListItemText primary={text} sx={styles.listItemText(activeSubItem === text)} />
+            sx={styles.subSidebarItem(activeSubItem === text)}>
+            <ListItemText
+              primary={text}
+              sx={styles.listItemText(activeSubItem === text)}
+            />
           </ListItem>
         ))}
       </List>

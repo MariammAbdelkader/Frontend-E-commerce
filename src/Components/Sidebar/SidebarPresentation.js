@@ -1,6 +1,21 @@
 import React from "react";
-import { Box, List, ListItem, ListItemIcon, ListItemText, Divider } from "@mui/material";
-import { Home, ShoppingCart, Store, People, LocalOffer, Chat, Settings } from "@mui/icons-material";
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Divider,
+} from "@mui/material";
+import {
+  Home,
+  ShoppingCart,
+  Store,
+  People,
+  LocalOffer,
+  Chat,
+  Settings,
+} from "@mui/icons-material";
 import Logo from "../../images/Logo.png";
 import styles from "./SidebarStyles";
 
@@ -24,9 +39,10 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
             button
             key={text}
             onClick={() => setActiveItem(text)}
-            sx={styles.sidebarItem(activeItem === text)}
-          >
-            <ListItemIcon sx={{ minWidth: "unset", color: "inherit" }}>{icon}</ListItemIcon>
+            sx={styles.sidebarItem(activeItem === text)}>
+            <ListItemIcon sx={{ minWidth: "unset", color: "inherit" }}>
+              {icon}
+            </ListItemIcon>
             <ListItemText primary={text} sx={styles.listItemText} />
           </ListItem>
         ))}

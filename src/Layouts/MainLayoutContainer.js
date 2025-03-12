@@ -4,13 +4,13 @@ const LayoutContainer = () => {
   const [activeItem, setActiveItem] = useState("");
   const [activeSubItem, setActiveSubItem] = useState("");
 
-  const SetActiveItem= (text)=>{
+  const SetActiveItem = (text) => {
     setActiveItem(text);
     setActiveSubItem(null);
-  }
-  const SetActiveSubItem= (text)=>{
+  };
+  const SetActiveSubItem = (text) => {
     setActiveSubItem(text);
-  }
+  };
   return {
     activeItem,
     SetActiveItem,

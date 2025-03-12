@@ -1,11 +1,19 @@
 import React from "react";
-import { AppBar, Toolbar, Typography, Box, Paper, InputBase, Avatar } from "@mui/material";
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Box,
+  Paper,
+  InputBase,
+  Avatar,
+} from "@mui/material";
 import { Search } from "@mui/icons-material";
 import styles from "./NavbarStyles";
 
 const Navbar = () => {
   return (
-    <AppBar position="static" sx={styles.navbar}>
+    <AppBar position="sticky" sx={styles.navbar}>
       <Toolbar>
         <Typography variant="h5" fontWeight="bold" sx={styles.navbarTitle}>
           Shophoria
