@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { uploadCSV } from "./ProductServices";
 
 const useProductContainer = () => {
   const [open, setOpen] = useState(false);
@@ -45,10 +46,16 @@ const useProductContainer = () => {
     }
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
       console.log("Selected file:", file.name);
+      try {
+        const response = await uploadCSV(file);
+        console.log(response);
+      } catch (error) {
+        console.error("Error uploading CSV:", error);
+      }
     }
   };
 
