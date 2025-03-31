@@ -21,6 +21,8 @@ const DiscountPresenter = ({ activeSubItem }) => {
     setProductCode,
     productDiscountRate,
     setProductDiscountRate,
+    sendGeneralDiscountData,
+    sendProductDiscountData,
   } = useDiscountContainer();
 
   if (activeSubItem !== "Add Discount") return null;
@@ -77,7 +79,8 @@ const DiscountPresenter = ({ activeSubItem }) => {
           <StyledButton
             variant="contained"
             size="large"
-            disabled={discountRate === "" || category.trim() === ""}>
+            disabled={discountRate === "" || category.trim() === ""}
+            onClick={sendGeneralDiscountData}>
             Add Discount
           </StyledButton>
         </StyledButtonContainer>
@@ -127,7 +130,8 @@ const DiscountPresenter = ({ activeSubItem }) => {
           <StyledButton
             variant="contained"
             size="large"
-            disabled={productCode.trim() === "" || productDiscountRate === ""}>
+            disabled={productCode.trim() === "" || productDiscountRate === ""}
+            onClick={sendProductDiscountData}>
             Apply Discount to Product
           </StyledButton>
         </StyledButtonContainer>
