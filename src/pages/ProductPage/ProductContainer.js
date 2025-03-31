@@ -1,7 +1,9 @@
 import { useState, useRef } from "react";
+import { uploadCSV, addProduct } from "./ProductServices";
 
 const useProductContainer = () => {
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [productData, setProductData] = useState({
     name: "",
     category: "",
@@ -21,21 +23,21 @@ const useProductContainer = () => {
   };
 
   const handleSubmit = async () => {
+    setLoading(true);
     try {
-      const response = await fetch("http://your-backend-api/products", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(productData),
-      });
+      const response = await addProduct(productData);
 
-      if (response.ok) {
-        console.log("Product added successfully");
+      if (response.success) {
+        alert("Product added successfully!");
         handleClose();
       } else {
-        console.error("Failed to add product");
+        alert("Failed to add product");
       }
     } catch (error) {
       console.error("Error:", error);
+      alert("An error occurred while adding the product");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -45,15 +47,22 @@ const useProductContainer = () => {
     }
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
       console.log("Selected file:", file.name);
+      try {
+        const response = await uploadCSV(file);
+        console.log(response);
+      } catch (error) {
+        console.error("Error uploading CSV:", error);
+      }
     }
   };
 
   return {
     open,
+    loading,
     productData,
     handleOpen,
     handleClose,

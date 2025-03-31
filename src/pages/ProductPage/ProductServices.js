@@ -1,4 +1,4 @@
-// import axios from "axios";
+import axios from "axios";
 
 // const API_BASE_URL = "http://localhost:3000/product";
 // /**
@@ -133,5 +133,27 @@ export const addProduct = async (productData) => {
   } catch (error) {
     console.error("Error:", error);
     return { success: false };
+  }
+};
+
+const API_BASE_URL = "http://localhost:3000/product";
+
+export const uploadCSV = async (file) => {
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await axios.post(`${API_BASE_URL}/upload-csv`, formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+      withCredentials: true,
+    });
+
+    return response.data;
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error.response?.data?.message || error.message || "CSV upload failed",
+    };
   }
 };

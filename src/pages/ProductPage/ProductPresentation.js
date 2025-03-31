@@ -10,12 +10,14 @@ import {
   TextField,
 } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import CircularProgress from "@mui/material/CircularProgress"; // Import CircularProgress
 import styles from "./ProductStyles";
 import useProductContainer from "./ProductContainer";
 
 const ProductPresentation = ({ activeSubItem }) => {
   const {
     open,
+    loading,
     productData,
     handleOpen,
     handleClose,
@@ -84,40 +86,48 @@ const ProductPresentation = ({ activeSubItem }) => {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={styles.modalTitle}>Add New Product</DialogTitle>
         <DialogContent sx={styles.modalContainer}>
-          <TextField
-            fullWidth
-            label="Product Name"
-            name="name"
-            value={productData.name}
-            onChange={handleChange}
-            sx={styles.inputField}
-          />
-          <TextField
-            fullWidth
-            label="Category"
-            name="category"
-            value={productData.category}
-            onChange={handleChange}
-            sx={styles.inputField}
-          />
-          <TextField
-            fullWidth
-            label="Price"
-            name="price"
-            type="number"
-            value={productData.price}
-            onChange={handleChange}
-            sx={styles.inputField}
-          />
-          <TextField
-            fullWidth
-            label="Discount"
-            name="discount"
-            type="number"
-            value={productData.discount}
-            onChange={handleChange}
-            sx={styles.inputField}
-          />
+          {loading ? (
+            <Box sx={{ display: "flex", justifyContent: "center", padding: 2 }}>
+              <CircularProgress />
+            </Box>
+          ) : (
+            <>
+              <TextField
+                fullWidth
+                label="Product Name"
+                name="name"
+                value={productData.name}
+                onChange={handleChange}
+                sx={styles.inputField}
+              />
+              <TextField
+                fullWidth
+                label="Category"
+                name="category"
+                value={productData.category}
+                onChange={handleChange}
+                sx={styles.inputField}
+              />
+              <TextField
+                fullWidth
+                label="Price"
+                name="price"
+                type="number"
+                value={productData.price}
+                onChange={handleChange}
+                sx={styles.inputField}
+              />
+              <TextField
+                fullWidth
+                label="Discount"
+                name="discount"
+                type="number"
+                value={productData.discount}
+                onChange={handleChange}
+                sx={styles.inputField}
+              />
+            </>
+          )}
         </DialogContent>
         <DialogActions sx={styles.buttonContainer}>
           <Button onClick={handleClose} sx={styles.cancelButton}>
