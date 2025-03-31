@@ -1,116 +1,133 @@
 import React from "react";
 import {
   Box,
-  AppBar,
-  Toolbar,
-  InputBase,
-  Avatar,
   Typography,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Paper,
-  Divider,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
 } from "@mui/material";
-import {
-  Search,
-  Home,
-  ShoppingCart,
-  Store,
-  People,
-  LocalOffer,
-  Chat,
-  Settings,
-} from "@mui/icons-material";
-import Logo from "../../images/Logo.png";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import styles from "./ProductStyles";
-import ProductContainer from "./ProductContainer";
+import useProductContainer from "./ProductContainer";
 
-const sidebarItems = [
-  { text: "Home", icon: <Home sx={{ fontSize: 22 }} /> },
-  { text: "Orders", icon: <ShoppingCart sx={{ fontSize: 22 }} /> },
-  { text: "Products", icon: <Store sx={{ fontSize: 22 }} /> },
-  { text: "Customers", icon: <People sx={{ fontSize: 22 }} /> },
-  { text: "Discounts", icon: <LocalOffer sx={{ fontSize: 22 }} /> },
-  { text: "Online Store", icon: <Store sx={{ fontSize: 22 }} /> },
-  { text: "Chatbot", icon: <Chat sx={{ fontSize: 22 }} /> },
-];
+const ProductPresentation = ({ activeSubItem }) => {
+  const {
+    open,
+    productData,
+    handleOpen,
+    handleClose,
+    handleChange,
+    handleSubmit,
+    fileInputRef,
+    handleUploadClick,
+    handleFileChange,
+  } = useProductContainer();
 
-const subSidebarItems = [{ text: "All Products" }, { text: "Add New Product" }];
-
-const ProductPresentation = () => {
-  const { activeItem, setActiveItem, activeSubItem, setActiveSubItem } =
-    ProductContainer();
+  if (activeSubItem !== "Add New Product") {
+    return null;
+  }
 
   return (
     <Box sx={styles.container}>
-      <Box sx={styles.sidebar}>
-        <Box component="img" src={Logo} alt="Logo" sx={styles.sidebarLogo} />
-        <List sx={styles.sidebarList}>
-          {sidebarItems.map(({ text, icon }) => (
-            <ListItem
-              button
-              key={text}
-              onClick={() => setActiveItem(text)}
-              sx={styles.sidebarItem(activeItem === text)}>
-              <ListItemIcon sx={{ minWidth: "unset", color: "inherit" }}>
-                {icon}
-              </ListItemIcon>
-              <ListItemText primary={text} sx={styles.listItemText} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider sx={styles.divider} />
-        <ListItem button sx={styles.settingsItem}>
-          <ListItemIcon sx={{ minWidth: "unset", color: "inherit" }}>
-            <Settings sx={{ fontSize: 22 }} />
-          </ListItemIcon>
-          <ListItemText primary="Settings" sx={styles.listItemText} />
-        </ListItem>
+      <Typography variant="h4" sx={styles.title}>
+        Get Ready to Sell
+      </Typography>
+
+      {/* Add Product Section */}
+      <Box sx={styles.section}>
+        <Typography variant="h6" sx={styles.sectionTitle}>
+          Add a New Product
+        </Typography>
+        <Typography variant="body2" sx={styles.description}>
+          You can add a single product here
+        </Typography>
+        <Button variant="contained" sx={styles.addButton} onClick={handleOpen}>
+          Add Product
+        </Button>
       </Box>
 
-      <Box sx={styles.mainWrapper}>
-        <AppBar position="static" sx={styles.navbar}>
-          <Toolbar>
-            <Typography variant="h5" fontWeight="bold" sx={styles.navbarTitle}>
-              Shophoria
-            </Typography>
-            <Box sx={styles.searchWrapper}>
-              <Paper component="form" sx={styles.searchBox}>
-                <Search sx={styles.searchIcon} />
-                <InputBase sx={{ flex: 1 }} placeholder="Search..." />
-              </Paper>
-            </Box>
-            <Typography variant="body1" sx={styles.userGreeting}>
-              Hi, Mohamed Fareed
-            </Typography>
-            <Avatar alt="User" src="/profile.jpg" />
-          </Toolbar>
-        </AppBar>
-
-        <Box sx={{ display: "flex", flexGrow: 1 }}>
-          {activeItem === "Products" && (
-            <Box sx={styles.subSidebar}>
-              <List>
-                {subSidebarItems.map(({ text }) => (
-                  <ListItem
-                    button
-                    key={text}
-                    onClick={() => setActiveSubItem(text)}
-                    sx={styles.subSidebarItem(activeSubItem === text)}>
-                    <ListItemText primary={text} />
-                  </ListItem>
-                ))}
-              </List>
-            </Box>
-          )}
-
-          <Box component="main" sx={styles.mainContent}>
-            {/* Main Content Goes Here */}
-          </Box>
-        </Box>
+      {/* Separator */}
+      <Box sx={styles.separatorContainer}>
+        <Box sx={styles.separatorLine} />
+        <Typography variant="body2" sx={styles.orText}>
+          Or
+        </Typography>
+        <Box sx={styles.separatorLine} />
       </Box>
+
+      {/* Upload CSV Section */}
+      <Box
+        sx={styles.uploadContainer}
+        onClick={handleUploadClick}
+        style={{ cursor: "pointer" }}>
+        <CloudUploadIcon sx={styles.uploadIcon} />
+        <Typography variant="h6" sx={styles.uploadTitle}>
+          Upload CSV File
+        </Typography>
+        <Typography variant="body2" sx={styles.uploadDescription}>
+          Upload a CSV file to quickly add multiple products and streamline
+          inventory management.
+        </Typography>
+        <input
+          type="file"
+          ref={fileInputRef}
+          style={{ display: "none" }}
+          accept=".csv"
+          onChange={handleFileChange}
+        />
+      </Box>
+
+      {/* Add Product Dialog */}
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle sx={styles.modalTitle}>Add New Product</DialogTitle>
+        <DialogContent sx={styles.modalContainer}>
+          <TextField
+            fullWidth
+            label="Product Name"
+            name="name"
+            value={productData.name}
+            onChange={handleChange}
+            sx={styles.inputField}
+          />
+          <TextField
+            fullWidth
+            label="Category"
+            name="category"
+            value={productData.category}
+            onChange={handleChange}
+            sx={styles.inputField}
+          />
+          <TextField
+            fullWidth
+            label="Price"
+            name="price"
+            type="number"
+            value={productData.price}
+            onChange={handleChange}
+            sx={styles.inputField}
+          />
+          <TextField
+            fullWidth
+            label="Discount"
+            name="discount"
+            type="number"
+            value={productData.discount}
+            onChange={handleChange}
+            sx={styles.inputField}
+          />
+        </DialogContent>
+        <DialogActions sx={styles.buttonContainer}>
+          <Button onClick={handleClose} sx={styles.cancelButton}>
+            Cancel
+          </Button>
+          <Button onClick={handleSubmit} sx={styles.saveButton}>
+            Add Product
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };

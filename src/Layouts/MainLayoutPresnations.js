@@ -4,18 +4,23 @@ import LayoutContainer from "./MainLayoutContainer";
 import Sidebar from "../Components/Sidebar/SidebarPresentation";
 import Navbar from "../Components/NavBar/NavbarPresentation";
 import SubSidebar from "../Components/SubSidebar/SubsidebarPresentation";
-import DiscountsPage from "../pages/DiscountPage/DiscountPresentation"; // Import Discounts Page
+import DiscountsPage from "../pages/DiscountPage/DiscountPresentation";
+import ProductPage from "../pages/ProductPage/ProductPresentation"; // ✅ Import Product Page
 import styles from "./MainLayoutStyles";
 
+// Function to get sidebar items for Discounts & Products
 const getSubSidebarItems = (activeItem) => {
-  switch (activeItem) {
-    case "Products":
-      return [{ text: "All Products" }, { text: "Add New Product" }];
-    case "Discounts":
-      return [{ text: "Add Discount" }, { text: "View Discount" }];
-    default:
-      return [];
-  }
+  const sidebarOptions = {
+    Products: [
+      { id: "all-products", text: "All Products" },
+      { id: "add-product", text: "Add New Product" },
+    ],
+    Discounts: [
+      { id: "add-discount", text: "Add Discount" },
+      { id: "view-discount", text: "View Discount" },
+    ],
+  };
+  return sidebarOptions[activeItem] || [];
 };
 
 const MainLayoutPresentation = () => {
@@ -26,12 +31,15 @@ const MainLayoutPresentation = () => {
 
   return (
     <Box sx={styles.container}>
+      {/* Sidebar Component */}
       <Sidebar activeItem={activeItem} setActiveItem={SetActiveItem} />
 
       <Box sx={styles.mainWrapper}>
+        {/* Navbar Component */}
         <Navbar />
+
         <Box sx={{ display: "flex", flex: 1 }}>
-          {/* ✅ Show sub-sidebar only for Products and Discounts */}
+          {/* ✅ Show SubSidebar for Products & Discounts */}
           {subSidebarItems.length > 0 && (
             <SubSidebar
               subSidebarItems={subSidebarItems}
@@ -40,10 +48,12 @@ const MainLayoutPresentation = () => {
             />
           )}
 
-          {/* ✅ Render content dynamically based on active section */}
+          {/* ✅ Render Pages Dynamically */}
           <Box component="main" sx={styles.mainContent}>
             {activeItem === "Discounts" ? (
               <DiscountsPage activeSubItem={activeSubItem} />
+            ) : activeItem === "Products" ? (
+              <ProductPage activeSubItem={activeSubItem} />
             ) : (
               <Typography variant="h4">
                 {activeItem || "Select a Section"}

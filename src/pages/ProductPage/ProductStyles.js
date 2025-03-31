@@ -1,125 +1,139 @@
 const styles = {
-  container: { display: "flex", height: "100vh", bgcolor: "#F5F5F5" },
-
-  sidebar: {
-    width: 100,
-    bgcolor: "#1B0099",
+  container: {
+    maxWidth: 1000,
+    textAlign: "left",
+    p: 3,
+  },
+  title: {
+    fontWeight: "bold",
+    mb: 4,
+  },
+  sectionTitle: {
+    fontWeight: "bold",
+  },
+  description: {
+    color: "textSecondary",
+    mb: 3,
+  },
+  addButton: {
+    background: "#1B0099",
     color: "white",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    py: 2,
-    ml: "10px",
-    my: "15px",
-  },
-
-  sidebarLogo: { width: 60, height: 60, objectFit: "contain" },
-
-  sidebarList: {
-    width: "100%",
-    flexGrow: 1,
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-
-  sidebarItem: (active) => ({
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    py: 1.5,
-    borderRadius: active ? "20px 0px 0px 20px" : "0px",
-    bgcolor: active ? "white" : "transparent",
-    color: active ? "#1B0099" : "white",
-    ml: active ? "8px" : "0px",
-    "&:hover": { bgcolor: active ? "white" : "rgba(255,255,255,0.2)" },
-    cursor: "pointer",
-  }),
-
-  settingsItem: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    py: 1.5,
-    mx: "5px",
-    color: "white",
-    "&:hover": { bgcolor: "rgba(255,255,255,0.2)" },
-    cursor: "pointer",
-  },
-
-  mainWrapper: {
-    display: "flex",
-    flexDirection: "column",
-    flexGrow: 1,
-    mt: "15px",
-    ml: "10px",
-  },
-
-  navbar: {
-    background: "white",
-    boxShadow: "none",
-    borderBottom: "1px solid #ccc",
-    p: 1,
-    width: "calc(100% - 20px)",
-  },
-
-  navbarTitle: { color: "#1B0099", mr: 2 },
-
-  searchWrapper: { flexGrow: 1, display: "flex", justifyContent: "center" },
-
-  searchBox: {
-    display: "flex",
-    alignItems: "center",
-    width: 600,
-    p: "6px 12px",
     borderRadius: "20px",
-    boxShadow: "none",
-    border: "1px solid #ccc",
+    px: 3,
+    py: 1,
+    fontWeight: "bold",
+    textTransform: "none",
+    "&:hover": { background: "#1B0099" },
   },
-
-  searchIcon: { color: "#888", mr: 1 },
-
-  userGreeting: { color: "#555", mr: 2 },
-
-  subSidebar: {
-    width: 230,
-    mt: "5px",
-    bgcolor: "#F5F5F5",
+  separatorContainer: {
     display: "flex",
-    flexDirection: "column",
-    alignItems: "start",
-    height: "calc(100% - 20px)",
-    p: 2,
-    boxShadow: "2px 0px 5px rgba(0,0,0,0.1)",
+    alignItems: "center",
+    my: 4,
+    maxWidth: 750,
+  },
+  separatorLine: {
+    flex: 1,
+    height: "1px",
+    background: "#1B0099",
+  },
+  orText: {
+    mx: 2,
+    color: "#1B0099",
+  },
+  uploadContainer: {
+    border: "1px dashed #1B0099",
+    borderRadius: "8px",
+    p: 4,
+    maxWidth: 750,
+    height: "200px",
+    textAlign: "center",
+    cursor: "pointer",
+    "&:hover": { background: "#f9f9f9" },
+  },
+  uploadIcon: {
+    fontSize: 50,
+    color: "#1B0099",
+  },
+  uploadTitle: {
+    fontWeight: "bold",
+    color: "#1B0099",
+    mb: 2,
+  },
+  uploadDescription: {
+    color: "textSecondary",
   },
 
-  subSidebarItem: (active) => ({
-    background: active
-      ? "linear-gradient(to right, #1B0099, #4A00E0)"
-      : "transparent",
-    borderRadius: "10px 0px 0px 10px",
-    color: active ? "white" : "black",
-    transition: "background 0.3s ease",
-    width: "215px",
-    cursor: "pointer",
-    my: "10px",
-    "&:hover": {
-      background: active
-        ? "linear-gradient(to right, #1B0099, #4A00E0)"
-        : "#e0e0e0",
-    },
-  }),
-
-  mainContent: { flexGrow: 1, p: 3 },
-
-  divider: { width: "80%", bgcolor: "rgba(255,255,255,0.3)", mb: 2 },
-
-  listItemText: {
+  modalOverlay: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1300,
+  },
+  modalContainer: {
+    background: "white",
+    borderRadius: "12px",
+    px: "24px",
+    width: "600px",
     textAlign: "center",
-    fontSize: "11px",
-    "& span": { fontSize: "11px" },
+    position: "relative",
+  },
+  modalTitle: {
+    fontWeight: "bold",
+    fontSize: "20px",
+    my: 1,
+    color: "#1B0099",
+  },
+  inputField: {
+    width: "100%",
+    marginBottom: "12px",
+    borderRadius: "6px",
+    fontSize: "14px",
+    outline: "none",
+    background: "transparent",
+  },
+  muiInputField: {
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "transparent",
+      },
+      "&:hover fieldset": {
+        borderColor: "transparent",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "transparent",
+      },
+    },
+  },
+  buttonContainer: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "12px",
+  },
+  saveButton: {
+    background: "#1B0099",
+    color: "white",
+    borderRadius: "8px",
+    padding: "10px 18px",
+    fontWeight: "bold",
+    textTransform: "none",
+    mb: 2,
+    "&:hover": { background: "#140077" },
+  },
+  cancelButton: {
+    background: "#999",
+    color: "black",
+    borderRadius: "8px",
+    padding: "10px 18px",
+    fontWeight: "bold",
+    textTransform: "none",
+    mb: 2,
+    "&:hover": { background: "#b3b3b3" },
   },
 };
 
