@@ -28,7 +28,7 @@ export const getProductById = async (productId) => {
     }
 
     const response = await axios.get(`${API_BASE_URL}/${productId}`, {
-      withCredentials: true, // Ensures cookies are sent with the request
+      withCredentials: true,
     });
 
     return response.data.data;
@@ -36,9 +36,9 @@ export const getProductById = async (productId) => {
     return {
       success: false,
       error:
-        error.response?.data?.message || // Backend error message
-        error.message || // Axios error message
-        "Server error. Please try again.", // Fallback message
+        error.response?.data?.message ||
+        error.message ||
+        "Server error. Please try again.",
     };
   }
 };
@@ -69,21 +69,21 @@ export const getProductById = async (productId) => {
 export const getAllProducts = async (filters) => {
   try {
     const response = await axios.get(`${API_BASE_URL}`, {
-      params: filters, // Pass the filters as query params
+      params: filters,
       withCredentials: true,
       headers: {
         "Content-Type": "application/json",
       },
     });
 
-    return response.data.data; // Returning the list of products
+    return response.data.data;
   } catch (error) {
     return {
       success: false,
       error:
-        error.response?.data?.message || // Backend error message
-        error.message || // Axios error message
-        "Server error. Please try again.", // Fallback message
+        error.response?.data?.message ||
+        error.message ||
+        "Server error. Please try again.",
     };
   }
 };
@@ -103,7 +103,7 @@ export const deleteProduct = async (productId) => {
     }
 
     const response = await axios.delete(`${API_BASE_URL}/${productId}`, {
-      withCredentials: true, // Ensures cookies are sent with the request
+      withCredentials: true,
     });
 
     return { success: true, message: "Product deleted successfully." };
@@ -111,9 +111,9 @@ export const deleteProduct = async (productId) => {
     return {
       success: false,
       error:
-        error.response?.data?.message || // Backend error message
-        error.message || // Axios error message
-        "Server error. Please try again.", // Fallback message
+        error.response?.data?.message ||
+        error.message ||
+        "Server error. Please try again.",
     };
   }
 };
@@ -143,9 +143,9 @@ export const editProduct = async (productId, productData) => {
     return {
       success: false,
       error:
-        error.response?.data?.message || // Backend error message
-        error.message || // Axios error message
-        "Server error. Please try again.", // Fallback message
+        error.response?.data?.message ||
+        error.message ||
+        "Server error. Please try again.",
     };
   }
 };

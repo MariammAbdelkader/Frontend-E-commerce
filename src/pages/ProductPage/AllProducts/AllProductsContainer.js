@@ -80,7 +80,7 @@ const useProductContainer = () => {
   };
 
   const handleSaveEdit = async () => {
-    const result = await editProduct(formData);
+    const result = await editProduct(selectedProduct.id, formData);
     if (result.success) {
       setProducts((prevProducts) =>
         prevProducts.map((product) =>
