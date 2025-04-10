@@ -8,14 +8,23 @@ const useProductContainer = () => {
     name: "",
     category: "",
     price: "",
-    discount: "",
+    quantity: "",
+    status: "",
+    description: "",
   });
   const fileInputRef = useRef(null);
 
   const handleOpen = () => setOpen(true);
   const handleClose = () => {
     setOpen(false);
-    setProductData({ name: "", category: "", price: "", discount: "" });
+    setProductData({
+      name: "",
+      category: "",
+      price: "",
+      quantity: "",
+      status: "",
+      description: "",
+    });
   };
 
   const handleChange = (e) => {

@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Box,
   Typography,
@@ -8,13 +7,21 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
 } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import CircularProgress from "@mui/material/CircularProgress"; // Import CircularProgress
+import CircularProgress from "@mui/material/CircularProgress";
 import styles from "./ProductStyles";
 import useProductContainer from "./ProductContainer";
 
-const ProductPresentation = ({ activeSubItem }) => {
+const ProductPresentation = ({
+  activeSubItem,
+  categories = [],
+  subCategories = [],
+}) => {
   const {
     open,
     loading,
@@ -38,7 +45,6 @@ const ProductPresentation = ({ activeSubItem }) => {
         Get Ready to Sell
       </Typography>
 
-      {/* Add Product Section */}
       <Box sx={styles.section}>
         <Typography variant="h6" sx={styles.sectionTitle}>
           Add a New Product
@@ -51,7 +57,6 @@ const ProductPresentation = ({ activeSubItem }) => {
         </Button>
       </Box>
 
-      {/* Separator */}
       <Box sx={styles.separatorContainer}>
         <Box sx={styles.separatorLine} />
         <Typography variant="body2" sx={styles.orText}>
@@ -60,7 +65,6 @@ const ProductPresentation = ({ activeSubItem }) => {
         <Box sx={styles.separatorLine} />
       </Box>
 
-      {/* Upload CSV Section */}
       <Box
         sx={styles.uploadContainer}
         onClick={handleUploadClick}
@@ -82,7 +86,6 @@ const ProductPresentation = ({ activeSubItem }) => {
         />
       </Box>
 
-      {/* Add Product Dialog */}
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle sx={styles.modalTitle}>Add New Product</DialogTitle>
         <DialogContent sx={styles.modalContainer}>
@@ -99,30 +102,89 @@ const ProductPresentation = ({ activeSubItem }) => {
                 value={productData.name}
                 onChange={handleChange}
                 sx={styles.inputField}
+                required
               />
-              <TextField
-                fullWidth
-                label="Category"
-                name="category"
-                value={productData.category}
-                onChange={handleChange}
-                sx={styles.inputField}
-              />
+              <FormControl fullWidth sx={styles.inputField}>
+                <InputLabel>Category</InputLabel>
+                <Select
+                  name="category"
+                  value={productData.category}
+                  onChange={handleChange}
+                  label="Category"
+                  required>
+                  {categories.map((category) => (
+                    <MenuItem key={category.id} value={category.name}>
+                      {category.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl fullWidth sx={styles.inputField}>
+                <InputLabel>Subcategory</InputLabel>
+                <Select
+                  name="subcategory"
+                  value={productData.subcategory}
+                  onChange={handleChange}
+                  label="Subcategory">
+                  {subCategories.map((subcategory) => (
+                    <MenuItem key={subcategory.id} value={subcategory.name}>
+                      {subcategory.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
               <TextField
                 fullWidth
                 label="Price"
                 name="price"
                 type="number"
-                value={productData.price}
+                value={productData.price || 0}
+                onChange={(e) => {
+                  if (e.target.value >= 0) {
+                    handleChange(e);
+                  }
+                }}
+                sx={styles.inputField}
+                required
+              />
+              <TextField
+                fullWidth
+                label="Quantity"
+                name="quantity"
+                type="number"
+                value={productData.quantity || 0}
+                onChange={(e) => {
+                  if (e.target.value >= 0) {
+                    handleChange(e);
+                  }
+                }}
+                sx={styles.inputField}
+                required
+              />
+              <FormControl fullWidth sx={styles.inputField}>
+                <InputLabel>Status</InputLabel>
+                <Select
+                  name="status"
+                  value={productData.status}
+                  onChange={handleChange}
+                  label="Status"
+                  required>
+                  <MenuItem value="in-stock">In Stock</MenuItem>
+                  <MenuItem value="out-of-stock">Out of Stock</MenuItem>
+                </Select>
+              </FormControl>
+              <TextField
+                fullWidth
+                label="Product Description"
+                name="description"
+                value={productData.description}
                 onChange={handleChange}
                 sx={styles.inputField}
               />
               <TextField
                 fullWidth
-                label="Discount"
-                name="discount"
-                type="number"
-                value={productData.discount}
+                type="file"
+                name="image"
                 onChange={handleChange}
                 sx={styles.inputField}
               />
