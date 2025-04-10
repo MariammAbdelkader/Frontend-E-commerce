@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { uploadCSV, addProduct } from "./ProductServices";
+import { uploadCSV, addProduct } from "../ProductServices";
 
 const useProductContainer = () => {
   const [open, setOpen] = useState(false);

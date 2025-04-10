@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const API_BASE_URL = "http://localhost:3000/product";
+
 /**
  * Fetches a product by its ID, including its category, subcategory,
  * and applicable discount percentages.
@@ -65,18 +66,17 @@ export const getProductById = async (productId) => {
  *   }>
  * } | { success: false, error: string }>} - Returns product data if successful, otherwise an error object.
  */
-
 export const getAllProducts = async (filters) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}`, filters, {
+    const response = await axios.get(`${API_BASE_URL}`, {
+      params: filters, // Pass the filters as query params
       withCredentials: true,
       headers: {
         "Content-Type": "application/json",
       },
     });
-    const products = response.data.data;
 
-    return products;
+    return response.data.data; // Returning the list of products
   } catch (error) {
     return {
       success: false,
@@ -95,25 +95,60 @@ export const getAllProducts = async (filters) => {
  * @returns {Promise<{ message: string }>} - A confirmation message upon successful deletion.
  * @throws {Error} - Throws an error if the product ID is missing, invalid, not found, or deletion fails.
  */
-// export const deleteProduct = async (productId) => {
-//   try {
-//     productId = Number(productId);
-//     if (typeof productId !== "number") {
-//       throw new Error("Invalid productId.");
-//     }
-//     const response = await axios.delete(`${API_BASE_URL}/${productId}`, {
-//       withCredentials: true, // Ensures cookies are sent with the request
-//     });
-//   } catch (error) {
-//     return {
-//       success: false,
-//       error:
-//         error.response?.data?.message || // Backend error message
-//         error.message || // Axios error message
-//         "Server error. Please try again.", // Fallback message
-//     };
-//   }
-// };
+export const deleteProduct = async (productId) => {
+  try {
+    productId = Number(productId);
+    if (isNaN(productId)) {
+      throw new Error("Invalid productId.");
+    }
+
+    const response = await axios.delete(`${API_BASE_URL}/${productId}`, {
+      withCredentials: true, // Ensures cookies are sent with the request
+    });
+
+    return { success: true, message: "Product deleted successfully." };
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error.response?.data?.message || // Backend error message
+        error.message || // Axios error message
+        "Server error. Please try again.", // Fallback message
+    };
+  }
+};
+
+/**
+ * Updates a product by its ID with the new data provided.
+ *
+ * @param {number} productId - The ID of the product to be updated.
+ * @param {object} productData - The new data for the product.
+ * @returns {Promise<{ success: boolean, message: string }>} - A success message if the update is successful.
+ */
+export const editProduct = async (productId, productData) => {
+  try {
+    const response = await axios.put(
+      `${API_BASE_URL}/${productId}`,
+      productData,
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return { success: true, message: "Product updated successfully." };
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error.response?.data?.message || // Backend error message
+        error.message || // Axios error message
+        "Server error. Please try again.", // Fallback message
+    };
+  }
+};
 
 export const addProduct = async (productData) => {
   try {

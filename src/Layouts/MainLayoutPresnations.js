@@ -5,10 +5,11 @@ import Sidebar from "../Components/Sidebar/SidebarPresentation";
 import Navbar from "../Components/NavBar/NavbarPresentation";
 import SubSidebar from "../Components/SubSidebar/SubsidebarPresentation";
 import DiscountsPage from "../pages/DiscountPage/DiscountPresentation";
-import ProductPage from "../pages/ProductPage/ProductPresentation"; // ✅ Import Product Page
+import ProductPresentation from "../pages/ProductPage/AddNewProduct/ProductPresentation";
+import AllProducts from "../pages/ProductPage/AllProducts/AllProductsPresentation";
 import styles from "./MainLayoutStyles";
 
-// Function to get sidebar items for Discounts & Products
+// Return sub-sidebar items based on main item
 const getSubSidebarItems = (activeItem) => {
   const sidebarOptions = {
     Products: [
@@ -29,17 +30,34 @@ const MainLayoutPresentation = () => {
 
   const subSidebarItems = getSubSidebarItems(activeItem);
 
+  const renderMainContent = () => {
+    if (activeItem === "Discounts") {
+      return <DiscountsPage activeSubItem={activeSubItem} />;
+    }
+
+    if (activeItem === "Products") {
+      if (activeSubItem === "All Products") {
+        return <AllProducts activeSubItem={activeSubItem} />;
+      } else if (activeSubItem === "Add New Product") {
+        return <ProductPresentation activeSubItem={activeSubItem} />;
+      }
+    }
+
+    return (
+      <Typography variant="h4" sx={{ p: 3 }}>
+        {activeItem || "Select a Section"}
+      </Typography>
+    );
+  };
+
   return (
     <Box sx={styles.container}>
-      {/* Sidebar Component */}
       <Sidebar activeItem={activeItem} setActiveItem={SetActiveItem} />
 
       <Box sx={styles.mainWrapper}>
-        {/* Navbar Component */}
         <Navbar />
 
         <Box sx={{ display: "flex", flex: 1 }}>
-          {/* ✅ Show SubSidebar for Products & Discounts */}
           {subSidebarItems.length > 0 && (
             <SubSidebar
               subSidebarItems={subSidebarItems}
@@ -48,17 +66,8 @@ const MainLayoutPresentation = () => {
             />
           )}
 
-          {/* ✅ Render Pages Dynamically */}
           <Box component="main" sx={styles.mainContent}>
-            {activeItem === "Discounts" ? (
-              <DiscountsPage activeSubItem={activeSubItem} />
-            ) : activeItem === "Products" ? (
-              <ProductPage activeSubItem={activeSubItem} />
-            ) : (
-              <Typography variant="h4">
-                {activeItem || "Select a Section"}
-              </Typography>
-            )}
+            {renderMainContent()}
           </Box>
         </Box>
       </Box>

@@ -1,21 +1,21 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import MainLayout from "../Layouts/MainLayoutPresnations"
+import MainLayout from "../Layouts/MainLayoutPresnations";
 import StorePage from "../pages/StorePage/StorePage";
 import ChatbotPage from "../pages/ChatbotPage/ChatbotPage";
 import LoginPage from "../pages/LoginPage/LoginPresentation";
 import SignUpPage from "../pages/SignupPage/SignupPresentation";
 import UploadCSVPage from "../pages/UploadCsvPage/UploadCsvPage";
 import HomePage from "../pages/HomePage/HomePage";
-import ProductPage from "../pages/ProductPage/ProductPresentation";
+import ProductPage from "../pages/ProductPage/AddNewProduct/ProductPresentation";
 
 const AppRoutes = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<MainLayout />}/>
-        
+        <Route path="/" element={<MainLayout />} />
+
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/home" element={<HomePage />} />
