@@ -1,25 +1,33 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import LayoutContainer from "./MainLayoutContainer";
 import Sidebar from "../Components/Sidebar/SidebarPresentation";
 import Navbar from "../Components/NavBar/NavbarPresentation";
 import SubSidebar from "../Components/SubSidebar/SubsidebarPresentation";
-import DiscountsPage from "../pages/DiscountPage/DiscountPresentation";
+
+// Page imports
+import DiscountPresentation from "../pages/DiscountPage/AddNewDiscount/DiscountPresentation";
+import ViewDiscounts from "../pages/DiscountPage/ViewDiscounts/ViewDiscounts";
 import ProductPresentation from "../pages/ProductPage/AddNewProduct/ProductPresentation";
 import AllProducts from "../pages/ProductPage/AllProducts/AllProductsPresentation";
+import ChatbotPage from "../pages/ChatbotPage/ChatbotPresentation";
+import OrdersPagePresentation from "../pages/OrdersPage/OrdersPagePresentation";
+
 import styles from "./MainLayoutStyles";
 
-// Return sub-sidebar items based on main item
+// Subsidebar config
 const getSubSidebarItems = (activeItem) => {
   const sidebarOptions = {
     Products: [
-      { id: "all-products", text: "All Products" },
-      { id: "add-product", text: "Add New Product" },
+      { id: "All Products", text: "All Products" },
+      { id: "Add New Product", text: "Add New Product" },
     ],
     Discounts: [
-      { id: "add-discount", text: "Add Discount" },
-      { id: "view-discount", text: "View Discount" },
+      { id: "Add Discount", text: "Add Discount" },
+      { id: "View Discount", text: "View Discount" },
     ],
+    Orders: [{ id: "View Orders", text: "View Orders" }],
+    Chatbot: [],
   };
   return sidebarOptions[activeItem] || [];
 };
@@ -31,10 +39,6 @@ const MainLayoutPresentation = () => {
   const subSidebarItems = getSubSidebarItems(activeItem);
 
   const renderMainContent = () => {
-    if (activeItem === "Discounts") {
-      return <DiscountsPage activeSubItem={activeSubItem} />;
-    }
-
     if (activeItem === "Products") {
       if (activeSubItem === "All Products") {
         return <AllProducts activeSubItem={activeSubItem} />;
@@ -43,11 +47,25 @@ const MainLayoutPresentation = () => {
       }
     }
 
-    return (
-      <Typography variant="h4" sx={{ p: 3 }}>
-        {activeItem || "Select a Section"}
-      </Typography>
-    );
+    if (activeItem === "Discounts") {
+      if (activeSubItem === "Add Discount") {
+        return <DiscountPresentation activeSubItem={activeSubItem} />;
+      } else if (activeSubItem === "View Discount") {
+        return <ViewDiscounts activeSubItem={activeSubItem} />;
+      }
+    }
+
+    if (activeItem === "Orders") {
+      if (activeSubItem === "View Orders") {
+        return <OrdersPagePresentation activeSubItem={activeSubItem} />;
+      }
+    }
+
+    if (activeItem === "Chatbot") {
+      return <ChatbotPage />;
+    }
+
+    return null;
   };
 
   return (
