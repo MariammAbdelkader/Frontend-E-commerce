@@ -4,10 +4,11 @@ const styles = {
     bgcolor: "#FFFFFF",
     display: "flex",
     flexDirection: "column",
-    height: "calc(100% - 20px)",
+    height: "calc(100% - 55px)",
     boxShadow: "2px 0px 10px rgba(0, 0, 0, 0.1)",
     paddingTop: "20px",
     overflowY: "auto",
+    overflow: "hidden",
   },
 
   list: {

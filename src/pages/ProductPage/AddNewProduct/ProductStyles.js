@@ -45,7 +45,7 @@ const styles = {
     borderRadius: "8px",
     p: 4,
     maxWidth: 750,
-    height: "200px",
+    height: "180px",
     textAlign: "center",
     cursor: "pointer",
     "&:hover": { background: "#f9f9f9" },
@@ -53,6 +53,7 @@ const styles = {
   uploadIcon: {
     fontSize: 50,
     color: "#1B0099",
+    mt: "20px",
   },
   uploadTitle: {
     fontWeight: "bold",
@@ -79,9 +80,8 @@ const styles = {
     background: "white",
     borderRadius: "12px",
     px: "24px",
-    width: "600px",
+    width: "550px",
     textAlign: "center",
-    position: "relative",
   },
   modalTitle: {
     fontWeight: "bold",
