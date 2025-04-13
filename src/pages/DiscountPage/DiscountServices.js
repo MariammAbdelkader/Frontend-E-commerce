@@ -2,7 +2,6 @@ import axios from "axios";
 
 const API_BASE_URL = "http://localhost:3000/discount";
 
-
 /**
  * Fetches available product and category discounts from the backend.
  * @async
@@ -22,27 +21,23 @@ const API_BASE_URL = "http://localhost:3000/discount";
  *   console.log(discounts.CategoryDiscounts, discounts.ProductDiscounts);
  * }
  */
-export const ViewDiscounts=async ()=>{
- try{
-  const response = await axios.get(
-    `${API_BASE_URL}`,
-    {
-    withCredentials: true, // Ensures cookies are sent with the request
-  });
+export const ViewDiscounts = async () => {
+  try {
+    const response = await axios.get(`${API_BASE_URL}`, {
+      withCredentials: true, // Ensures cookies are sent with the request
+    });
 
-  return response.data.data;
-
- }catch(error){
-  return {
-    success: false,
-    error:
-      error.response?.data?.message || // Backend error message
-      error.message || // Axios error message
-      "Server error. Please try again.", // Fallback message
-  };
- }
+    return response.data.data;
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error.response?.data?.message || // Backend error message
+        error.message || // Axios error message
+        "Server error. Please try again.", // Fallback message
+    };
+  }
 };
-
 
 /**
  * Sends a request to add a discount to a product.
@@ -125,7 +120,6 @@ export const AddDiscountOnCategory = async (
   }
 };
 
-
 /**
  * Updates a discount (product or category) by ID.
  *
@@ -150,7 +144,7 @@ export const updateDiscount = async (type, id, updateData) => {
         : `${API_BASE_URL}/category/${id}`;
 
     const response = await axios.patch(endpoint, updateData, {
-      withCredentials: true, 
+      withCredentials: true,
     });
 
     return {
@@ -167,7 +161,6 @@ export const updateDiscount = async (type, id, updateData) => {
     };
   }
 };
-
 
 /**
  * remove discount form product.
@@ -246,66 +239,5 @@ export const removeDiscountOnCategory = async (categoryId) => {
         error.message || // Axios error message
         "Server error. Please try again.", // Fallback message
     };
-  }
-};
-
-
-
-
-/*************************************************************************************
- * 
- * 
- *  fareed
- * 
- * 
- * 
- * 
- * 
- * 
- */
-export const addDiscount = async (discountRate, category) => {
-  const discountData = { discountRate, category };
-  try {
-    const response = await fetch("/api/add-discount", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(discountData),
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to apply discount");
-    }
-
-    return "Discount applied successfully";
-  } catch (error) {
-    console.error("Error:", error);
-    throw new Error("Error applying discount");
-  }
-};
-
-export const applyProductDiscount = async (
-  productCode,
-  productDiscountRate
-) => {
-  const productDiscountData = { productCode, productDiscountRate };
-  try {
-    const response = await fetch("/api/apply-product-discount", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(productDiscountData),
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to apply product discount");
-    }
-
-    return "Product discount applied successfully";
-  } catch (error) {
-    console.error("Error:", error);
-    throw new Error("Error applying product discount");
   }
 };
