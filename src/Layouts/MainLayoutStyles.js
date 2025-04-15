@@ -122,7 +122,7 @@ const styles = {
     },
   }),
 
-  mainContent: { flexGrow: 1, p: 3 },
+  mainContent: { flexGrow: 1, padding: 2, overflow: "auto", maxWidth: "100%" },
 
   divider: { width: "80%", bgcolor: "rgba(255,255,255,0.3)", mb: 2 },
 

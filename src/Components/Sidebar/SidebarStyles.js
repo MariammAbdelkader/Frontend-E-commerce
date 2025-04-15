@@ -1,6 +1,6 @@
 const styles = {
   sidebar: {
-    width: 100,
+    width: "100px",
     bgcolor: "#1B0099",
     color: "white",
     display: "flex",

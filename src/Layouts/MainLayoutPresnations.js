@@ -4,18 +4,15 @@ import LayoutContainer from "./MainLayoutContainer";
 import Sidebar from "../Components/Sidebar/SidebarPresentation";
 import Navbar from "../Components/NavBar/NavbarPresentation";
 import SubSidebar from "../Components/SubSidebar/SubsidebarPresentation";
-
-// Page imports
 import DiscountPresentation from "../pages/DiscountPage/AddNewDiscount/DiscountPresentation";
 import ViewDiscounts from "../pages/DiscountPage/ViewDiscounts/ViewDiscounts";
 import ProductPresentation from "../pages/ProductPage/AddNewProduct/ProductPresentation";
 import AllProducts from "../pages/ProductPage/AllProducts/AllProductsPresentation";
 import ChatbotPage from "../pages/ChatbotPage/ChatbotPresentation";
 import OrdersPagePresentation from "../pages/OrdersPage/OrdersPagePresentation";
-
+import CustomerPage from "../pages/Customers/CustomerPagePresentation";
 import styles from "./MainLayoutStyles";
 
-// Subsidebar config
 const getSubSidebarItems = (activeItem) => {
   const sidebarOptions = {
     Products: [
@@ -28,6 +25,7 @@ const getSubSidebarItems = (activeItem) => {
     ],
     Orders: [{ id: "View Orders", text: "View Orders" }],
     Chatbot: [],
+    Customers: [{ id: "All Customers", text: "All Customers" }],
   };
   return sidebarOptions[activeItem] || [];
 };
@@ -63,6 +61,12 @@ const MainLayoutPresentation = () => {
 
     if (activeItem === "Chatbot") {
       return <ChatbotPage />;
+    }
+
+    if (activeItem === "Customers") {
+      if (activeSubItem === "All Customers") {
+        return <CustomerPage />;
+      }
     }
 
     return null;

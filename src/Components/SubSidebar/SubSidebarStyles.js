@@ -4,7 +4,7 @@ const styles = {
     bgcolor: "#FFFFFF",
     display: "flex",
     flexDirection: "column",
-    height: "calc(100% - 55px)",
+    height: "calc(100% - 35px)",
     boxShadow: "2px 0px 10px rgba(0, 0, 0, 0.1)",
     paddingTop: "20px",
     overflowY: "auto",

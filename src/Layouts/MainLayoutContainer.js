@@ -6,7 +6,7 @@ const LayoutContainer = () => {
 
   const SetActiveItem = (text) => {
     setActiveItem(text);
-    setActiveSubItem(""); // reset sub-sidebar when switching main section
+    setActiveSubItem("");
   };
 
   const SetActiveSubItem = (text) => {
