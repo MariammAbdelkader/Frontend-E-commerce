@@ -1,5 +1,4 @@
 import axios from "axios";
-
 const API_BASE_URL = "http://localhost:3000/product";
 
 /**
@@ -28,7 +27,7 @@ export const getProductById = async (productId) => {
     }
 
     const response = await axios.get(`${API_BASE_URL}/${productId}`, {
-      withCredentials: true,
+      withCredentials: true, // Ensures cookies are sent with the request
     });
 
     return response.data.data;
@@ -36,9 +35,9 @@ export const getProductById = async (productId) => {
     return {
       success: false,
       error:
-        error.response?.data?.message ||
-        error.message ||
-        "Server error. Please try again.",
+        error.response?.data?.message || // Backend error message
+        error.message || // Axios error message
+        "Server error. Please try again.", // Fallback message
     };
   }
 };
@@ -66,24 +65,25 @@ export const getProductById = async (productId) => {
  *   }>
  * } | { success: false, error: string }>} - Returns product data if successful, otherwise an error object.
  */
+
 export const getAllProducts = async (filters) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}`, {
-      params: filters,
+    const response = await axios.get(`${API_BASE_URL}`, filters, {
       withCredentials: true,
       headers: {
         "Content-Type": "application/json",
       },
     });
+    const products = response.data.data;
 
-    return response.data.data;
+    return products;
   } catch (error) {
     return {
       success: false,
       error:
-        error.response?.data?.message ||
-        error.message ||
-        "Server error. Please try again.",
+        error.response?.data?.message || // Backend error message
+        error.message || // Axios error message
+        "Server error. Please try again.", // Fallback message
     };
   }
 };
@@ -98,95 +98,60 @@ export const getAllProducts = async (filters) => {
 export const deleteProduct = async (productId) => {
   try {
     productId = Number(productId);
-    if (isNaN(productId)) {
+    if (typeof productId !== "number") {
       throw new Error("Invalid productId.");
     }
-
     const response = await axios.delete(`${API_BASE_URL}/${productId}`, {
-      withCredentials: true,
+      withCredentials: true, // Ensures cookies are sent with the request
     });
-
-    return { success: true, message: "Product deleted successfully." };
   } catch (error) {
     return {
       success: false,
       error:
-        error.response?.data?.message ||
-        error.message ||
-        "Server error. Please try again.",
-    };
-  }
-};
-
-/**
- * Updates a product by its ID with the new data provided.
- *
- * @param {number} productId - The ID of the product to be updated.
- * @param {object} productData - The new data for the product.
- * @returns {Promise<{ success: boolean, message: string }>} - A success message if the update is successful.
- */
-export const editProduct = async (productId, productData) => {
-  try {
-    const response = await axios.put(
-      `${API_BASE_URL}/${productId}`,
-      productData,
-      {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-
-    return { success: true, message: "Product updated successfully." };
-  } catch (error) {
-    return {
-      success: false,
-      error:
-        error.response?.data?.message ||
-        error.message ||
-        "Server error. Please try again.",
+        error.response?.data?.message || // Backend error message
+        error.message || // Axios error message
+        "Server error. Please try again.", // Fallback message
     };
   }
 };
 
 export const addProduct = async (productData) => {
   try {
-    const response = await fetch("http://your-backend-api/products", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(productData),
+    const response = await axios.post(`${API_BASE_URL}/create`,productData,{
+      withCredentials:true
     });
 
-    if (response.ok) {
-      console.log("Product added successfully");
-      return { success: true };
-    } else {
-      console.error("Failed to add product");
-      return { success: false };
-    }
-  } catch (error) {
-    console.error("Error:", error);
-    return { success: false };
+    return response.data.message
+  } catch(error){
+    return {
+      success: false,
+      error:
+        error.response?.data?.message || // Backend error message
+        error.message || // Axios error message
+        "Server error. Please try again.", // Fallback message
+    };
   }
 };
+
 
 export const uploadCSV = async (file) => {
   try {
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await axios.post(`${API_BASE_URL}/upload-csv`, formData, {
+    const response = await axios.post(`http://localhost:3000/csv`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
       withCredentials: true,
     });
 
-    return response.data;
-  } catch (error) {
+    return response.data.message;
+  } catch(error){
     return {
       success: false,
       error:
-        error.response?.data?.message || error.message || "CSV upload failed",
+        error.response?.data?.message || // Backend error message
+        error.message || // Axios error message
+        "Server error. Please try again.", // Fallback message
     };
   }
 };
