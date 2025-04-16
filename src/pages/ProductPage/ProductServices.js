@@ -1,5 +1,7 @@
 import axios from "axios";
+import { uploadProductImage } from "./ImageServices"; // adjust path
 const API_BASE_URL = "http://localhost:3000/product";
+
 
 /**
  * Fetches a product by its ID, including its category, subcategory,
@@ -117,9 +119,16 @@ export const deleteProduct = async (productId) => {
 
 export const addProduct = async (productData) => {
   try {
+    const productImage=productData.image
+    delete productData.image;
+
     const response = await axios.post(`${API_BASE_URL}/create`,productData,{
       withCredentials:true
     });
+
+    const ProductId = response.data.newProduct.productId;
+
+    await uploadProductImage(productImage, ProductId);
 
     return response.data.message
   } catch(error){
@@ -132,6 +141,7 @@ export const addProduct = async (productData) => {
     };
   }
 };
+
 
 
 export const uploadCSV = async (file) => {
@@ -152,6 +162,31 @@ export const uploadCSV = async (file) => {
         error.response?.data?.message || // Backend error message
         error.message || // Axios error message
         "Server error. Please try again.", // Fallback message
+    };
+  }
+};
+
+export const editProduct = async (productId, productData) => {
+  try {
+    const response = await axios.put(
+      `${API_BASE_URL}/${productId}`,
+      productData,
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    return { success: true, message: "Product updated successfully." };
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error.response?.data?.message ||
+        error.message ||
+        "Server error. Please try again.",
     };
   }
 };
