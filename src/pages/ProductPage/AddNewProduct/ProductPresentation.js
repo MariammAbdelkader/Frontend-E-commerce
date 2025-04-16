@@ -138,7 +138,7 @@ const ProductPresentation = ({
                 label="Price"
                 name="price"
                 type="number"
-                value={productData.price || 0}
+                value={productData.price || ""}
                 onChange={(e) => {
                   if (e.target.value >= 0) {
                     handleChange(e);
@@ -152,7 +152,7 @@ const ProductPresentation = ({
                 label="Quantity"
                 name="quantity"
                 type="number"
-                value={productData.quantity || 0}
+                value={productData.quantity || ""}
                 onChange={(e) => {
                   if (e.target.value >= 0) {
                     handleChange(e);
@@ -185,6 +185,7 @@ const ProductPresentation = ({
                 fullWidth
                 type="file"
                 name="image"
+                inputProps={{ accept: "image/*" }}
                 onChange={handleChange}
                 sx={styles.inputField}
               />

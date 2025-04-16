@@ -6,7 +6,7 @@ const styles = {
   headingStyle: {
     fontWeight: 700,
     color: "#1b0099",
-    mb: 1,
+    mb: 2,
   },
   cardStyle: {
     borderRadius: 5,

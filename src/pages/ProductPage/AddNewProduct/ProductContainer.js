@@ -7,11 +7,14 @@ const useProductContainer = () => {
   const [productData, setProductData] = useState({
     name: "",
     category: "",
+    subcategory: "",
     price: "",
     quantity: "",
     status: "",
     description: "",
+    image: null,
   });
+
   const fileInputRef = useRef(null);
 
   const handleOpen = () => setOpen(true);
@@ -20,21 +23,33 @@ const useProductContainer = () => {
     setProductData({
       name: "",
       category: "",
+      subcategory: "",
       price: "",
       quantity: "",
       status: "",
       description: "",
+      image: null,
     });
   };
 
   const handleChange = (e) => {
-    setProductData({ ...productData, [e.target.name]: e.target.value });
+    const { name, value, files } = e.target;
+    if (name === "image") {
+      setProductData((prev) => ({ ...prev, image: files[0] }));
+    } else {
+      setProductData((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const response = await addProduct(productData);
+      const formData = new FormData();
+      Object.entries(productData).forEach(([key, value]) => {
+        if (value) formData.append(key, value);
+      });
+
+      const response = await addProduct(formData);
 
       if (response.success) {
         alert("Product added successfully!");
