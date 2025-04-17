@@ -2,7 +2,6 @@ import axios from "axios";
 import { uploadProductImage } from "./ImageServices"; // adjust path
 const API_BASE_URL = "http://localhost:3000/product";
 
-
 /**
  * Fetches a product by its ID, including its category, subcategory,
  * and applicable discount percentages.
@@ -103,7 +102,7 @@ export const deleteProduct = async (productId) => {
     if (typeof productId !== "number") {
       throw new Error("Invalid productId.");
     }
-    const response = await axios.delete(`${API_BASE_URL}/${productId}`, {
+    await axios.delete(`${API_BASE_URL}/${productId}`, {
       withCredentials: true, // Ensures cookies are sent with the request
     });
   } catch (error) {
@@ -119,19 +118,19 @@ export const deleteProduct = async (productId) => {
 
 export const addProduct = async (productData) => {
   try {
-    const productImage=productData.image
+    const productImage = productData.image;
     delete productData.image;
 
-    const response = await axios.post(`${API_BASE_URL}/create`,productData,{
-      withCredentials:true
+    const response = await axios.post(`${API_BASE_URL}/create`, productData, {
+      withCredentials: true,
     });
 
     const ProductId = response.data.newProduct.productId;
 
     await uploadProductImage(productImage, ProductId);
 
-    return response.data.message
-  } catch(error){
+    return response.data.message;
+  } catch (error) {
     return {
       success: false,
       error:
@@ -141,8 +140,6 @@ export const addProduct = async (productData) => {
     };
   }
 };
-
-
 
 export const uploadCSV = async (file) => {
   try {
@@ -155,7 +152,7 @@ export const uploadCSV = async (file) => {
     });
 
     return response.data.message;
-  } catch(error){
+  } catch (error) {
     return {
       success: false,
       error:
@@ -168,16 +165,12 @@ export const uploadCSV = async (file) => {
 
 export const editProduct = async (productId, productData) => {
   try {
-    const response = await axios.put(
-      `${API_BASE_URL}/${productId}`,
-      productData,
-      {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    await axios.put(`${API_BASE_URL}/${productId}`, productData, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     return { success: true, message: "Product updated successfully." };
   } catch (error) {
@@ -191,15 +184,11 @@ export const editProduct = async (productId, productData) => {
   }
 };
 
-
 export const getcategories = async () => {
   try {
-    const response = await axios.get(
-      `${API_BASE_URL}/get/categories`,
-      {
-        withCredentials: true,
-      }
-    );
+    const response = await axios.get(`${API_BASE_URL}/get/categories`, {
+      withCredentials: true,
+    });
 
     return response.data.categories;
   } catch (error) {
@@ -215,12 +204,9 @@ export const getcategories = async () => {
 
 export const getsubcategories = async () => {
   try {
-    const response = await axios.get(
-      `${API_BASE_URL}/get/subcategories`,
-      {
-        withCredentials: true,
-      }
-    );
+    const response = await axios.get(`${API_BASE_URL}/get/subcategories`, {
+      withCredentials: true,
+    });
 
     return response.data.subcategories;
   } catch (error) {

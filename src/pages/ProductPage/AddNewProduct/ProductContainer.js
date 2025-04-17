@@ -1,9 +1,18 @@
-import { useState, useRef } from "react";
-import { uploadCSV, addProduct } from "../ProductServices";
+import { useState, useEffect, useRef } from "react";
+import {
+  uploadCSV,
+  addProduct,
+  getcategories,
+  getsubcategories,
+} from "../ProductServices";
 
 const useProductContainer = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [allSubCategories, setAllSubCategories] = useState([]);
+  const [filteredSubCategories, setFilteredSubCategories] = useState([]);
+
   const [productData, setProductData] = useState({
     name: "",
     category: "",
@@ -17,7 +26,31 @@ const useProductContainer = () => {
 
   const fileInputRef = useRef(null);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const fetchedCategories = await getcategories();
+      const fetchedSubCategories = await getsubcategories();
+      if (Array.isArray(fetchedCategories)) setCategories(fetchedCategories);
+      if (Array.isArray(fetchedSubCategories))
+        setAllSubCategories(fetchedSubCategories);
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const filtered = allSubCategories.filter(
+      (sub) => sub.categoryId === productData.category
+    );
+    setFilteredSubCategories(filtered);
+
+    if (!filtered.some((sub) => sub._id === productData.subcategory)) {
+      setProductData((prev) => ({ ...prev, subcategory: "" }));
+    }
+  }, [productData.category, allSubCategories, productData.subcategory]);
+
   const handleOpen = () => setOpen(true);
+
   const handleClose = () => {
     setOpen(false);
     setProductData({
@@ -50,7 +83,6 @@ const useProductContainer = () => {
       });
 
       const response = await addProduct(formData);
-
       if (response.success) {
         alert("Product added successfully!");
         handleClose();
@@ -66,15 +98,12 @@ const useProductContainer = () => {
   };
 
   const handleUploadClick = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
+    fileInputRef.current?.click();
   };
 
   const handleFileChange = async (event) => {
     const file = event.target.files[0];
     if (file) {
-      console.log("Selected file:", file.name);
       try {
         const response = await uploadCSV(file);
         console.log(response);
@@ -88,6 +117,8 @@ const useProductContainer = () => {
     open,
     loading,
     productData,
+    categories,
+    subCategories: filteredSubCategories,
     handleOpen,
     handleClose,
     handleChange,
