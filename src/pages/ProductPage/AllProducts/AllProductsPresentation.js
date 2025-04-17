@@ -80,9 +80,11 @@ const ProductList = () => {
             Our products
           </Typography>
         </Box>
-
+        
+       
         <div style={styles.gridWrapper}>
           <Grid container spacing={4}>
+            
             {products.map((product) => (
               <Grid item xs={12} sm={6} md={4} key={product.id}>
                 <Card sx={styles.card}>

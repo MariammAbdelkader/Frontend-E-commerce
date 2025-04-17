@@ -69,7 +69,7 @@ export const getProductById = async (productId) => {
 
 export const getAllProducts = async (filters) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}`, filters, {
+    const response = await axios.get(`${API_BASE_URL}`, filters,{
       withCredentials: true,
       headers: {
         "Content-Type": "application/json",
@@ -141,7 +141,7 @@ export const addProduct = async (productData) => {
           {
             await uploadProductImage(image, productId);
           }
-    return response.data.message;
+    return response.data.success;
   } catch (error) {
     return {
       success: false,
@@ -158,7 +158,7 @@ export const uploadCSV = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await axios.post(`http://localhost:3000/csv`, formData, {
+    const response = await axios.post(`http://localhost:3000/upload/csv`, formData, {
       headers: { "Content-Type": "multipart/form-data" },
       withCredentials: true,
     });

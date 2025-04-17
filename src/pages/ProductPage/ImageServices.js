@@ -4,6 +4,7 @@ const API_BASE_URL=`http://localhost:3000/image`
 
 export const uploadProductImage = async (imageFile, productId) => {
     try {
+        console.log(imageFile,productId)
         const formData = new FormData();
         formData.append("image", imageFile);
 

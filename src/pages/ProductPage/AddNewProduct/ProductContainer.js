@@ -16,7 +16,7 @@ const useProductContainer = () => {
   const [productData, setProductData] = useState({
     name: "",
     category: "",
-    subcategory: "",
+    subCategory: "",
     price: "",
     quantity: "",
     status: "",
@@ -45,8 +45,8 @@ const useProductContainer = () => {
     );
     setFilteredSubCategories(filtered);
   
-    if (!filtered.some((sub) => sub.subcategoryId === productData.subcategory)) {
-      setProductData((prev) => ({ ...prev, subcategory: "" }));
+    if (!filtered.some((sub) => sub.subcategoryId === productData.subCategory)) {
+      setProductData((prev) => ({ ...prev, subCategory: "" }));
     }
   }, [productData.category, allSubCategories]);
   
@@ -58,7 +58,7 @@ const useProductContainer = () => {
     setProductData({
       name: "",
       category: "",
-      subcategory: "",
+      subCategory: "",
       price: "",
       quantity: "",
       status: "",
@@ -76,48 +76,55 @@ const useProductContainer = () => {
       setProductData((prev) => ({
         ...prev,
         category: String(value),
-        subcategory: "", // reset subcategory when category changes
+        subCategory: "", // reset subcategory when category changes
       }));
-    } else if (name === "subcategory") {
+    } else if (name === "subCategory") {
       setProductData((prev) => ({
         ...prev,
-        subcategory: String(value),
+        subCategory: String(value),
       }));
     } else if (name === "image") {
       setProductData((prev) => ({ ...prev, image: files[0] }));
-    } else {
-      setProductData((prev) => ({ ...prev, [name]: value }));
-    }
+    } else if (["price", "quantity"].includes(name)) {
+    // ✅ parse numeric fields
+    setProductData((prev) => ({
+      ...prev,
+      [name]: Number(value),
+    }));
+  } else {
+    setProductData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  }
   };
   
   
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      console.log("Submitting productData:", productData);
+      // console.log("Submitting productData:", productData);
   
-      const formData = new FormData();
+      // 🧠 Get category and subcategory names from IDs
+      const categoryObj = categories.find(
+        (c) => c.categoryId.toString() === productData.category
+      );
+      const subcategoryObj = allSubCategories.find(
+        (sc) => sc.subcategoryId.toString() === productData.subCategory
+      );
   
-      // Handle all fields except image
-      Object.entries(productData).forEach(([key, value]) => {
-        if (key !== "image" && value !== undefined && value !== null) {
-          formData.append(key, value);
-        }
-      });
+      // 📦 Prepare data to send
+      const productDataToSend = {
+        ...productData,
+        category: categoryObj?.name || productData.category,
+        subCategory: subcategoryObj?.name || productData.subCategory,
+      };
   
-      // Append image separately if it exists
-      if (productData.image) {
-        formData.append("image", productData.image);
-      }
+      // console.log("Sending this data:", productDataToSend);
   
-      // Log FormData to confirm it's not empty
-      for (const pair of formData.entries()) {
-        console.log(`${pair[0]}:`, pair[1]);
-      }
+      const response = await addProduct(productDataToSend);
   
-      const response = await addProduct(productData);
-  
-      if (response.success) {
+      if (response) {
         alert("Product added successfully!");
         handleClose();
       } else {
@@ -142,7 +149,12 @@ const useProductContainer = () => {
     if (file) {
       try {
         const response = await uploadCSV(file);
-        console.log(response);
+        if(response)
+        {
+          alert(response);
+        }
+      
+
       } catch (error) {
         console.error("Error uploading CSV:", error);
       }

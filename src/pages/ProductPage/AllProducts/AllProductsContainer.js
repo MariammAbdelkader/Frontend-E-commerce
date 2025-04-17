@@ -20,11 +20,12 @@ const useProductContainer = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const result = await getAllProducts();
-      if (result.success) {
-        setProducts(result.products);
+      //pass the filters here
+      const result = await getAllProducts(/*filters*/);
+      if (result) {
+        setProducts(result);
       } else {
-        console.error(result.error);
+        console.error("error");
       }
     };
 

@@ -124,7 +124,7 @@ const ProductPresentation = ({ activeSubItem }) => {
                 <InputLabel id="subcategory-label">Subcategory</InputLabel>
                 <Select
                   labelId="subcategory-label"
-                  name="subcategory"
+                  name="subCategory"
                   value={productData.subcategory}
                   onChange={handleChange}
                   label="Subcategory"
@@ -174,8 +174,9 @@ const ProductPresentation = ({ activeSubItem }) => {
                   onChange={handleChange}
                   label="Status"
                   required>
-                  <MenuItem value="in-stock">In Stock</MenuItem>
-                  <MenuItem value="out-of-stock">Out of Stock</MenuItem>
+                  <MenuItem value="in_stock">In Stock</MenuItem>
+                  <MenuItem value="out_of_stock">Out of Stock</MenuItem>
+                  <MenuItem value="discontinued">discontinued</MenuItem>
                 </Select>
               </FormControl>
               <TextField
