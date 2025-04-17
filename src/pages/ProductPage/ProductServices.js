@@ -190,3 +190,46 @@ export const editProduct = async (productId, productData) => {
     };
   }
 };
+
+
+export const getcategories = async () => {
+  try {
+    const response = await axios.get(
+      `${API_BASE_URL}/get/categories`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    return response.data.categories;
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error.response?.data?.message ||
+        error.message ||
+        "Server error. Please try again.",
+    };
+  }
+};
+
+export const getsubcategories = async () => {
+  try {
+    const response = await axios.get(
+      `${API_BASE_URL}/get/subcategories`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    return response.data.subcategories;
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error.response?.data?.message ||
+        error.message ||
+        "Server error. Please try again.",
+    };
+  }
+};
