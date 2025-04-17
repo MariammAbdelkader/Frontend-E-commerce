@@ -117,18 +117,30 @@ export const deleteProduct = async (productId) => {
 };
 
 export const addProduct = async (productData) => {
-  try {
-    const productImage = productData.image;
-    delete productData.image;
-
-    const response = await axios.post(`${API_BASE_URL}/create`, productData, {
-      withCredentials: true,
-    });
-
-    const ProductId = response.data.newProduct.productId;
-
-    await uploadProductImage(productImage, ProductId);
-
+  try {       
+        
+        console.log("Submitting productData:", productData);
+    
+        const { image, ...rest } = productData;
+        console.log("rest productData:", rest);
+        // 1. Send data (except image)
+        const response = await axios.post(`${API_BASE_URL}/create`, rest, {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "application/json",
+          }
+        },
+        );
+    
+        const productId = response.data?.newProduct?.productId;
+    
+        if (!productId) {
+          throw new Error("Product ID not returned from create endpoint");
+        }
+        if(image)
+          {
+            await uploadProductImage(image, productId);
+          }
     return response.data.message;
   } catch (error) {
     return {

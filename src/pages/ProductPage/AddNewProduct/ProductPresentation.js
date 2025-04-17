@@ -1,4 +1,17 @@
-import { Box, Typography, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Select, MenuItem, InputLabel, FormControl } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import CircularProgress from "@mui/material/CircularProgress";
 import styles from "./ProductStyles";
@@ -9,6 +22,8 @@ const ProductPresentation = ({ activeSubItem }) => {
     open,
     loading,
     productData,
+    categories,
+    subCategories,
     handleOpen,
     handleClose,
     handleChange,
@@ -16,8 +31,6 @@ const ProductPresentation = ({ activeSubItem }) => {
     fileInputRef,
     handleUploadClick,
     handleFileChange,
-    categories,
-    filteredSubCategories,
   } = useProductContainer();
 
   if (activeSubItem !== "Add New Product") {
@@ -50,15 +63,25 @@ const ProductPresentation = ({ activeSubItem }) => {
         <Box sx={styles.separatorLine} />
       </Box>
 
-      <Box sx={styles.uploadContainer} onClick={handleUploadClick} style={{ cursor: "pointer" }}>
+      <Box
+        sx={styles.uploadContainer}
+        onClick={handleUploadClick}
+        style={{ cursor: "pointer" }}>
         <CloudUploadIcon sx={styles.uploadIcon} />
         <Typography variant="h6" sx={styles.uploadTitle}>
           Upload CSV File
         </Typography>
         <Typography variant="body2" sx={styles.uploadDescription}>
-          Upload a CSV file to quickly add multiple products and streamline inventory management.
+          Upload a CSV file to quickly add multiple products and streamline
+          inventory management.
         </Typography>
-        <input type="file" ref={fileInputRef} style={{ display: "none" }} accept=".csv" onChange={handleFileChange} />
+        <input
+          type="file"
+          ref={fileInputRef}
+          style={{ display: "none" }}
+          accept=".csv"
+          onChange={handleFileChange}
+        />
       </Box>
 
       <Dialog open={open} onClose={handleClose}>
@@ -80,36 +103,41 @@ const ProductPresentation = ({ activeSubItem }) => {
                 required
               />
               <FormControl fullWidth sx={styles.inputField}>
-                <InputLabel>Category</InputLabel>
+                <InputLabel id="category-label">Category</InputLabel>
                 <Select
+                  labelId="category-label"
                   name="category"
                   value={productData.category}
                   onChange={handleChange}
                   label="Category"
                   required
                 >
-                  {categories.map((category) => (
-                    <MenuItem key={category.id} value={category.id}>
-                      {category.name}
-                    </MenuItem>
-                  ))}
+                {categories.map((cat) => (
+                  <MenuItem key={cat.categoryId} value={String(cat.categoryId)}>
+                    {cat.name}
+                  </MenuItem>
+                ))}
+
                 </Select>
               </FormControl>
               <FormControl fullWidth sx={styles.inputField}>
-                <InputLabel>Subcategory</InputLabel>
+                <InputLabel id="subcategory-label">Subcategory</InputLabel>
                 <Select
+                  labelId="subcategory-label"
                   name="subcategory"
                   value={productData.subcategory}
                   onChange={handleChange}
                   label="Subcategory"
+                  required
                 >
-                  {filteredSubCategories.map((subcategory) => (
-                    <MenuItem key={subcategory.id} value={subcategory.name}>
-                      {subcategory.name}
-                    </MenuItem>
-                  ))}
+                {subCategories.map((scat) => (
+                  <MenuItem key={scat.subcategoryId} value={String(scat.subcategoryId)}>
+                    {scat.name}
+                  </MenuItem>
+                ))}
                 </Select>
               </FormControl>
+              
               <TextField
                 fullWidth
                 label="Price"
@@ -145,8 +173,7 @@ const ProductPresentation = ({ activeSubItem }) => {
                   value={productData.status}
                   onChange={handleChange}
                   label="Status"
-                  required
-                >
+                  required>
                   <MenuItem value="in-stock">In Stock</MenuItem>
                   <MenuItem value="out-of-stock">Out of Stock</MenuItem>
                 </Select>

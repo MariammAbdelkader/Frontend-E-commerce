@@ -1,9 +1,18 @@
 import { useState, useEffect, useRef } from "react";
-import { getCategories, getSubcategories } from "../ProductServices"; // Importing the functions
+import {
+  uploadCSV,
+  addProduct,
+  getCategories,
+  getSubcategories,
+} from "../ProductServices";
 
 const useProductContainer = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [allSubCategories, setAllSubCategories] = useState([]);
+  const [filteredSubCategories, setFilteredSubCategories] = useState([]);
+
   const [productData, setProductData] = useState({
     name: "",
     category: "",
@@ -12,43 +21,38 @@ const useProductContainer = () => {
     quantity: "",
     status: "",
     description: "",
-    image: "",
+    image: null,
   });
 
-  const [categories, setCategories] = useState([]); // State for categories
-  const [subCategories, setSubCategories] = useState([]); // State for all subcategories
-  const [filteredSubCategories, setFilteredSubCategories] = useState([]); // State for filtered subcategories
+  const fileInputRef = useRef(null);
 
-  const fileInputRef = useRef();
-
+  // Fetch categories and subcategories on mount
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const fetchedCategories = await getCategories(); // Fetch categories
-        setCategories(fetchedCategories);
-
-        const fetchedSubCategories = await getSubcategories(); // Fetch subcategories
-        setSubCategories(fetchedSubCategories);
-      } catch (error) {
-        console.error("Error fetching categories and subcategories", error);
-      }
+      const fetchedCategories = await getCategories();
+      const fetchedSubCategories = await getSubcategories();
+      if (Array.isArray(fetchedCategories)) setCategories(fetchedCategories);
+      if (Array.isArray(fetchedSubCategories)) setAllSubCategories(fetchedSubCategories);
     };
 
     fetchData();
   }, []);
 
+  // Update filtered subcategories based on selected category
   useEffect(() => {
-    // Filter subcategories based on the selected category
-    const filtered = subCategories.filter((sub) => sub.categoryId === productData.category);
+    const filtered = allSubCategories.filter(
+      (sub) => String(sub.categoryId) === String(productData.category)
+    );
     setFilteredSubCategories(filtered);
-
-    // Reset subcategory if it's not in the filtered list
-    if (!filtered.some((sub) => sub.name === productData.subcategory)) {
+  
+    if (!filtered.some((sub) => sub.subcategoryId === productData.subcategory)) {
       setProductData((prev) => ({ ...prev, subcategory: "" }));
     }
-  }, [productData.category, subCategories, productData.subcategory]);
+  }, [productData.category, allSubCategories]);
+  
 
   const handleOpen = () => setOpen(true);
+
   const handleClose = () => {
     setOpen(false);
     setProductData({
@@ -59,54 +63,98 @@ const useProductContainer = () => {
       quantity: "",
       status: "",
       description: "",
-      image: "",
+      image: null,
     });
   };
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-
+  
+    console.log(`Changing ${name} to:`, value); // 👈 debug
+  
     if (name === "category") {
       setProductData((prev) => ({
         ...prev,
-        category: value,
-        subcategory: "",
+        category: String(value),
+        subcategory: "", // reset subcategory when category changes
+      }));
+    } else if (name === "subcategory") {
+      setProductData((prev) => ({
+        ...prev,
+        subcategory: String(value),
       }));
     } else if (name === "image") {
-      setProductData((prev) => ({
-        ...prev,
-        image: files[0],
-      }));
+      setProductData((prev) => ({ ...prev, image: files[0] }));
     } else {
-      setProductData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
+      setProductData((prev) => ({ ...prev, [name]: value }));
     }
   };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    console.log("CSV uploaded:", file);
+  
+  
+  const handleSubmit = async () => {
+    setLoading(true);
+    try {
+      console.log("Submitting productData:", productData);
+  
+      const formData = new FormData();
+  
+      // Handle all fields except image
+      Object.entries(productData).forEach(([key, value]) => {
+        if (key !== "image" && value !== undefined && value !== null) {
+          formData.append(key, value);
+        }
+      });
+  
+      // Append image separately if it exists
+      if (productData.image) {
+        formData.append("image", productData.image);
+      }
+  
+      // Log FormData to confirm it's not empty
+      for (const pair of formData.entries()) {
+        console.log(`${pair[0]}:`, pair[1]);
+      }
+  
+      const response = await addProduct(productData);
+  
+      if (response.success) {
+        alert("Product added successfully!");
+        handleClose();
+      } else {
+        alert("Failed to add product");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("An error occurred while adding the product");
+    } finally {
+      setLoading(false);
+    }
   };
+  
+  
 
   const handleUploadClick = () => {
     fileInputRef.current?.click();
   };
 
-  const handleSubmit = () => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setOpen(false);
-      console.log("Submitted:", productData);
-    }, 1000);
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      try {
+        const response = await uploadCSV(file);
+        console.log(response);
+      } catch (error) {
+        console.error("Error uploading CSV:", error);
+      }
+    }
   };
 
   return {
     open,
     loading,
     productData,
+    categories,
+    subCategories: filteredSubCategories,
     handleOpen,
     handleClose,
     handleChange,
@@ -114,8 +162,6 @@ const useProductContainer = () => {
     fileInputRef,
     handleUploadClick,
     handleFileChange,
-    categories,
-    filteredSubCategories,
   };
 };
 
