@@ -184,7 +184,7 @@ export const editProduct = async (productId, productData) => {
   }
 };
 
-export const getcategories = async () => {
+export const getCategories = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/get/categories`, {
       withCredentials: true,
@@ -202,7 +202,7 @@ export const getcategories = async () => {
   }
 };
 
-export const getsubcategories = async () => {
+export const getSubcategories = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/get/subcategories`, {
       withCredentials: true,

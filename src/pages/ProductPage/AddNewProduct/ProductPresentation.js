@@ -1,27 +1,10 @@
-import {
-  Box,
-  Typography,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  TextField,
-  Select,
-  MenuItem,
-  InputLabel,
-  FormControl,
-} from "@mui/material";
+import { Box, Typography, Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Select, MenuItem, InputLabel, FormControl } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import CircularProgress from "@mui/material/CircularProgress";
 import styles from "./ProductStyles";
 import useProductContainer from "./ProductContainer";
 
-const ProductPresentation = ({
-  activeSubItem,
-  categories = [],
-  subCategories = [],
-}) => {
+const ProductPresentation = ({ activeSubItem }) => {
   const {
     open,
     loading,
@@ -33,6 +16,7 @@ const ProductPresentation = ({
     fileInputRef,
     handleUploadClick,
     handleFileChange,
+    categories,
     filteredSubCategories,
   } = useProductContainer();
 
@@ -66,25 +50,15 @@ const ProductPresentation = ({
         <Box sx={styles.separatorLine} />
       </Box>
 
-      <Box
-        sx={styles.uploadContainer}
-        onClick={handleUploadClick}
-        style={{ cursor: "pointer" }}>
+      <Box sx={styles.uploadContainer} onClick={handleUploadClick} style={{ cursor: "pointer" }}>
         <CloudUploadIcon sx={styles.uploadIcon} />
         <Typography variant="h6" sx={styles.uploadTitle}>
           Upload CSV File
         </Typography>
         <Typography variant="body2" sx={styles.uploadDescription}>
-          Upload a CSV file to quickly add multiple products and streamline
-          inventory management.
+          Upload a CSV file to quickly add multiple products and streamline inventory management.
         </Typography>
-        <input
-          type="file"
-          ref={fileInputRef}
-          style={{ display: "none" }}
-          accept=".csv"
-          onChange={handleFileChange}
-        />
+        <input type="file" ref={fileInputRef} style={{ display: "none" }} accept=".csv" onChange={handleFileChange} />
       </Box>
 
       <Dialog open={open} onClose={handleClose}>
@@ -112,7 +86,8 @@ const ProductPresentation = ({
                   value={productData.category}
                   onChange={handleChange}
                   label="Category"
-                  required>
+                  required
+                >
                   {categories.map((category) => (
                     <MenuItem key={category.id} value={category.id}>
                       {category.name}
@@ -126,7 +101,8 @@ const ProductPresentation = ({
                   name="subcategory"
                   value={productData.subcategory}
                   onChange={handleChange}
-                  label="Subcategory">
+                  label="Subcategory"
+                >
                   {filteredSubCategories.map((subcategory) => (
                     <MenuItem key={subcategory.id} value={subcategory.name}>
                       {subcategory.name}
@@ -169,7 +145,8 @@ const ProductPresentation = ({
                   value={productData.status}
                   onChange={handleChange}
                   label="Status"
-                  required>
+                  required
+                >
                   <MenuItem value="in-stock">In Stock</MenuItem>
                   <MenuItem value="out-of-stock">Out of Stock</MenuItem>
                 </Select>
