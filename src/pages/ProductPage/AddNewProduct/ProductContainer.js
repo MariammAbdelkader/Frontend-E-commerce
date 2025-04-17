@@ -1,18 +1,8 @@
-import { useState, useEffect, useRef } from "react";
-import {
-  uploadCSV,
-  addProduct,
-  getcategories,
-  getsubcategories,
-} from "../ProductServices";
+import { useState, useRef, useEffect } from "react";
 
 const useProductContainer = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState([]);
-  const [allSubCategories, setAllSubCategories] = useState([]);
-  const [filteredSubCategories, setFilteredSubCategories] = useState([]);
-
   const [productData, setProductData] = useState({
     name: "",
     category: "",
@@ -21,36 +11,14 @@ const useProductContainer = () => {
     quantity: "",
     status: "",
     description: "",
-    image: null,
+    image: "",
   });
 
-  const fileInputRef = useRef(null);
+  const [filteredSubCategories, setFilteredSubCategories] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const fetchedCategories = await getcategories();
-      const fetchedSubCategories = await getsubcategories();
-      if (Array.isArray(fetchedCategories)) setCategories(fetchedCategories);
-      if (Array.isArray(fetchedSubCategories))
-        setAllSubCategories(fetchedSubCategories);
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const filtered = allSubCategories.filter(
-      (sub) => sub.categoryId === productData.category
-    );
-    setFilteredSubCategories(filtered);
-
-    if (!filtered.some((sub) => sub._id === productData.subcategory)) {
-      setProductData((prev) => ({ ...prev, subcategory: "" }));
-    }
-  }, [productData.category, allSubCategories, productData.subcategory]);
+  const fileInputRef = useRef();
 
   const handleOpen = () => setOpen(true);
-
   const handleClose = () => {
     setOpen(false);
     setProductData({
@@ -61,64 +29,72 @@ const useProductContainer = () => {
       quantity: "",
       status: "",
       description: "",
-      image: null,
+      image: "",
     });
   };
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-    if (name === "image") {
-      setProductData((prev) => ({ ...prev, image: files[0] }));
+
+    if (name === "category") {
+      setProductData((prev) => ({
+        ...prev,
+        category: value,
+        subcategory: "",
+      }));
+    } else if (name === "image") {
+      setProductData((prev) => ({
+        ...prev,
+        image: files[0],
+      }));
     } else {
-      setProductData((prev) => ({ ...prev, [name]: value }));
+      setProductData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
     }
   };
 
-  const handleSubmit = async () => {
-    setLoading(true);
-    try {
-      const formData = new FormData();
-      Object.entries(productData).forEach(([key, value]) => {
-        if (value) formData.append(key, value);
-      });
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
 
-      const response = await addProduct(formData);
-      if (response.success) {
-        alert("Product added successfully!");
-        handleClose();
-      } else {
-        alert("Failed to add product");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("An error occurred while adding the product");
-    } finally {
-      setLoading(false);
-    }
+    console.log("CSV uploaded:", file);
   };
 
   const handleUploadClick = () => {
     fileInputRef.current?.click();
   };
 
-  const handleFileChange = async (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      try {
-        const response = await uploadCSV(file);
-        console.log(response);
-      } catch (error) {
-        console.error("Error uploading CSV:", error);
-      }
-    }
+  const handleSubmit = () => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+      setOpen(false);
+      console.log("Submitted:", productData);
+    }, 1000);
   };
+
+  const { category, subcategory } = productData;
+
+  useEffect(() => {
+    const allSubCategories =
+      JSON.parse(localStorage.getItem("subCategories")) || [];
+
+    const filtered = allSubCategories.filter(
+      (sub) => sub.categoryId === category
+    );
+
+    setFilteredSubCategories(filtered);
+
+    if (!filtered.some((sub) => sub.name === subcategory)) {
+      setProductData((prev) => ({ ...prev, subcategory: "" }));
+    }
+  }, [category, subcategory]);
 
   return {
     open,
     loading,
     productData,
-    categories,
-    subCategories: filteredSubCategories,
     handleOpen,
     handleClose,
     handleChange,
@@ -126,6 +102,7 @@ const useProductContainer = () => {
     fileInputRef,
     handleUploadClick,
     handleFileChange,
+    filteredSubCategories,
   };
 };
 

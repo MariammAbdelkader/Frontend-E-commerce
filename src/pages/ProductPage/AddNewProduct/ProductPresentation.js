@@ -1,26 +1,31 @@
-import React from "react";
 import {
+  Box,
+  Typography,
+  Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
-  Button,
   TextField,
+  Select,
   MenuItem,
-  IconButton,
-  Tooltip,
+  InputLabel,
+  FormControl,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import UploadFileIcon from "@mui/icons-material/UploadFile";
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import CircularProgress from "@mui/material/CircularProgress";
+import styles from "./ProductStyles";
 import useProductContainer from "./ProductContainer";
 
-const ProductPresentation = () => {
+const ProductPresentation = ({
+  activeSubItem,
+  categories = [],
+  subCategories = [],
+}) => {
   const {
     open,
     loading,
     productData,
-    categories,
-    subCategories,
     handleOpen,
     handleClose,
     handleChange,
@@ -28,132 +33,176 @@ const ProductPresentation = () => {
     fileInputRef,
     handleUploadClick,
     handleFileChange,
+    filteredSubCategories,
   } = useProductContainer();
 
+  if (activeSubItem !== "Add New Product") {
+    return null;
+  }
+
   return (
-    <>
-      <Tooltip title="Add Product">
-        <IconButton onClick={handleOpen}>
-          <AddIcon />
-        </IconButton>
-      </Tooltip>
+    <Box sx={styles.container}>
+      <Typography variant="h4" sx={styles.title}>
+        Get Ready to Sell
+      </Typography>
 
-      <Tooltip title="Upload CSV">
-        <IconButton onClick={handleUploadClick}>
-          <UploadFileIcon />
-        </IconButton>
-      </Tooltip>
+      <Box sx={styles.section}>
+        <Typography variant="h6" sx={styles.sectionTitle}>
+          Add a New Product
+        </Typography>
+        <Typography variant="body2" sx={styles.description}>
+          You can add a single product here
+        </Typography>
+        <Button variant="contained" sx={styles.addButton} onClick={handleOpen}>
+          Add Product
+        </Button>
+      </Box>
 
-      <input
-        type="file"
-        accept=".csv"
-        ref={fileInputRef}
-        onChange={handleFileChange}
-        style={{ display: "none" }}
-      />
+      <Box sx={styles.separatorContainer}>
+        <Box sx={styles.separatorLine} />
+        <Typography variant="body2" sx={styles.orText}>
+          Or
+        </Typography>
+        <Box sx={styles.separatorLine} />
+      </Box>
+
+      <Box
+        sx={styles.uploadContainer}
+        onClick={handleUploadClick}
+        style={{ cursor: "pointer" }}>
+        <CloudUploadIcon sx={styles.uploadIcon} />
+        <Typography variant="h6" sx={styles.uploadTitle}>
+          Upload CSV File
+        </Typography>
+        <Typography variant="body2" sx={styles.uploadDescription}>
+          Upload a CSV file to quickly add multiple products and streamline
+          inventory management.
+        </Typography>
+        <input
+          type="file"
+          ref={fileInputRef}
+          style={{ display: "none" }}
+          accept=".csv"
+          onChange={handleFileChange}
+        />
+      </Box>
 
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Add Product</DialogTitle>
-        <DialogContent
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-            minWidth: 400,
-          }}>
-          <TextField
-            label="Name"
-            name="name"
-            value={productData.name}
-            onChange={handleChange}
-            fullWidth
-          />
-
-          <TextField
-            select
-            label="Category"
-            name="category"
-            value={productData.category}
-            onChange={handleChange}
-            fullWidth>
-            {categories.map((cat) => (
-              <MenuItem key={cat._id} value={cat._id}>
-                {cat.name}
-              </MenuItem>
-            ))}
-          </TextField>
-
-          <TextField
-            select
-            label="Subcategory"
-            name="subcategory"
-            value={productData.subcategory}
-            onChange={handleChange}
-            fullWidth
-            disabled={!productData.category}>
-            {subCategories.map((sub) => (
-              <MenuItem key={sub._id} value={sub._id}>
-                {sub.name}
-              </MenuItem>
-            ))}
-          </TextField>
-
-          <TextField
-            label="Price"
-            name="price"
-            value={productData.price}
-            onChange={handleChange}
-            type="number"
-            fullWidth
-          />
-
-          <TextField
-            label="Quantity"
-            name="quantity"
-            value={productData.quantity}
-            onChange={handleChange}
-            type="number"
-            fullWidth
-          />
-
-          <TextField
-            label="Status"
-            name="status"
-            value={productData.status}
-            onChange={handleChange}
-            fullWidth
-          />
-
-          <TextField
-            label="Description"
-            name="description"
-            value={productData.description}
-            onChange={handleChange}
-            multiline
-            rows={3}
-            fullWidth
-          />
-
-          <Button variant="outlined" component="label">
-            Upload Image
-            <input
-              type="file"
-              hidden
-              name="image"
-              accept="image/*"
-              onChange={handleChange}
-            />
-          </Button>
+        <DialogTitle sx={styles.modalTitle}>Add New Product</DialogTitle>
+        <DialogContent sx={styles.modalContainer}>
+          {loading ? (
+            <Box sx={{ display: "flex", justifyContent: "center", padding: 2 }}>
+              <CircularProgress />
+            </Box>
+          ) : (
+            <>
+              <TextField
+                fullWidth
+                label="Product Name"
+                name="name"
+                value={productData.name}
+                onChange={handleChange}
+                sx={styles.inputField}
+                required
+              />
+              <FormControl fullWidth sx={styles.inputField}>
+                <InputLabel>Category</InputLabel>
+                <Select
+                  name="category"
+                  value={productData.category}
+                  onChange={handleChange}
+                  label="Category"
+                  required>
+                  {categories.map((category) => (
+                    <MenuItem key={category.id} value={category.id}>
+                      {category.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl fullWidth sx={styles.inputField}>
+                <InputLabel>Subcategory</InputLabel>
+                <Select
+                  name="subcategory"
+                  value={productData.subcategory}
+                  onChange={handleChange}
+                  label="Subcategory">
+                  {filteredSubCategories.map((subcategory) => (
+                    <MenuItem key={subcategory.id} value={subcategory.name}>
+                      {subcategory.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <TextField
+                fullWidth
+                label="Price"
+                name="price"
+                type="number"
+                value={productData.price || ""}
+                onChange={(e) => {
+                  if (e.target.value >= 0) {
+                    handleChange(e);
+                  }
+                }}
+                sx={styles.inputField}
+                required
+              />
+              <TextField
+                fullWidth
+                label="Quantity"
+                name="quantity"
+                type="number"
+                value={productData.quantity || ""}
+                onChange={(e) => {
+                  if (e.target.value >= 0) {
+                    handleChange(e);
+                  }
+                }}
+                sx={styles.inputField}
+                required
+              />
+              <FormControl fullWidth sx={styles.inputField}>
+                <InputLabel>Status</InputLabel>
+                <Select
+                  name="status"
+                  value={productData.status}
+                  onChange={handleChange}
+                  label="Status"
+                  required>
+                  <MenuItem value="in-stock">In Stock</MenuItem>
+                  <MenuItem value="out-of-stock">Out of Stock</MenuItem>
+                </Select>
+              </FormControl>
+              <TextField
+                fullWidth
+                label="Product Description"
+                name="description"
+                value={productData.description}
+                onChange={handleChange}
+                sx={styles.inputField}
+              />
+              <TextField
+                fullWidth
+                type="file"
+                name="image"
+                inputProps={{ accept: "image/*" }}
+                onChange={handleChange}
+                sx={styles.inputField}
+              />
+            </>
+          )}
         </DialogContent>
-
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit} disabled={loading} variant="contained">
-            {loading ? "Adding..." : "Add Product"}
+        <DialogActions sx={styles.buttonContainer}>
+          <Button onClick={handleClose} sx={styles.cancelButton}>
+            Cancel
+          </Button>
+          <Button onClick={handleSubmit} sx={styles.saveButton}>
+            Add Product
           </Button>
         </DialogActions>
       </Dialog>
-    </>
+    </Box>
   );
 };
 
