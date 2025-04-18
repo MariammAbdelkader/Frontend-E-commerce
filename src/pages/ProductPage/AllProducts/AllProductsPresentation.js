@@ -23,20 +23,24 @@ import styles from "./AllProductsStyles";
 const ProductList = () => {
   const {
     products,
+    categories,
     searchTerm,
     categoryFilter,
-    statusFilter,
+    priceFilter,
     openDialog,
     formData,
+    openDeleteDialog,
     handleSearch,
     handleCategoryFilter,
-    handleStatusFilter,
+    handlePriceFilter,
     handleEdit,
     handleFormChange,
     handleImageChange,
     handleSaveEdit,
-    handleRemove,
     setOpenDialog,
+    handleDeleteConfirmation,
+    handleDeleteCancel,
+    handleDeleteConfirm,
   } = useProductContainer();
 
   return (
@@ -57,22 +61,22 @@ const ProductList = () => {
               onChange={handleCategoryFilter}
               label="Category">
               <MenuItem value="All">All Categories</MenuItem>
-              <MenuItem value="Category A">Category A</MenuItem>
-              <MenuItem value="Category B">Category B</MenuItem>
-              <MenuItem value="Category C">Category C</MenuItem>
+              {categories.map((category) => (
+                <MenuItem key={category.id} value={category.name}>
+                  {category.name}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
-          <FormControl style={styles.formControl}>
-            <InputLabel>Status</InputLabel>
-            <Select
-              value={statusFilter}
-              onChange={handleStatusFilter}
-              label="Status">
-              <MenuItem value="All">All Status</MenuItem>
-              <MenuItem value="Available">Available</MenuItem>
-              <MenuItem value="Out of Stock">Out of Stock</MenuItem>
-            </Select>
-          </FormControl>
+          <TextField
+            label="Price less than"
+            variant="outlined"
+            value={priceFilter}
+            onChange={handlePriceFilter}
+            style={styles.searchInput}
+            type="number"
+            inputProps={{ min: 1, step: 1 }}
+          />
         </div>
 
         <Box style={styles.titleBox}>
@@ -80,11 +84,9 @@ const ProductList = () => {
             Our products
           </Typography>
         </Box>
-        
-       
+
         <div style={styles.gridWrapper}>
           <Grid container spacing={4}>
-            
             {products.map((product) => (
               <Grid item xs={12} sm={6} md={4} key={product.id}>
                 <Card sx={styles.card}>
@@ -123,7 +125,7 @@ const ProductList = () => {
                     <Button
                       variant="contained"
                       color="error"
-                      onClick={() => handleRemove(product.id)}
+                      onClick={() => handleDeleteConfirmation(product)}
                       style={styles.cardButtonRemove}>
                       Remove
                     </Button>
@@ -134,6 +136,25 @@ const ProductList = () => {
           </Grid>
         </div>
 
+        {/* Delete Confirmation Dialog */}
+        <Dialog open={openDeleteDialog} onClose={handleDeleteCancel}>
+          <DialogTitle>Confirm Deletion</DialogTitle>
+          <DialogContent>
+            <Typography>
+              Are you sure you want to delete this product?
+            </Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleDeleteCancel} color="primary">
+              Cancel
+            </Button>
+            <Button onClick={handleDeleteConfirm} color="secondary">
+              Delete
+            </Button>
+          </DialogActions>
+        </Dialog>
+
+        {/* Edit Product Dialog */}
         <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
           <DialogTitle>Edit Product</DialogTitle>
           <DialogContent>

@@ -1,11 +1,19 @@
 import { useState, useEffect } from "react";
-import { getAllProducts, editProduct, deleteProduct } from "../ProductServices";
+import {
+  getAllProducts,
+  editProduct,
+  deleteProduct,
+  getCategories,
+} from "../ProductServices";
 
 const useProductContainer = () => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [categories, setCategories] = useState([]);
   const [categoryFilter, setCategoryFilter] = useState("All");
-  const [statusFilter, setStatusFilter] = useState("All");
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [productToDelete, setProductToDelete] = useState(null);
+  const [priceFilter, setPriceFilter] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [formData, setFormData] = useState({
@@ -20,28 +28,40 @@ const useProductContainer = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      //pass the filters here
-      const result = await getAllProducts(/*filters*/);
-      if (result) {
+      const result = await getAllProducts();
+      if (Array.isArray(result)) {
         setProducts(result);
       } else {
-        console.error("error");
+        setProducts([]);
+      }
+    };
+
+    const fetchCategories = async () => {
+      const result = await getCategories();
+      if (Array.isArray(result)) {
+        setCategories(result);
+      } else {
+        setCategories([]);
       }
     };
 
     fetchProducts();
+    fetchCategories();
   }, []);
 
   const getFilteredProducts = () => {
+    if (!Array.isArray(products)) return [];
     return products.filter((product) => {
       const matchesSearch = product.name
         .toLowerCase()
         .includes(searchTerm.toLowerCase());
       const matchesCategory =
         categoryFilter === "All" || product.category === categoryFilter;
-      const matchesStatus =
-        statusFilter === "All" || product.status === statusFilter;
-      return matchesSearch && matchesCategory && matchesStatus;
+      const matchesPrice =
+        priceFilter === "" ||
+        parseFloat(product.price) <= parseFloat(priceFilter);
+
+      return matchesSearch && matchesCategory && matchesPrice;
     });
   };
 
@@ -53,8 +73,11 @@ const useProductContainer = () => {
     setCategoryFilter(event.target.value);
   };
 
-  const handleStatusFilter = (event) => {
-    setStatusFilter(event.target.value);
+  const handlePriceFilter = (event) => {
+    const value = event.target.value;
+    if (/^\d+$/.test(value) || value === "") {
+      setPriceFilter(value);
+    }
   };
 
   const handleEdit = (product) => {
@@ -91,39 +114,55 @@ const useProductContainer = () => {
         )
       );
       setOpenDialog(false);
-    } else {
-      console.error(result.error);
     }
   };
 
-  const handleRemove = async (productId) => {
-    const result = await deleteProduct(productId);
-    if (result.success) {
-      setProducts((prevProducts) =>
-        prevProducts.filter((product) => product.id !== productId)
-      );
-    } else {
-      console.error(result.error);
+  const handleDeleteConfirmation = (product) => {
+    setProductToDelete(product);
+    setOpenDeleteDialog(true);
+  };
+
+  const handleDeleteCancel = () => {
+    setOpenDeleteDialog(false);
+    setProductToDelete(null);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (productToDelete) {
+      const result = await deleteProduct(productToDelete.id);
+      if (result) {
+        setOpenDeleteDialog(false);
+        setProductToDelete(null);
+
+        setProducts(
+          products.filter((product) => product.id !== productToDelete.id)
+        );
+      }
     }
   };
 
   return {
     openDialog,
     products: getFilteredProducts(),
+    categories,
     searchTerm,
     categoryFilter,
-    statusFilter,
+    priceFilter,
     formData,
     selectedProduct,
+    openDeleteDialog,
+    productToDelete,
     handleSearch,
     handleCategoryFilter,
-    handleStatusFilter,
+    handlePriceFilter,
     handleEdit,
     handleFormChange,
     handleImageChange,
     handleSaveEdit,
-    handleRemove,
     setOpenDialog,
+    handleDeleteConfirmation,
+    handleDeleteCancel,
+    handleDeleteConfirm,
   };
 };
 
