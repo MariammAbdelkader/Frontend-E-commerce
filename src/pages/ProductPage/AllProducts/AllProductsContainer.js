@@ -147,6 +147,20 @@ const useProductContainer = () => {
     }
   };
 
+  // const handleFormChange = (e) => {
+  //   const { name, value, files } = e.target;
+
+  //   if (name === "image") {
+  //     setFormData((prev) => ({ ...prev, image: files[0] }));
+  //   } else if (["price", "quantity"].includes(name)) {
+  //     setFormData((prev) => ({ ...prev, [name]: Number(value) }));
+  //   } else if (name === "category") {
+  //     setFormData((prev) => ({ ...prev, category: value, subcategory: "" }));
+  //   } else {
+  //     setFormData((prev) => ({ ...prev, [name]: value }));
+  //   }
+  // };
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
