@@ -32,7 +32,8 @@ const useProductContainer = () => {
       const fetchedCategories = await getCategories();
       const fetchedSubCategories = await getSubcategories();
       if (Array.isArray(fetchedCategories)) setCategories(fetchedCategories);
-      if (Array.isArray(fetchedSubCategories)) setAllSubCategories(fetchedSubCategories);
+      if (Array.isArray(fetchedSubCategories))
+        setAllSubCategories(fetchedSubCategories);
     };
 
     fetchData();
@@ -44,12 +45,13 @@ const useProductContainer = () => {
       (sub) => String(sub.categoryId) === String(productData.category)
     );
     setFilteredSubCategories(filtered);
-  
-    if (!filtered.some((sub) => sub.subcategoryId === productData.subCategory)) {
+
+    if (
+      !filtered.some((sub) => sub.subcategoryId === productData.subCategory)
+    ) {
       setProductData((prev) => ({ ...prev, subCategory: "" }));
     }
   }, [productData.category, allSubCategories]);
-  
 
   const handleOpen = () => setOpen(true);
 
@@ -69,9 +71,9 @@ const useProductContainer = () => {
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
-  
+
     console.log(`Changing ${name} to:`, value); // 👈 debug
-  
+
     if (name === "category") {
       setProductData((prev) => ({
         ...prev,
@@ -86,44 +88,40 @@ const useProductContainer = () => {
     } else if (name === "image") {
       setProductData((prev) => ({ ...prev, image: files[0] }));
     } else if (["price", "quantity"].includes(name)) {
-    // ✅ parse numeric fields
-    setProductData((prev) => ({
-      ...prev,
-      [name]: Number(value),
-    }));
-  } else {
-    setProductData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  }
+      // ✅ parse numeric fields
+      setProductData((prev) => ({
+        ...prev,
+        [name]: Number(value),
+      }));
+    } else {
+      setProductData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
-  
-  
+
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      // console.log("Submitting productData:", productData);
-  
-      // 🧠 Get category and subcategory names from IDs
       const categoryObj = categories.find(
         (c) => c.categoryId.toString() === productData.category
       );
       const subcategoryObj = allSubCategories.find(
         (sc) => sc.subcategoryId.toString() === productData.subCategory
       );
-  
+
       // 📦 Prepare data to send
       const productDataToSend = {
         ...productData,
         category: categoryObj?.name || productData.category,
         subCategory: subcategoryObj?.name || productData.subCategory,
       };
-  
+
       // console.log("Sending this data:", productDataToSend);
-  
+
       const response = await addProduct(productDataToSend);
-  
+
       if (response) {
         alert("Product added successfully!");
         handleClose();
@@ -137,8 +135,6 @@ const useProductContainer = () => {
       setLoading(false);
     }
   };
-  
-  
 
   const handleUploadClick = () => {
     fileInputRef.current?.click();
@@ -149,12 +145,9 @@ const useProductContainer = () => {
     if (file) {
       try {
         const response = await uploadCSV(file);
-        if(response)
-        {
+        if (response) {
           alert(response);
         }
-      
-
       } catch (error) {
         console.error("Error uploading CSV:", error);
       }

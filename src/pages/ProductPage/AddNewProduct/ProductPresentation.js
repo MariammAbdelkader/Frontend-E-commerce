@@ -110,14 +110,14 @@ const ProductPresentation = ({ activeSubItem }) => {
                   value={productData.category}
                   onChange={handleChange}
                   label="Category"
-                  required
-                >
-                {categories.map((cat) => (
-                  <MenuItem key={cat.categoryId} value={String(cat.categoryId)}>
-                    {cat.name}
-                  </MenuItem>
-                ))}
-
+                  required>
+                  {categories.map((cat) => (
+                    <MenuItem
+                      key={cat.categoryId}
+                      value={String(cat.categoryId)}>
+                      {cat.name}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
               <FormControl fullWidth sx={styles.inputField}>
@@ -125,19 +125,20 @@ const ProductPresentation = ({ activeSubItem }) => {
                 <Select
                   labelId="subcategory-label"
                   name="subCategory"
-                  value={productData.subcategory}
+                  value={productData.subCategory}
                   onChange={handleChange}
                   label="Subcategory"
-                  required
-                >
-                {subCategories.map((scat) => (
-                  <MenuItem key={scat.subcategoryId} value={String(scat.subcategoryId)}>
-                    {scat.name}
-                  </MenuItem>
-                ))}
+                  required>
+                  {subCategories.map((scat) => (
+                    <MenuItem
+                      key={scat.subcategoryId}
+                      value={String(scat.subcategoryId)}>
+                      {scat.name}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
-              
+
               <TextField
                 fullWidth
                 label="Price"

@@ -4,18 +4,24 @@ import {
   editProduct,
   deleteProduct,
   getCategories,
+  getSubcategories,
 } from "../ProductServices";
 
 const useProductContainer = () => {
   const [products, setProducts] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
   const [categories, setCategories] = useState([]);
-  const [categoryFilter, setCategoryFilter] = useState("All");
+  const [subcategories, setSubcategories] = useState([]);
+  const [filters, setFilters] = useState({
+    searchTerm: "",
+    category: "All",
+    subcategory: "All",
+    price: "",
+  });
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
-  const [priceFilter, setPriceFilter] = useState("");
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [price, setPrice] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     category: "",
@@ -25,58 +31,84 @@ const useProductContainer = () => {
     description: "",
     image: "",
   });
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      const result = await getAllProducts();
-      if (Array.isArray(result)) {
-        setProducts(result);
-      } else {
-        setProducts([]);
+    const fetchCategories = async () => {
+      try {
+        const result = await getCategories();
+        if (Array.isArray(result)) {
+          setCategories(result);
+        } else {
+          setCategories([]);
+        }
+      } catch (err) {
+        setError("Failed to fetch categories. Please try again later.");
+        console.error(err);
       }
     };
 
-    const fetchCategories = async () => {
-      const result = await getCategories();
-      if (Array.isArray(result)) {
-        setCategories(result);
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    const fetchSubcategories = async () => {
+      if (filters.category !== "All") {
+        try {
+          const result = await getSubcategories(filters.category);
+          if (Array.isArray(result)) {
+            setSubcategories(result);
+          } else {
+            setSubcategories([]);
+          }
+        } catch (err) {
+          setError("Failed to fetch subcategories. Please try again later.");
+          console.error(err);
+        }
       } else {
-        setCategories([]);
+        setSubcategories([]);
+      }
+    };
+
+    fetchSubcategories();
+  }, [filters.category]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const result = await getAllProducts(filters);
+        if (Array.isArray(result)) {
+          setProducts(result);
+        } else {
+          setProducts([]);
+        }
+      } catch (err) {
+        setError("Failed to fetch products. Please try again later.");
+        console.error(err);
       }
     };
 
     fetchProducts();
-    fetchCategories();
-  }, []);
-
-  const getFilteredProducts = () => {
-    if (!Array.isArray(products)) return [];
-    return products.filter((product) => {
-      const matchesSearch = product.name
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase());
-      const matchesCategory =
-        categoryFilter === "All" || product.category === categoryFilter;
-      const matchesPrice =
-        priceFilter === "" ||
-        parseFloat(product.price) <= parseFloat(priceFilter);
-
-      return matchesSearch && matchesCategory && matchesPrice;
-    });
-  };
+  }, [filters]);
 
   const handleSearch = (event) => {
-    setSearchTerm(event.target.value);
+    setFilters({ ...filters, searchTerm: event.target.value });
   };
 
   const handleCategoryFilter = (event) => {
-    setCategoryFilter(event.target.value);
+    setFilters({ ...filters, category: event.target.value });
+  };
+
+  const handleSubcategoryFilter = (event) => {
+    setFilters({ ...filters, subcategory: event.target.value });
   };
 
   const handlePriceFilter = (event) => {
     const value = event.target.value;
-    if (/^\d+$/.test(value) || value === "") {
-      setPriceFilter(value);
+    setPrice(value);
+
+    if (value === "" || (!isNaN(value) && Number(value) > 0)) {
+      setFilters({ ...filters, price: value });
     }
   };
 
@@ -87,33 +119,91 @@ const useProductContainer = () => {
   };
 
   const handleFormChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    const { name, value, files } = e.target;
+
+    if (name === "category") {
+      setFormData((prev) => ({
+        ...prev,
+        category: String(value),
+        subcategory: "",
+      }));
+    } else if (name === "subCategory") {
+      setFormData((prev) => ({
+        ...prev,
+        subcategory: String(value),
+      }));
+    } else if (name === "image") {
+      setFormData((prev) => ({ ...prev, image: files[0] }));
+    } else if (["price", "quantity"].includes(name)) {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: Number(value),
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setFormData({
-        ...formData,
-        image: URL.createObjectURL(file),
-      });
+      const imageUrl = URL.createObjectURL(file);
+      setFormData((prev) => ({
+        ...prev,
+        images: [
+          {
+            url: imageUrl,
+            isMasterImage: true,
+          },
+        ],
+      }));
     }
   };
 
+  const handleClose = () => {
+    setOpenDialog(false);
+    setFormData({
+      name: "",
+      category: "",
+      subcategory: "",
+      price: "",
+      status: "",
+      description: "",
+      image: null,
+    });
+  };
+
   const handleSaveEdit = async () => {
-    const result = await editProduct(selectedProduct.id, formData);
-    if (result.success) {
-      setProducts((prevProducts) =>
-        prevProducts.map((product) =>
-          product.id === selectedProduct.id
-            ? { ...product, ...formData }
-            : product
-        )
+    try {
+      const categoryObj = categories.find(
+        (c) => c.categoryId.toString() === formData.category
       );
-      setOpenDialog(false);
+      const subcategoryObj = subcategories.find(
+        (sc) => sc.subcategoryId.toString() === formData.subcategory
+      );
+
+      const productDataToSend = {
+        ...formData,
+        category: categoryObj?.name || formData.category,
+        subcategory: subcategoryObj?.name || formData.subcategory,
+      };
+
+      const response = await editProduct(productDataToSend);
+
+      if (response) {
+        alert("Product edited successfully!");
+        handleClose();
+      } else {
+        alert("Failed to edit product.");
+      }
+    } catch (err) {
+      setError(
+        "An error occurred while editing the product. Please try again."
+      );
+      console.error(err);
     }
   };
 
@@ -129,31 +219,39 @@ const useProductContainer = () => {
 
   const handleDeleteConfirm = async () => {
     if (productToDelete) {
-      const result = await deleteProduct(productToDelete.id);
-      if (result) {
-        setOpenDeleteDialog(false);
-        setProductToDelete(null);
-
-        setProducts(
-          products.filter((product) => product.id !== productToDelete.id)
+      try {
+        const result = await deleteProduct(productToDelete.id);
+        if (result) {
+          setOpenDeleteDialog(false);
+          setProductToDelete(null);
+          setProducts((prevProducts) =>
+            prevProducts.filter((product) => product.id !== productToDelete.id)
+          );
+        }
+      } catch (err) {
+        setError(
+          "An error occurred while deleting the product. Please try again."
         );
+        console.error(err);
       }
     }
   };
 
   return {
     openDialog,
-    products: getFilteredProducts(),
+    products,
     categories,
-    searchTerm,
-    categoryFilter,
-    priceFilter,
+    subcategories,
+    filters,
     formData,
     selectedProduct,
     openDeleteDialog,
     productToDelete,
+    error, // Expose error state for UI feedback
     handleSearch,
     handleCategoryFilter,
+    handleSubcategoryFilter,
+    price,
     handlePriceFilter,
     handleEdit,
     handleFormChange,
@@ -167,3 +265,72 @@ const useProductContainer = () => {
 };
 
 export default useProductContainer;
+
+// const handleChange = (e) => {
+//   const { name, value, files } = e.target;
+
+//   if (name === "category") {
+//     setProductData((prev) => ({
+//       ...prev,
+//       category: String(value),
+//       subCategory: "",
+//     }));
+//     setFilters((prevFilters) => ({
+//       ...prevFilters,
+//       category: value,
+//       subcategory: "",
+//     }));
+//   } else if (name === "subCategory") {
+//     setProductData((prev) => ({
+//       ...prev,
+//       subCategory: String(value),
+//     }));
+//     setFilters((prevFilters) => ({
+//       ...prevFilters,
+//       subcategory: value,
+//     }));
+//   } else if (name === "image") {
+//     setProductData((prev) => ({ ...prev, image: files[0] }));
+//   } else if (["price", "quantity"].includes(name)) {
+//     setProductData((prev) => ({
+//       ...prev,
+//       [name]: Number(value),
+//     }));
+//   } else {
+//     setProductData((prev) => ({
+//       ...prev,
+//       [name]: value,
+//     }));
+//   }
+// };
+
+// useEffect(() => {
+//   const fetchProducts = async () => {
+//     const result = await getAllProducts(filters);
+//     if (Array.isArray(result)) {
+//       setProducts(result);
+//     } else {
+//       setProducts([]);
+//     }
+//   };
+
+//   fetchProducts();
+// }, [filters]);
+
+// <select name="category" value={productData.category} onChange={handleChange}>
+//   <option value="">Select Category</option>
+//   {categories.map((category) => (
+//     <option key={category.id} value={category.id}>
+//       {category.name}
+//     </option>
+//   ))}
+// </select>
+
+// <select name="subCategory" value={productData.subCategory} onChange={handleChange}>
+//   <option value="">Select Subcategory</option>
+//   {filteredSubCategories.map((subCategory) => (
+//     <option key={subCategory.id} value={subCategory.id}>
+//       {subCategory.name}
+//     </option>
+//   ))}
+// </select>
