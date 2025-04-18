@@ -55,35 +55,42 @@ const ProductList = () => {
             onChange={handleSearch}
             style={styles.searchInput}
           />
-          <FormControl style={styles.formControl}>
-            <InputLabel>Category</InputLabel>
-            <Select
-              value={filters.category}
-              onChange={handleCategoryFilter}
-              label="Category">
-              <MenuItem value="All">All Categories</MenuItem>
-              {categories.map((category) => (
-                <MenuItem key={category.id} value={category.name}>
-                  {category.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-
-          <FormControl style={styles.formControl}>
-            <InputLabel>Subcategory</InputLabel>
-            <Select
-              value={filters.subcategory}
-              onChange={handleSubcategoryFilter}
-              label="Subcategory">
-              <MenuItem value="All">All Subcategories</MenuItem>
-              {subcategories.map((subcategory) => (
-                <MenuItem key={subcategory.id} value={subcategory.name}>
-                  {subcategory.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+           <FormControl  style={styles.formControl}>
+                <InputLabel id="category-label">Category</InputLabel>
+                <Select
+                  labelId="category-label"
+                  name="category"
+                  value={filters.category}
+                  onChange={handleCategoryFilter}
+                  label="Category"
+                  required>
+                  {categories.map((cat) => (
+                    <MenuItem
+                      key={cat.categoryId}
+                      value={String(cat.categoryId)}>
+                      {cat.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl  style={styles.formControl}>
+                <InputLabel id="subcategory-label">Subcategory</InputLabel>
+                <Select
+                  labelId="subcategory-label"
+                  name="subCategory"
+                  value={filters.subcategory}
+                  onChange={handleSubcategoryFilter}
+                  label="Subcategory"
+                  required>
+                  {subcategories.map((scat) => (
+                    <MenuItem
+                      key={scat.subcategoryId}
+                      value={String(scat.subcategoryId)}>
+                      {scat.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
 
           <TextField
             label="Price less than"

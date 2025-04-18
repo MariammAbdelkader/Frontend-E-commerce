@@ -53,11 +53,19 @@ const useProductContainer = () => {
 
   useEffect(() => {
     const fetchSubcategories = async () => {
-      if (filters.category !== "All") {
         try {
-          const result = await getSubcategories(filters.category);
+          const result = await getSubcategories();
           if (Array.isArray(result)) {
-            setSubcategories(result);
+            
+            if(filters.category!="All"){
+              const filtered = result.filter(
+                (sub) => String(sub.categoryId) === String(filters.category)
+              );
+              setSubcategories(filtered);
+            }
+            else{
+                setSubcategories(result);
+              }
           } else {
             setSubcategories([]);
           }
@@ -65,10 +73,7 @@ const useProductContainer = () => {
           setError("Failed to fetch subcategories. Please try again later.");
           console.error(err);
         }
-      } else {
-        setSubcategories([]);
-      }
-    };
+};
 
     fetchSubcategories();
   }, [filters.category]);
@@ -96,11 +101,11 @@ const useProductContainer = () => {
   };
 
   const handleCategoryFilter = (event) => {
-    setFilters({ ...filters, category: event.target.value });
+    setFilters({ ...filters, category:String(event.target.value) });
   };
 
   const handleSubcategoryFilter = (event) => {
-    setFilters({ ...filters, subcategory: event.target.value });
+    setFilters({ ...filters, subcategory: String(event.target.value) });
   };
 
   const handlePriceFilter = (event) => {
