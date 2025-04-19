@@ -195,6 +195,121 @@ export const editProduct = async (productId, productData) => {
     };
   }
 };
+///////////////////////////////Reviews////////////////////////////////////////////////////
+export const getProductReviews = async (productId) => {
+  try {
+    productId = Number(productId);
+    if (isNaN(productId)) {
+      throw new Error("Invalid productId.");
+    }
+
+    const response = await axios.get(`${API_BASE_URL}/reviews/${productId}`, {
+      withCredentials: true, // Ensures cookies are sent with the request
+    });
+
+    return response.data;
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error.response?.data?.message || // Backend error message
+        error.message || // Axios error message
+        "Server error. Please try again.", // Fallback message
+    };
+  }
+};
+export const getProductRating = async (productId) => {
+  try {
+    productId = Number(productId);
+    if (isNaN(productId)) {
+      throw new Error("Invalid productId.");
+    }
+
+    const response = await axios.get(`${API_BASE_URL}/reviews/rating${productId}`, {
+      withCredentials: true, // Ensures cookies are sent with the request
+    });
+
+    return response.data;
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error.response?.data?.message || // Backend error message
+        error.message || // Axios error message
+        "Server error. Please try again.", // Fallback message
+    };
+  }
+};
+export const addProductReview = async (productId,review) => {
+  try {
+    productId = Number(productId);
+    if (isNaN(productId)) {
+      throw new Error("Invalid productId.");
+    }
+
+    const response = await axios.post(`${API_BASE_URL}/reviews/${productId}`, review,{
+      withCredentials: true, // Ensures cookies are sent with the request
+    });
+
+    return response.data.message;
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error.response?.data?.message || // Backend error message
+        error.message || // Axios error message
+        "Server error. Please try again.", // Fallback message
+    };
+  }
+};
+export const editProductReview = async (reviewId,review) => {
+  try {
+    reviewId = Number(reviewId);
+    if (isNaN(reviewId)) {
+      throw new Error("Invalid productId.");
+    }
+
+    const response = await axios.put(`${API_BASE_URL}/reviews/${reviewId}`, review,{
+      withCredentials: true, // Ensures cookies are sent with the request
+    });
+
+    return response.data.message;
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error.response?.data?.message || // Backend error message
+        error.message || // Axios error message
+        "Server error. Please try again.", // Fallback message
+    };
+  }
+};
+export const deleteProductReview = async (reviewId) => {
+  try {
+    reviewId = Number(reviewId);
+    if (isNaN(reviewId)) {
+      throw new Error("Invalid productId.");
+    }
+
+    const response = await axios.delete(`${API_BASE_URL}/reviews/${reviewId}`,{
+      withCredentials: true, // Ensures cookies are sent with the request
+    });
+
+    return response.data.message;
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error.response?.data?.message || // Backend error message
+        error.message || // Axios error message
+        "Server error. Please try again.", // Fallback message
+    };
+  }
+};
+
+
+
+///////////////////////////////Categories////////////////////////////////////////////////////
 
 export const getCategories = async () => {
   try {
@@ -231,3 +346,115 @@ export const getSubcategories = async () => {
     };
   }
 };
+
+
+export const addCategory = async (name) => {
+  try {
+    const response = await axios.post(`${API_BASE_URL}/add`,name, {
+      withCredentials: true,
+    });
+
+    return response.data.message;
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error.response?.data?.message ||
+        error.message ||
+        "Server error. Please try again.",
+    };
+  }
+};
+
+export const editCategory = async (categoryId,name) => {
+  try {
+    const response = await axios.patch(`${API_BASE_URL}/${categoryId}`,name, {
+      withCredentials: true,
+    });
+
+    return response.data.message;
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error.response?.data?.message ||
+        error.message ||
+        "Server error. Please try again.",
+    };
+  }
+};
+export const deleteCategory = async (categoryId) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/${categoryId}`, {
+      withCredentials: true,
+    });
+
+    return response.data.message;
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error.response?.data?.message ||
+        error.message ||
+        "Server error. Please try again.",
+    };
+  }
+};
+
+
+
+export const addSubCategory = async (data) => {
+  try {
+
+    const response = await axios.post(`${API_BASE_URL}/add`,data, {
+      withCredentials: true,
+    });
+
+    return response.data.message;
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error.response?.data?.message ||
+        error.message ||
+        "Server error. Please try again.",
+    };
+  }
+};
+
+export const editSubCategory = async (subcategoryId,data) => {
+  try {
+    const response = await axios.patch(`${API_BASE_URL}/${subcategoryId}`,data, {
+      withCredentials: true,
+    });
+
+    return response.data.message;
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error.response?.data?.message ||
+        error.message ||
+        "Server error. Please try again.",
+    };
+  }
+};
+export const deleteSubCategory = async (subcategoryId) => {
+  try {
+    const response = await axios.delete(`${API_BASE_URL}/${subcategoryId}`, {
+      withCredentials: true,
+    });
+
+    return response.data.message;
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error.response?.data?.message ||
+        error.message ||
+        "Server error. Please try again.",
+    };
+  }
+};
+
+

@@ -17,7 +17,11 @@ const getSubSidebarItems = (activeItem) => {
   const sidebarOptions = {
     Products: [
       { id: "All Products", text: "All Products" },
+      { id: "All Categories", text: "All Categories" },
+      { id: "All Sub Categories", text: "All Sub Categories" },
       { id: "Add New Product", text: "Add New Product" },
+      { id: "Add New Category", text: "Add New Category" },
+      { id: "Add New Sub Category", text: "Add New Sub Category" }
     ],
     Discounts: [
       { id: "Add Discount", text: "Add Discount" },
