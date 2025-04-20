@@ -1,10 +1,10 @@
 
 import axios from "axios";
-const baseURL = process.env.API_BASE_URL
+const API_BASE_URL = `${process.env.REACT_APP_API_BASE_URL}/order`;
 
 export const getAllOrder = async (filters) => {
     try {
-        const response = await axios.get(`${baseURL}/order/all`,filters ,{
+        const response = await axios.get(`${API_BASE_URL}/all`,filters ,{
         withCredentials: true, // Ensures cookies are sent with the request
     });
 
