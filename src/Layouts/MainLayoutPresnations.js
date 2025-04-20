@@ -8,6 +8,7 @@ import DiscountPresentation from "../pages/DiscountPage/AddNewDiscount/DiscountP
 import ViewDiscounts from "../pages/DiscountPage/ViewDiscounts/ViewDiscounts";
 import ProductPresentation from "../pages/ProductPage/AddNewProduct/ProductPresentation";
 import AllProducts from "../pages/ProductPage/AllProducts/AllProductsPresentation";
+import AllCategories from "../pages/ProductPage/AllCategories/AllCategoriesPresentation";
 import ChatbotPage from "../pages/ChatbotPage/ChatbotPresentation";
 import OrdersPagePresentation from "../pages/OrdersPage/OrdersPagePresentation";
 import CustomerPage from "../pages/Customers/CustomerPagePresentation";
@@ -18,10 +19,7 @@ const getSubSidebarItems = (activeItem) => {
     Products: [
       { id: "All Products", text: "All Products" },
       { id: "All Categories", text: "All Categories" },
-      { id: "All Sub Categories", text: "All Sub Categories" },
       { id: "Add New Product", text: "Add New Product" },
-      { id: "Add New Category", text: "Add New Category" },
-      { id: "Add New Sub Category", text: "Add New Sub Category" }
     ],
     Discounts: [
       { id: "Add Discount", text: "Add Discount" },
@@ -46,6 +44,8 @@ const MainLayoutPresentation = () => {
         return <AllProducts activeSubItem={activeSubItem} />;
       } else if (activeSubItem === "Add New Product") {
         return <ProductPresentation activeSubItem={activeSubItem} />;
+      } else if (activeSubItem === "All Categories") {
+        return <AllCategories activeSubItem={activeSubItem} />;
       }
     }
 
