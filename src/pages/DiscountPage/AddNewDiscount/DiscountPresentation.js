@@ -68,7 +68,8 @@ const DiscountPresenter = ({ activeSubItem }) => {
         <Button
           variant="contained"
           sx={styles.addButton}
-          onClick={handleOpenCategoryDialog}>
+          onClick={handleOpenCategoryDialog}
+        >
           Add Discount to Category
         </Button>
       </Box>
@@ -81,7 +82,17 @@ const DiscountPresenter = ({ activeSubItem }) => {
         <Box sx={styles.separatorLine} />
       </Box>
 
-      <Dialog open={openCategoryDialog} onClose={handleCloseCategoryDialog}>
+      <Dialog
+        open={openCategoryDialog}
+        onClose={handleCloseCategoryDialog}
+        scroll="paper"
+        maxWidth={false}
+        PaperProps={{
+          sx: {
+            padding: 2,
+          },
+        }}
+      >
         <DialogTitle sx={styles.modalTitle}>Add Category Discount</DialogTitle>
         <DialogContent sx={styles.modalContainer}>
           <FormControl fullWidth sx={styles.inputField}>
@@ -90,7 +101,8 @@ const DiscountPresenter = ({ activeSubItem }) => {
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               label="Category"
-              required>
+              required
+            >
               {categories.map((cat) => (
                 <MenuItem key={cat.categoryId} value={cat.categoryId}>
                   {cat.name}
@@ -141,7 +153,8 @@ const DiscountPresenter = ({ activeSubItem }) => {
           <Button
             onClick={handleSaveCategoryDiscount}
             sx={styles.saveButton}
-            disabled={loading}>
+            disabled={loading}
+          >
             {loading ? "Saving..." : "Save Discount"}
           </Button>
         </DialogActions>
@@ -173,12 +186,23 @@ const DiscountPresenter = ({ activeSubItem }) => {
         <Button
           variant="contained"
           sx={styles.addButton}
-          onClick={handleOpenProductDialog}>
+          onClick={handleOpenProductDialog}
+        >
           Add Discount to Product
         </Button>
       </Box>
 
-      <Dialog open={openProductDialog} onClose={handleCloseProductDialog}>
+      <Dialog
+        open={openProductDialog}
+        onClose={handleCloseProductDialog}
+        scroll="paper"
+        maxWidth={false}
+        PaperProps={{
+          sx: {
+            padding: 2,
+          },
+        }}
+      >
         <DialogTitle sx={styles.modalTitle}>Add Product Discount</DialogTitle>
         <DialogContent sx={styles.modalContainer}>
           <TextField
@@ -233,7 +257,8 @@ const DiscountPresenter = ({ activeSubItem }) => {
           <Button
             onClick={handleSaveProductDiscount}
             sx={styles.saveButton}
-            disabled={loading}>
+            disabled={loading}
+          >
             {loading ? "Saving..." : "Save Discount"}
           </Button>
         </DialogActions>
