@@ -73,6 +73,15 @@ const styles = {
     backgroundColor: "#1b0099",
     color: "#fff",
   },
+  dialogPaper: {
+    backgroundColor: "#1b0099",
+    borderRadius: "16px",
+  },
+  dialogTitle: {
+    color: "#fff",
+    fontWeight: "bold",
+    textAlign: "center",
+  },
   reviewWindow: {
     display: "flex",
     justifyContent: "space-between",
@@ -83,49 +92,75 @@ const styles = {
   arrowButton: {
     fontSize: "2rem",
     padding: 0,
+    transition: "transform 0.3s ease, opacity 0.5s ease",
+    opacity: 1,
+    cursor: "pointer",
+    "&:hover": {
+      transform: "scale(1.2)",
+    },
   },
-  reviewContent: {
-    width: "100%",
+  arrowIcon: {
+    color: "#fff",
+  },
+  reviewCard: {
+    flex: 1,
     height: "100%",
+    backgroundColor: "#fff",
+    borderRadius: "20px",
     padding: "20px",
-    overflowY: "auto",
-  },
-  reviewTop: {
+    margin: "0 10px",
     display: "flex",
-    justifyContent: "space-between",
+    flexDirection: "column",
+    alignItems: "center",
+    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.3)",
+  },
+  avatar: {
+    width: "80px",
+    height: "80px",
+    borderRadius: "50%",
+    objectFit: "cover",
     marginBottom: "10px",
   },
-  rating: {
+  userName: {
     fontWeight: "bold",
+    fontSize: "1rem",
+    marginBottom: "5px",
   },
-  createdAt: {
-    textAlign: "right",
-    fontSize: "0.8rem",
-    color: "#888",
+  stars: {
+    color: "#ffb400",
+    fontSize: "1.2rem",
+    marginBottom: "15px",
   },
-  userId: {
-    textAlign: "left",
-    fontSize: "0.8rem",
-    color: "#888",
-  },
-  comment: {
-    marginTop: "10px",
+  reviewText: {
     fontStyle: "italic",
-    wordWrap: "break-word",
+    textAlign: "center",
+    color: "#555",
+    marginBottom: "15px",
+  },
+  closeButton: {
+    marginTop: "auto",
+    backgroundColor: "#ff4c61",
+    color: "#fff",
+    fontWeight: "bold",
+    borderRadius: "20px",
+    padding: "6px 20px",
+    textTransform: "none",
+    boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
+    transition: "all 0.3s ease",
+  },
+  noReviewText: {
+    color: "#fff",
+    textAlign: "center",
   },
   cardButtonReview: {
     marginTop: "10px",
     marginLeft: "8px",
-    color: "#1976d2",
-    borderColor: "#1976d2",
+    backgroundColor: "#1b0099",
+    color: "#fff",
     textTransform: "none",
     fontWeight: "bold",
     padding: "6px 12px",
     transition: "all 0.3s ease",
-    "&:hover": {
-      backgroundColor: "#e3f2fd",
-      borderColor: "#1565c0",
-    },
   },
 };
 

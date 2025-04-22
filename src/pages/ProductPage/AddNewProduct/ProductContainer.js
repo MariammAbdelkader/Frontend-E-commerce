@@ -26,7 +26,6 @@ const useProductContainer = () => {
 
   const fileInputRef = useRef(null);
 
-  // Fetch categories and subcategories on mount
   useEffect(() => {
     const fetchData = async () => {
       const fetchedCategories = await getCategories();
@@ -51,7 +50,7 @@ const useProductContainer = () => {
     ) {
       setProductData((prev) => ({ ...prev, subCategory: "" }));
     }
-  }, [productData.category, allSubCategories]);
+  }, [productData.category, productData.subCategory, allSubCategories]);
 
   const handleOpen = () => setOpen(true);
 

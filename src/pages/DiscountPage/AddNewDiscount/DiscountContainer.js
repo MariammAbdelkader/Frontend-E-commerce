@@ -35,7 +35,7 @@ const useDiscount = () => {
     };
 
     fetchData();
-  }, []);
+  }, [categories]);
 
   const handleOpenCategoryDialog = async () => {
     setOpenCategoryDialog(true);
@@ -167,7 +167,6 @@ const useDiscount = () => {
     setProductId,
     setStartDate,
     setEndDate,
-    categories,
   };
 };
 

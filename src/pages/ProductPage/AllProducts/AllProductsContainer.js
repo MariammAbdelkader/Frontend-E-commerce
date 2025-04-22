@@ -35,9 +35,10 @@ const useProductContainer = () => {
   const [error, setError] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
-  const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
   const [selectedReviewProduct, setSelectedReviewProduct] = useState(null);
-  const currentReview = reviews[currentReviewIndex];
+  const [index, setIndex] = useState(0);
+  const [direction, setDirection] = useState("right");
+  const currentReview = reviews?.[index];
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -117,7 +118,7 @@ const useProductContainer = () => {
     setPrice(value);
 
     if (value === "" || (!isNaN(value) && Number(value) > 0)) {
-      setFilters({ ...filters, price: value });
+      setFilters({ ...filters, pricelt: value });
     }
   };
 
@@ -275,18 +276,18 @@ const useProductContainer = () => {
   };
 
   const handleNextReview = () => {
-    setCurrentReviewIndex((prevIndex) => (prevIndex + 1) % reviews.length);
+    if (index < reviews.length - 1) {
+      setDirection("right");
+      setIndex((prev) => prev + 1);
+    }
   };
 
   const handlePreviousReview = () => {
-    setCurrentReviewIndex(
-      (prevIndex) => (prevIndex - 1 + reviews.length) % reviews.length
-    );
+    if (index > 0) {
+      setDirection("left");
+      setIndex((prev) => prev - 1);
+    }
   };
-
-  // if (!currentReview) {
-  //   return null;
-  // }
 
   return {
     openDialog,
@@ -314,12 +315,12 @@ const useProductContainer = () => {
     handleDeleteConfirm,
     reviews,
     reviewDialogOpen,
-    currentReviewIndex,
     handleOpenReviewDialog,
     handleCloseReviewDialog,
     handleNextReview,
     handlePreviousReview,
     currentReview,
+    direction,
   };
 };
 
