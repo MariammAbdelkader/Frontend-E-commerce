@@ -27,6 +27,7 @@ const useDiscount = () => {
 
       if (Array.isArray(fetchedCategories) && fetchedCategories.length > 0) {
         setCategories(fetchedCategories);
+
         console.log(categories);
       } else {
         setErrorMessage("No categories available.");
@@ -154,6 +155,7 @@ const useDiscount = () => {
     loading,
     errorMessage,
     successMessage,
+    categories,
     handleOpenCategoryDialog,
     handleCloseCategoryDialog,
     handleOpenProductDialog,

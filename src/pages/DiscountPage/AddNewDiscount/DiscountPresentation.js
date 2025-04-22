@@ -17,7 +17,7 @@ import {
 import useDiscount from "./DiscountContainer";
 import styles from "./DiscountStyles";
 
-const DiscountPresenter = ({ activeSubItem, categories = [] }) => {
+const DiscountPresenter = ({ activeSubItem }) => {
   const {
     openCategoryDialog,
     openProductDialog,
@@ -29,6 +29,7 @@ const DiscountPresenter = ({ activeSubItem, categories = [] }) => {
     loading,
     errorMessage,
     successMessage,
+    categories,
     handleOpenCategoryDialog,
     handleCloseCategoryDialog,
     handleOpenProductDialog,
@@ -103,7 +104,7 @@ const DiscountPresenter = ({ activeSubItem, categories = [] }) => {
               required
             >
               {categories.map((cat) => (
-                <MenuItem key={cat.id} value={cat.id}>
+                <MenuItem key={cat.categoryId} value={cat.categoryId}>
                   {cat.name}
                 </MenuItem>
               ))}
