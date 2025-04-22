@@ -29,9 +29,7 @@ const useDiscount = () => {
       console.log("Fetched Categories:", JSON.stringify(fetchedCategories, null, 2));
   
       if (Array.isArray(fetchedCategories) && fetchedCategories.length > 0) {
-    
-        setCategories(fetchedCategories); // Update state if categories exist
-        console.log(categories)
+        setCategories(fetchedCategories);
       } else {
         setErrorMessage("No categories available.");
       }
@@ -39,6 +37,8 @@ const useDiscount = () => {
   
     fetchData();
   }, []);
+  
+
   
   
   const handleOpenCategoryDialog = async () => {
@@ -160,6 +160,7 @@ const useDiscount = () => {
     loading,
     errorMessage,
     successMessage,
+    categories,
     handleOpenCategoryDialog,
     handleCloseCategoryDialog,
     handleOpenProductDialog,
