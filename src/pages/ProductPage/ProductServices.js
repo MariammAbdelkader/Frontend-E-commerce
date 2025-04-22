@@ -163,18 +163,26 @@ export const editProduct = async (productId, productData) => {
   }
 };
 ///////////////////////////////Reviews////////////////////////////////////////////////////
+
+const API_BASE_URL_reviews = `${process.env.REACT_APP_API_BASE_URL}/reviews`;
+
 export const getProductReviews = async (productId) => {
   try {
+    console.log(" productId.",productId)
     productId = Number(productId);
     if (isNaN(productId)) {
+     
+
       throw new Error("Invalid productId.");
+  
     }
 
-    const response = await axios.get(`${API_BASE_URL}/reviews/${productId}`, {
+    const response = await axios.get(`${API_BASE_URL_reviews}/${productId}`, {
       withCredentials: true, // Ensures cookies are sent with the request
     });
 
-    return response.data;
+    console.log(response.data)
+    return response.data.reviews;
   } catch (error) {
     return handleError(error)
   }
@@ -186,7 +194,7 @@ export const getProductRating = async (productId) => {
       throw new Error("Invalid productId.");
     }
 
-    const response = await axios.get(`${API_BASE_URL}/reviews/rating${productId}`, {
+    const response = await axios.get(`${API_BASE_URL_reviews}/rating${productId}`, {
       withCredentials: true, // Ensures cookies are sent with the request
     });
 
@@ -202,7 +210,7 @@ export const addProductReview = async (productId,review) => {
       throw new Error("Invalid productId.");
     }
 
-    const response = await axios.post(`${API_BASE_URL}/reviews/${productId}`, review,{
+    const response = await axios.post(`${API_BASE_URL_reviews}/${productId}`, review,{
       withCredentials: true, // Ensures cookies are sent with the request
     });
 
@@ -218,7 +226,7 @@ export const editProductReview = async (reviewId,review) => {
       throw new Error("Invalid productId.");
     }
 
-    const response = await axios.put(`${API_BASE_URL}/reviews/${reviewId}`, review,{
+    const response = await axios.put(`${API_BASE_URL_reviews}/${reviewId}`, review,{
       withCredentials: true, // Ensures cookies are sent with the request
     });
 
@@ -234,7 +242,7 @@ export const deleteProductReview = async (reviewId) => {
       throw new Error("Invalid productId.");
     }
 
-    const response = await axios.delete(`${API_BASE_URL}/reviews/${reviewId}`,{
+    const response = await axios.delete(`${API_BASE_URL_reviews}/${reviewId}`,{
       withCredentials: true, // Ensures cookies are sent with the request
     });
 

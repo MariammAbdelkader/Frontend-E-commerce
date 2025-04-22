@@ -120,7 +120,7 @@ const ProductList = () => {
           <Grid container spacing={4}>
             {products.length > 0 ? (
               products.map((product) => (
-                <Grid item xs={12} sm={6} md={4} key={product.id}>
+                <Grid item xs={12} sm={6} md={4} key={product.productId}>
                   <Card sx={styles.card}>
                     <CardMedia
                       component="img"

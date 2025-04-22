@@ -250,7 +250,7 @@ const useProductContainer = () => {
     const fetchReviews = async (productId) => {
       try {
         const result = await getProductReviews(productId);
-        if (Array.isArray(result)) {
+        if (result) {
           setReviews(result);
         } else {
           setReviews([]);
@@ -261,7 +261,7 @@ const useProductContainer = () => {
     };
 
     if (selectedReviewProduct) {
-      fetchReviews(selectedReviewProduct.id); // Replace with actual product ID if available
+      fetchReviews(selectedReviewProduct.productId); // Replace with actual product ID if available
     }
   }, [selectedReviewProduct]);
 
