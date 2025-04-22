@@ -56,6 +56,7 @@ const ProductList = () => {
     handlePreviousReview,
     currentReview,
     direction,
+    calculateDiscountedPrice,
   } = useProductContainer();
 
   const renderStatus = (status) => {
@@ -179,9 +180,31 @@ const ProductList = () => {
                         display="flex"
                         justifyContent="space-between"
                         alignItems="center">
-                        <Typography variant="body1" fontWeight="bold">
-                          {product.price} $
-                        </Typography>
+                        {product.status === "discounted" ? (
+                          <Typography>
+                            <span
+                              style={{
+                                textDecoration: "line-through",
+                                color: "gray",
+                                marginRight: 8,
+                              }}>
+                              ${product.price}
+                            </span>
+                            <span
+                              style={{ color: "#d32f2f", fontWeight: "bold" }}>
+                              $
+                              {calculateDiscountedPrice(
+                                product.price,
+                                product.categoryDiscountPercentage,
+                                product.productDiscountPercentage
+                              )}
+                            </span>
+                          </Typography>
+                        ) : (
+                          <Typography variant="body1" fontWeight="bold">
+                            {product.price} $
+                          </Typography>
+                        )}
                         {product.rate > 0 ? (
                           <Rating
                             value={product.rate}

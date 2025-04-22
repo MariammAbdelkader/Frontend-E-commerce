@@ -14,8 +14,8 @@ const useProductContainer = () => {
   const [subcategories, setSubcategories] = useState([]);
   const [filters, setFilters] = useState({
     searchTerm: "",
-    categoryId:"",
-    subcategoryId:"",
+    categoryId: "",
+    subcategoryId: "",
     price_lt: "",
   });
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -86,7 +86,6 @@ const useProductContainer = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-      
         const result = await getAllProducts(filters);
         if (Array.isArray(result)) {
           setProducts(result);
@@ -107,11 +106,15 @@ const useProductContainer = () => {
   };
 
   const handleCategoryFilter = (event) => {
-    setFilters({ ...filters, categoryId: Number(event.target.value),subcategoryId:"" });
+    setFilters({
+      ...filters,
+      categoryId: Number(event.target.value),
+      subcategoryId: "",
+    });
   };
 
   const handleSubcategoryFilter = (event) => {
-    setFilters({ ...filters, subcategoryId:Number(event.target.value) });
+    setFilters({ ...filters, subcategoryId: Number(event.target.value) });
   };
 
   const handlePriceFilter = (event) => {
@@ -202,7 +205,10 @@ const useProductContainer = () => {
         subcategory: subcategoryObj?.name || formData.subcategory,
       };
 
-      const response = await editProduct(selectedProduct.productId,productDataToSend);
+      const response = await editProduct(
+        selectedProduct.productId,
+        productDataToSend
+      );
 
       if (response) {
         alert("Product edited successfully!");
@@ -289,6 +295,23 @@ const useProductContainer = () => {
       setIndex((prev) => prev - 1);
     }
   };
+  function calculateDiscountedPrice(
+    price,
+    categoryDiscountPercentage,
+    productDiscountPercentage
+  ) {
+    let discountedPrice = price;
+
+    if (categoryDiscountPercentage) {
+      discountedPrice -= (discountedPrice * categoryDiscountPercentage) / 100;
+    }
+
+    if (productDiscountPercentage) {
+      discountedPrice -= (discountedPrice * productDiscountPercentage) / 100;
+    }
+
+    return parseFloat(discountedPrice.toFixed(2));
+  }
 
   return {
     openDialog,
@@ -322,6 +345,7 @@ const useProductContainer = () => {
     handlePreviousReview,
     currentReview,
     direction,
+    calculateDiscountedPrice,
   };
 };
 
