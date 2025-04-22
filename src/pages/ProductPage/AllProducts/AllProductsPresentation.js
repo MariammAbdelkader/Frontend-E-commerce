@@ -20,6 +20,8 @@ import {
 } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { motion, AnimatePresence } from "framer-motion";
+
 import useProductContainer from "./AllProductsContainer";
 import styles from "./AllProductsStyles";
 
@@ -51,6 +53,7 @@ const ProductList = () => {
     handleNextReview,
     handlePreviousReview,
     currentReview,
+    direction,
   } = useProductContainer();
 
   return (
@@ -296,57 +299,73 @@ const ProductList = () => {
             </Button>
           </DialogActions>
         </Dialog>
+
         <Dialog
           open={reviewDialogOpen}
           onClose={handleCloseReviewDialog}
           maxWidth="xs"
-          fullWidth>
-          <DialogTitle>Product Reviews</DialogTitle>
+          fullWidth
+          PaperProps={{ style: styles.dialogPaper }}>
+          <DialogTitle style={styles.dialogTitle}>Product Reviews</DialogTitle>
+
           <DialogContent>
             <div style={styles.reviewWindow}>
               {/* Left Arrow */}
               <IconButton
                 style={styles.arrowButton}
                 onClick={handlePreviousReview}>
-                <ArrowBackIcon />
+                <ArrowBackIcon style={styles.arrowIcon} />
               </IconButton>
 
-              <div style={styles.reviewContent}>
-                {currentReview ? (
-                  <>
-                    <div style={styles.reviewTop}>
-                      <Typography variant="body2" style={styles.rating}>
-                        {`Rating: ${currentReview.rating}`}
+              {/* Animated Review Card */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentReview?.id || "no-review"}
+                  style={styles.reviewCard}
+                  initial={{
+                    opacity: 0,
+                    x: direction === "right" ? 100 : -100,
+                  }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: direction === "right" ? -100 : 100 }}
+                  transition={{ duration: 0.4 }}>
+                  {currentReview ? (
+                    <>
+                      <img
+                        src="/path-to-default-avatar.png"
+                        alt="User"
+                        style={styles.avatar}
+                      />
+                      <Typography variant="subtitle1" style={styles.userName}>
+                        {currentReview.userId}
                       </Typography>
-                      <Typography variant="body2" style={styles.createdAt}>
-                        {`Created At: ${new Date(
-                          currentReview.createdAt
-                        ).toLocaleDateString()}`}
+                      <div style={styles.stars}>
+                        {"★".repeat(currentReview.rating)}
+                        {"☆".repeat(5 - currentReview.rating)}
+                      </div>
+                      <Typography variant="body1" style={styles.reviewText}>
+                        {currentReview.comment}
                       </Typography>
-                      <Typography variant="body2" style={styles.userId}>
-                        {`User: ${currentReview.userId}`}
-                      </Typography>
-                    </div>
-                    <Typography variant="body2" style={styles.comment}>
-                      {currentReview.comment}
+                      <Button
+                        onClick={handleCloseReviewDialog}
+                        style={styles.closeButton}>
+                        Close
+                      </Button>
+                    </>
+                  ) : (
+                    <Typography variant="body2" style={styles.noReviewText}>
+                      No review available
                     </Typography>
-                  </>
-                ) : (
-                  <Typography variant="body2">No review available</Typography>
-                )}
-              </div>
+                  )}
+                </motion.div>
+              </AnimatePresence>
 
               {/* Right Arrow */}
               <IconButton style={styles.arrowButton} onClick={handleNextReview}>
-                <ArrowForwardIcon />
+                <ArrowForwardIcon style={styles.arrowIcon} />
               </IconButton>
             </div>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={handleCloseReviewDialog} color="primary">
-              Close
-            </Button>
-          </DialogActions>
         </Dialog>
       </div>
     </div>
