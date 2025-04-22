@@ -33,10 +33,11 @@ const useProductContainer = () => {
     image: "",
   });
   const [error, setError] = useState(null);
-  const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
-  const [selectedReviewProduct, setSelectedReviewProduct] = useState(null);
   const [reviews, setReviews] = useState([]);
+  const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
   const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
+  const [selectedReviewProduct, setSelectedReviewProduct] = useState(null);
+  const currentReview = reviews[currentReviewIndex];
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -245,41 +246,47 @@ const useProductContainer = () => {
     }
   };
 
-  const handleOpenReviewDialog = async (product) => {
-    try {
-      const result = await getProductReviews(product.id);
-      if (Array.isArray(result)) {
-        setReviews(result);
-        setCurrentReviewIndex(0);
-        setSelectedReviewProduct(product);
-        setReviewDialogOpen(true);
-      } else {
-        setReviews([]);
+  useEffect(() => {
+    const fetchReviews = async (productId) => {
+      try {
+        const result = await getProductReviews(productId);
+        if (Array.isArray(result)) {
+          setReviews(result);
+        } else {
+          setReviews([]);
+        }
+      } catch (err) {
+        console.error("Failed to fetch reviews.", err);
       }
-    } catch (err) {
-      setError("Failed to fetch reviews. Please try again.");
-      console.error(err);
+    };
+
+    if (selectedReviewProduct) {
+      fetchReviews(selectedReviewProduct.id); // Replace with actual product ID if available
     }
+  }, [selectedReviewProduct]);
+
+  const handleOpenReviewDialog = (product) => {
+    setSelectedReviewProduct(product);
+    setReviewDialogOpen(true);
   };
 
   const handleCloseReviewDialog = () => {
     setReviewDialogOpen(false);
-    setSelectedReviewProduct(null);
-    setReviews([]);
-    setCurrentReviewIndex(0);
   };
 
   const handleNextReview = () => {
-    if (currentReviewIndex < reviews.length - 1) {
-      setCurrentReviewIndex((prev) => prev + 1);
-    }
+    setCurrentReviewIndex((prevIndex) => (prevIndex + 1) % reviews.length);
   };
 
   const handlePreviousReview = () => {
-    if (currentReviewIndex > 0) {
-      setCurrentReviewIndex((prev) => prev - 1);
-    }
+    setCurrentReviewIndex(
+      (prevIndex) => (prevIndex - 1 + reviews.length) % reviews.length
+    );
   };
+
+  if (!currentReview) {
+    return null;
+  }
 
   return {
     openDialog,
@@ -305,14 +312,14 @@ const useProductContainer = () => {
     handleDeleteConfirmation,
     handleDeleteCancel,
     handleDeleteConfirm,
-    reviewDialogOpen,
     reviews,
+    reviewDialogOpen,
     currentReviewIndex,
-    selectedReviewProduct,
     handleOpenReviewDialog,
     handleCloseReviewDialog,
     handleNextReview,
     handlePreviousReview,
+    currentReview,
   };
 };
 
