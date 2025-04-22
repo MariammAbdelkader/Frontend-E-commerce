@@ -1,13 +1,9 @@
-import { useEffect, useState } from "react"; // Add useEffect here
-import axios from "axios"; 
-
+import { useEffect, useState } from "react";
 import {
   AddDiscountOnProduct,
   AddDiscountOnCategory,
 } from "../DiscountServices";
-import {
-  getCategories
- } from "../../ProductPage/ProductServices";
+import { getCategories } from "../../ProductPage/ProductServices";
 const useDiscount = () => {
   const [openCategoryDialog, setOpenCategoryDialog] = useState(false);
   const [openProductDialog, setOpenProductDialog] = useState(false);
@@ -19,32 +15,30 @@ const useDiscount = () => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [categories, setCategories] = useState([]); // Declare state for categories
-  
-  
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       const fetchedCategories = await getCategories();
-      console.log("Fetched Categories:", JSON.stringify(fetchedCategories, null, 2));
-  
+      console.log(
+        "Fetched Categories:",
+        JSON.stringify(fetchedCategories, null, 2)
+      );
+
       if (Array.isArray(fetchedCategories) && fetchedCategories.length > 0) {
-    
-        setCategories(fetchedCategories); // Update state if categories exist
-        console.log(categories)
+        setCategories(fetchedCategories);
+        console.log(categories);
       } else {
         setErrorMessage("No categories available.");
       }
     };
-  
+
     fetchData();
   }, []);
-  
-  
+
   const handleOpenCategoryDialog = async () => {
     setOpenCategoryDialog(true);
   };
-  
 
   const handleCloseCategoryDialog = () => {
     setCategory("");
@@ -171,7 +165,7 @@ const useDiscount = () => {
     setProductId,
     setStartDate,
     setEndDate,
-    categories 
+    categories,
   };
 };
 
