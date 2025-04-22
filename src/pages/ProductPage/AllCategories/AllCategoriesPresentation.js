@@ -15,6 +15,7 @@ import { Delete, Edit } from "@mui/icons-material";
 import styles from "./AllCategoriesStyles";
 import useAllCategoriesContainer from "./AllCategoriesContainer";
 
+
 const CategoryManager = () => {
   const {
     categories,
@@ -62,7 +63,7 @@ const CategoryManager = () => {
               </Grid>
               <Grid item xs={4} sx={{ display: "flex", gap: 1 }}>
                 <Typography sx={styles.categoryTypography}>
-                  {cat.categoryName}
+                  {cat.name}
                 </Typography>
                 <IconButton
                   onClick={() => handleOpenDialog("editCategory", cat)}

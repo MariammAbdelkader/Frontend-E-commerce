@@ -57,7 +57,7 @@ const AllCategoriesContainer = () => {
     } else if (type === "editSubcategory" || type === "addSubcategory") {
       setFormData({
         subcategoryName: data?.name || "",
-        subcategoryId: data?.id || "",
+        subcategoryId: data?.subcategoryId || "",
         categoryId: data?.categoryId || "",
         categoryName: "",
       });
@@ -84,8 +84,9 @@ const AllCategoriesContainer = () => {
 
   const handleEditCategory = async () => {
     const result = await editCategory(
-      formData.categoryId,
-      formData.categoryName
+      formData.categoryId,{
+        name: formData.categoryName
+      }
     );
     if (result.success) {
       fetchData();
@@ -124,7 +125,7 @@ const AllCategoriesContainer = () => {
   };
 
   const handleDeleteSubcategory = async () => {
-    const result = await deleteSubCategory(dialog.data.id);
+    const result = await deleteSubCategory(dialog.data.subcategoryId);
     if (result.success) {
       fetchData();
     }
