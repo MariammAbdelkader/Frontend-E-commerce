@@ -3,28 +3,28 @@ const styles = {
     maxWidth: 1000,
     textAlign: "left",
     p: 3,
-    overflowY: "auto", // Enable vertical scrolling
-    maxHeight: "80vh", // Limit height to 80% of the viewport height
-    direction: "rtl", // Set direction to right-to-left to move scrollbar to the left
+    overflowY: "auto",
+    maxHeight: "80vh",
+    direction: "rtl",
     "&::-webkit-scrollbar": {
-      width: "8px", // Thicker scrollbar
+      width: "8px",
     },
     "&::-webkit-scrollbar-thumb": {
-      backgroundColor: "#1b0099", // Scrollbar thumb color
-      borderRadius: "4px", // Round the scrollbar thumb
+      backgroundColor: "#1b0099",
+      borderRadius: "4px",
     },
     "&::-webkit-scrollbar-track": {
-      background: "#f1f1f1", // Color of the scrollbar track
-      borderRadius: "4px", // Round the scrollbar track
+      background: "#f1f1f1",
+      borderRadius: "4px",
     },
   },
   title: {
     fontWeight: "bold",
     mb: 4,
-    color: "#1B0099", // Title color set to #1B0099
+    color: "#1B0099",
   },
   section: {
-    marginBottom: "3rem", // Increased margin for more space
+    marginBottom: "3rem",
   },
   sectionTitle: {
     fontWeight: "bold",
@@ -32,12 +32,12 @@ const styles = {
     marginBottom: "1rem",
   },
   description: {
-    color: "gray", // Set paragraph color to gray
+    color: "gray",
     marginBottom: "1rem",
     fontSize: "1rem",
   },
   infoText: {
-    color: "gray", // Set additional paragraph text color to gray
+    color: "gray",
     marginBottom: "1rem",
     fontSize: "0.875rem",
   },

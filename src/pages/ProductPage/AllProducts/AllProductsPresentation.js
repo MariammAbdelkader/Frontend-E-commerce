@@ -94,8 +94,8 @@ const ProductList = () => {
             style={styles.searchInput}
             size="small"
           />
-          <FormControl style={styles.formControl}  size="small">
-            <InputLabel id="category-label" >Category</InputLabel>
+          <FormControl style={styles.formControl} size="small">
+            <InputLabel id="category-label">Category</InputLabel>
             <Select
               labelId="category-label"
               name="category"
@@ -108,7 +108,6 @@ const ProductList = () => {
                   {cat.name}
                 </MenuItem>
               ))}
-            
             </Select>
           </FormControl>
           <FormControl style={styles.formControl} size="small">
@@ -183,12 +182,16 @@ const ProductList = () => {
                         <Typography variant="body1" fontWeight="bold">
                           {product.price} $
                         </Typography>
-                        <Rating
-                          value={product.rate}
-                          precision={0.5}
-                          readOnly
-                          size="small"
-                        />
+                        {product.rate > 0 ? (
+                          <Rating
+                            value={product.rate}
+                            precision={0.5}
+                            readOnly
+                            size="small"
+                          />
+                        ) : (
+                          ""
+                        )}
                       </Box>
                       {renderStatus(product.status)}
                     </CardContent>

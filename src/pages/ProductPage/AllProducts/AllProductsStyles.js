@@ -19,6 +19,9 @@ const styles = {
   formControl: {
     minWidth: 200,
   },
+  inputField: {
+    marginBottom: "10px",
+  },
   titleBox: {
     marginBottom: "20px",
     borderBottom: "2px solid #1b0099",
@@ -36,20 +39,24 @@ const styles = {
     maxHeight: "72vh",
     overflowY: "auto",
     scrollbarWidth: "thin",
-    mb:4,
+    mb: 4,
     "&::-webkit-scrollbar": {
-      width: "6px",
+      width: "8px",
     },
     "&::-webkit-scrollbar-thumb": {
-      backgroundColor: "#1600c9",
+      backgroundColor: "#1b0099",
+      borderRadius: "4px",
+    },
+    "&::-webkit-scrollbar-track": {
+      background: "#f1f1f1",
       borderRadius: "4px",
     },
   },
 
   card: {
     borderRadius: 4,
-    height:"450px",
-    mr:1,
+    height: "450px",
+    mr: 1,
     transition: "transform 0.3s, box-shadow 0.3s",
     "&:hover": {
       transform: "scale(1.03)",
