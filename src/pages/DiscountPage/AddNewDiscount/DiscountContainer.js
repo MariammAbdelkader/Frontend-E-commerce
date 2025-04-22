@@ -27,10 +27,8 @@ const useDiscount = () => {
 
       if (Array.isArray(fetchedCategories) && fetchedCategories.length > 0) {
         setCategories(fetchedCategories);
-<<<<<<< HEAD
-=======
+
         console.log(categories);
->>>>>>> a288e0525485179ae2a3d327b665afdd15faba73
       } else {
         setErrorMessage("No categories available.");
       }
@@ -38,14 +36,7 @@ const useDiscount = () => {
 
     fetchData();
   }, []);
-<<<<<<< HEAD
-  
 
-  
-  
-=======
-
->>>>>>> a288e0525485179ae2a3d327b665afdd15faba73
   const handleOpenCategoryDialog = async () => {
     setOpenCategoryDialog(true);
   };
