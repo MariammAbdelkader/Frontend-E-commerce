@@ -296,6 +296,7 @@ const ProductList = () => {
               fullWidth
               margin="normal"
               name="name"
+              sx={styles.inputField}
               value={formData.name}
               onChange={handleFormChange}
             />

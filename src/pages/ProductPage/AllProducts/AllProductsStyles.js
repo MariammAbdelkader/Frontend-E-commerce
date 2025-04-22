@@ -20,7 +20,8 @@ const styles = {
     minWidth: 200,
   },
   inputField: {
-    marginBottom: "10px",
+    marginTop: "12px",
+    marginBottom: "12px",
   },
   titleBox: {
     marginBottom: "20px",
@@ -56,6 +57,7 @@ const styles = {
   card: {
     borderRadius: 4,
     height: "450px",
+    position: "relative",
     mr: 1,
     transition: "transform 0.3s, box-shadow 0.3s",
     "&:hover": {
