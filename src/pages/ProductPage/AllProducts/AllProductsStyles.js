@@ -32,12 +32,11 @@ const styles = {
     fontSize: "25px",
   },
   productContainer: {
-    width: "1090px",
-    p: 4,
-    margin: "0 auto",
+    width: "1130px",
     maxHeight: "72vh",
     overflowY: "auto",
     scrollbarWidth: "thin",
+    mb:4,
     "&::-webkit-scrollbar": {
       width: "6px",
     },
@@ -49,6 +48,8 @@ const styles = {
 
   card: {
     borderRadius: 4,
+    height:"450px",
+    mr:1,
     transition: "transform 0.3s, box-shadow 0.3s",
     "&:hover": {
       transform: "scale(1.03)",

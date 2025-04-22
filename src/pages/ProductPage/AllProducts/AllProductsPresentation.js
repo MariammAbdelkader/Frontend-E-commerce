@@ -60,7 +60,7 @@ const ProductList = () => {
 
   const renderStatus = (status) => {
     let statusColor = "#43a047";
-    if (status === "Out of Stock") {
+    if (status === "out_of_stock") {
       statusColor = "#e53935";
     } else if (status === "Coming Soon") {
       statusColor = "#fbc02d";
@@ -92,9 +92,10 @@ const ProductList = () => {
             value={filters.searchTerm}
             onChange={handleSearch}
             style={styles.searchInput}
+            size="small"
           />
-          <FormControl style={styles.formControl}>
-            <InputLabel id="category-label">Category</InputLabel>
+          <FormControl style={styles.formControl}  size="small">
+            <InputLabel id="category-label" >Category</InputLabel>
             <Select
               labelId="category-label"
               name="category"
@@ -107,9 +108,10 @@ const ProductList = () => {
                   {cat.name}
                 </MenuItem>
               ))}
+            
             </Select>
           </FormControl>
-          <FormControl style={styles.formControl}>
+          <FormControl style={styles.formControl} size="small">
             <InputLabel id="subcategory-label">Subcategory</InputLabel>
             <Select
               labelId="subcategory-label"
@@ -129,6 +131,7 @@ const ProductList = () => {
           <TextField
             label="Price less than"
             variant="outlined"
+            size="small"
             value={price}
             onChange={handlePriceFilter}
             style={styles.searchInput}
@@ -137,13 +140,13 @@ const ProductList = () => {
           />
         </div>
 
-        <Box style={styles.titleBox}>
+        {/* <Box style={styles.titleBox}>
           <Typography variant="h6" style={styles.titleText}>
             Our products
           </Typography>
-        </Box>
+        </Box> */}
 
-        <Box p={4} sx={styles.productContainer}>
+        <Box sx={styles.productContainer}>
           <Grid container spacing={3}>
             {products.length > 0 ? (
               products.map((product, index) => (

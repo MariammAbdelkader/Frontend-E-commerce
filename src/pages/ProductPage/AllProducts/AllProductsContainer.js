@@ -231,7 +231,7 @@ const useProductContainer = () => {
   const handleDeleteConfirm = async () => {
     if (productToDelete) {
       try {
-        const result = await deleteProduct(productToDelete.id);
+        const result = await deleteProduct(productToDelete.productId);
         if (result) {
           setOpenDeleteDialog(false);
           setProductToDelete(null);

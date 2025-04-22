@@ -65,7 +65,6 @@ export const getProductById = async (productId) => {
 
 export const getAllProducts = async (filters) => {
   try {
-    console.log(filters)
     const response = await axios.post(`${API_BASE_URL}`, filters,{
       withCredentials: true,
       headers: {
@@ -73,6 +72,7 @@ export const getAllProducts = async (filters) => {
       },
     });
     const products = response.data.data;
+ 
 
     return products;
   } catch (error) {
