@@ -16,7 +16,10 @@ import {
   DialogContent,
   DialogTitle,
   Box,
+  IconButton,
 } from "@mui/material";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import useProductContainer from "./AllProductsContainer";
 import styles from "./AllProductsStyles";
 
@@ -43,12 +46,11 @@ const ProductList = () => {
     handleDeleteCancel,
     handleDeleteConfirm,
     reviewDialogOpen,
-    reviews,
-    currentReviewIndex,
     handleOpenReviewDialog,
     handleCloseReviewDialog,
     handleNextReview,
     handlePreviousReview,
+    currentReview,
   } = useProductContainer();
 
   return (
@@ -294,34 +296,51 @@ const ProductList = () => {
             </Button>
           </DialogActions>
         </Dialog>
-        <Dialog open={reviewDialogOpen} onClose={handleCloseReviewDialog}>
+        <Dialog
+          open={reviewDialogOpen}
+          onClose={handleCloseReviewDialog}
+          maxWidth="xs"
+          fullWidth>
           <DialogTitle>Product Reviews</DialogTitle>
           <DialogContent>
-            {reviews.length > 0 ? (
-              <>
-                <Typography variant="body1" gutterBottom>
-                  {reviews[currentReviewIndex]?.content}
+            <div style={styles.reviewWindow}>
+              {/* Left Arrow */}
+              <IconButton
+                style={styles.arrowButton}
+                onClick={handlePreviousReview}>
+                <ArrowBackIcon />
+              </IconButton>
+
+              <div style={styles.reviewContent}>
+                <div style={styles.reviewTop}>
+                  <Typography variant="body2" style={styles.rating}>
+                    {`Rating: ${currentReview.rating}`}
+                  </Typography>
+                  <Typography variant="body2" style={styles.createdAt}>
+                    {`Created At: ${new Date(
+                      currentReview.createdAt
+                    ).toLocaleDateString()}`}
+                  </Typography>
+                  <Typography variant="body2" style={styles.userId}>
+                    {`User: ${currentReview.userId}`}
+                  </Typography>
+                </div>
+
+                <Typography variant="body2" style={styles.comment}>
+                  {currentReview.comment}
                 </Typography>
-                <Typography variant="caption" color="textSecondary">
-                  — {reviews[currentReviewIndex]?.author || "Anonymous"}
-                </Typography>
-              </>
-            ) : (
-              <Typography>No reviews available for this product.</Typography>
-            )}
+              </div>
+
+              {/* Right Arrow */}
+              <IconButton style={styles.arrowButton} onClick={handleNextReview}>
+                <ArrowForwardIcon />
+              </IconButton>
+            </div>
           </DialogContent>
           <DialogActions>
-            <Button
-              onClick={handlePreviousReview}
-              disabled={currentReviewIndex === 0}>
-              Previous
+            <Button onClick={handleCloseReviewDialog} color="primary">
+              Close
             </Button>
-            <Button
-              onClick={handleNextReview}
-              disabled={currentReviewIndex >= reviews.length - 1}>
-              Next
-            </Button>
-            <Button onClick={handleCloseReviewDialog}>Close</Button>
           </DialogActions>
         </Dialog>
       </div>

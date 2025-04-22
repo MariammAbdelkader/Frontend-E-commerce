@@ -73,6 +73,60 @@ const styles = {
     backgroundColor: "#1b0099",
     color: "#fff",
   },
+  reviewWindow: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+    height: "400px",
+  },
+  arrowButton: {
+    fontSize: "2rem",
+    padding: 0,
+  },
+  reviewContent: {
+    width: "100%",
+    height: "100%",
+    padding: "20px",
+    overflowY: "auto",
+  },
+  reviewTop: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginBottom: "10px",
+  },
+  rating: {
+    fontWeight: "bold",
+  },
+  createdAt: {
+    textAlign: "right",
+    fontSize: "0.8rem",
+    color: "#888",
+  },
+  userId: {
+    textAlign: "left",
+    fontSize: "0.8rem",
+    color: "#888",
+  },
+  comment: {
+    marginTop: "10px",
+    fontStyle: "italic",
+    wordWrap: "break-word",
+  },
+  cardButtonReview: {
+    marginTop: "10px",
+    marginLeft: "8px",
+    color: "#1976d2",
+    borderColor: "#1976d2",
+    textTransform: "none",
+    fontWeight: "bold",
+    padding: "6px 12px",
+    transition: "all 0.3s ease",
+    "&:hover": {
+      backgroundColor: "#e3f2fd",
+      borderColor: "#1565c0",
+    },
+  },
 };
 
 export default styles;
