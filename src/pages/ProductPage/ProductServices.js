@@ -1,5 +1,6 @@
 import axios from "axios";
 import { uploadProductImage } from "./ImageServices"; // adjust path
+import {handleError} from "../../utilities/Errorhandling"
 const API_BASE_URL = `${process.env.REACT_APP_API_BASE_URL}/product`;
 
 
@@ -34,13 +35,7 @@ export const getProductById = async (productId) => {
 
     return response.data.data;
   } catch (error) {
-    return {
-      success: false,
-      error:
-        error.response?.data?.message || // Backend error message
-        error.message || // Axios error message
-        "Server error. Please try again.", // Fallback message
-    };
+    return handleError(error)
   }
 };
 
@@ -70,6 +65,7 @@ export const getProductById = async (productId) => {
 
 export const getAllProducts = async (filters) => {
   try {
+    console.log(API_BASE_URL)
     const response = await axios.get(`${API_BASE_URL}`, filters,{
       withCredentials: true,
       headers: {
@@ -80,13 +76,7 @@ export const getAllProducts = async (filters) => {
 
     return products;
   } catch (error) {
-    return {
-      success: false,
-      error:
-        error.response?.data?.message || // Backend error message
-        error.message || // Axios error message
-        "Server error. Please try again.", // Fallback message
-    };
+    return handleError(error)
   }
 };
 
@@ -107,13 +97,7 @@ export const deleteProduct = async (productId) => {
       withCredentials: true, // Ensures cookies are sent with the request
     });
   } catch (error) {
-    return {
-      success: false,
-      error:
-        error.response?.data?.message || // Backend error message
-        error.message || // Axios error message
-        "Server error. Please try again.", // Fallback message
-    };
+    return handleError(error)
   }
 };
 
@@ -144,13 +128,7 @@ export const addProduct = async (productData) => {
           }
     return response.data.success;
   } catch (error) {
-    return {
-      success: false,
-      error:
-        error.response?.data?.message || // Backend error message
-        error.message || // Axios error message
-        "Server error. Please try again.", // Fallback message
-    };
+    return handleError(error)
   }
 };
 
@@ -166,13 +144,7 @@ export const uploadCSV = async (file) => {
 
     return response.data.message;
   } catch (error) {
-    return {
-      success: false,
-      error:
-        error.response?.data?.message || // Backend error message
-        error.message || // Axios error message
-        "Server error. Please try again.", // Fallback message
-    };
+    return handleError(error)
   }
 };
 
@@ -187,13 +159,7 @@ export const editProduct = async (productId, productData) => {
 
     return { success: true, message: "Product updated successfully." };
   } catch (error) {
-    return {
-      success: false,
-      error:
-        error.response?.data?.message ||
-        error.message ||
-        "Server error. Please try again.",
-    };
+    return handleError(error)
   }
 };
 ///////////////////////////////Reviews////////////////////////////////////////////////////
@@ -210,13 +176,7 @@ export const getProductReviews = async (productId) => {
 
     return response.data;
   } catch (error) {
-    return {
-      success: false,
-      error:
-        error.response?.data?.message || // Backend error message
-        error.message || // Axios error message
-        "Server error. Please try again.", // Fallback message
-    };
+    return handleError(error)
   }
 };
 export const getProductRating = async (productId) => {
@@ -232,13 +192,7 @@ export const getProductRating = async (productId) => {
 
     return response.data;
   } catch (error) {
-    return {
-      success: false,
-      error:
-        error.response?.data?.message || // Backend error message
-        error.message || // Axios error message
-        "Server error. Please try again.", // Fallback message
-    };
+    return handleError(error)
   }
 };
 export const addProductReview = async (productId,review) => {
@@ -254,13 +208,7 @@ export const addProductReview = async (productId,review) => {
 
     return response.data.message;
   } catch (error) {
-    return {
-      success: false,
-      error:
-        error.response?.data?.message || // Backend error message
-        error.message || // Axios error message
-        "Server error. Please try again.", // Fallback message
-    };
+    return handleError(error)
   }
 };
 export const editProductReview = async (reviewId,review) => {
@@ -276,13 +224,7 @@ export const editProductReview = async (reviewId,review) => {
 
     return response.data.message;
   } catch (error) {
-    return {
-      success: false,
-      error:
-        error.response?.data?.message || // Backend error message
-        error.message || // Axios error message
-        "Server error. Please try again.", // Fallback message
-    };
+    return handleError(error)
   }
 };
 export const deleteProductReview = async (reviewId) => {
@@ -298,13 +240,7 @@ export const deleteProductReview = async (reviewId) => {
 
     return response.data.message;
   } catch (error) {
-    return {
-      success: false,
-      error:
-        error.response?.data?.message || // Backend error message
-        error.message || // Axios error message
-        "Server error. Please try again.", // Fallback message
-    };
+    return handleError(error)
   }
 };
 
@@ -320,13 +256,7 @@ export const getCategories = async () => {
 
     return response.data.categories;
   } catch (error) {
-    return {
-      success: false,
-      error:
-        error.response?.data?.message ||
-        error.message ||
-        "Server error. Please try again.",
-    };
+    return handleError(error)
   }
 };
 
@@ -338,123 +268,93 @@ export const getSubcategories = async () => {
 
     return response.data.subcategories;
   } catch (error) {
-    return {
-      success: false,
-      error:
-        error.response?.data?.message ||
-        error.message ||
-        "Server error. Please try again.",
-    };
+    return handleError(error)
   }
 };
 
 
+const API_BASE_URL_cat = `${process.env.REACT_APP_API_BASE_URL}/category`;
+
+
 export const addCategory = async (name) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/add`,name, {
+  
+    const response = await axios.post(`${API_BASE_URL_cat}/add`,{name}, {
       withCredentials: true,
     });
 
     return response.data.message;
   } catch (error) {
-    return {
-      success: false,
-      error:
-        error.response?.data?.message ||
-        error.message ||
-        "Server error. Please try again.",
-    };
+    return handleError(error)
   }
 };
 
 export const editCategory = async (categoryId,name) => {
   try {
-    const response = await axios.patch(`${API_BASE_URL}/${categoryId}`,name, {
+
+
+    const response = await axios.patch(`${API_BASE_URL_cat}/${categoryId}`,name, {
       withCredentials: true,
-    });
+    }); 
+
 
     return response.data.message;
   } catch (error) {
-    return {
-      success: false,
-      error:
-        error.response?.data?.message ||
-        error.message ||
-        "Server error. Please try again.",
-    };
+    return handleError(error)
   }
 };
 export const deleteCategory = async (categoryId) => {
   try {
-    const response = await axios.delete(`${API_BASE_URL}/${categoryId}`, {
+    const response = await axios.delete(`${API_BASE_URL_cat}/${categoryId}`, {
       withCredentials: true,
     });
 
-    return response.data.message;
+    
+    console.log(response.data.message)
+    return response.data;
   } catch (error) {
-    return {
-      success: false,
-      error:
-        error.response?.data?.message ||
-        error.message ||
-        "Server error. Please try again.",
-    };
+    return handleError(error)
   }
 };
 
+const API_BASE_URL_subcat = `${process.env.REACT_APP_API_BASE_URL}/subcategory`;
 
 
 export const addSubCategory = async (data) => {
   try {
+    console.log(data)
 
-    const response = await axios.post(`${API_BASE_URL}/add`,data, {
+    const response = await axios.post(`${API_BASE_URL_subcat}/add`,data, {
       withCredentials: true,
     });
 
     return response.data.message;
   } catch (error) {
-    return {
-      success: false,
-      error:
-        error.response?.data?.message ||
-        error.message ||
-        "Server error. Please try again.",
-    };
+    return handleError(error)
   }
 };
 
 export const editSubCategory = async (subcategoryId,data) => {
   try {
-    const response = await axios.patch(`${API_BASE_URL}/${subcategoryId}`,data, {
+   
+    const response = await axios.patch(`${API_BASE_URL_subcat}/${subcategoryId}`,data, {
       withCredentials: true,
     });
 
     return response.data.message;
   } catch (error) {
-    return {
-      success: false,
-      error:
-        error.response?.data?.message ||
-        error.message ||
-        "Server error. Please try again.",
-    };
+    return handleError(error)
   }
 };
 export const deleteSubCategory = async (subcategoryId) => {
   try {
-    const response = await axios.delete(`${API_BASE_URL}/${subcategoryId}`, {
+    const response = await axios.delete(`${API_BASE_URL_subcat}/${subcategoryId}`, {
       withCredentials: true,
     });
 
     return response.data.message;
   } catch (error) {
-    return {
-      success: false,
-      error:
-        error.response?.data?.message ||
-        error.message ||
-        "Server error. Please try again.",
-    };
+    return handleError(error)
   }
 };
 
