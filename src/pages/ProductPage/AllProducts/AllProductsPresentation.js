@@ -152,6 +152,17 @@ const ProductList = () => {
               products.map((product, index) => (
                 <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
                   <Card sx={styles.card}>
+                    {/* Conditional discount badges */}
+                    {product.productDiscountPercentage && (
+                      <Box sx={styles.discountBadgeProduct}>
+                        {product.productDiscountPercentage}% OFF
+                      </Box>
+                    )}
+                    {product.categoryDiscountPercentage && (
+                      <Box sx={styles.discountBadgeCategory}>
+                        {product.categoryDiscountPercentage}% Category
+                      </Box>
+                    )}
                     <CardMedia
                       component="img"
                       height="180"
