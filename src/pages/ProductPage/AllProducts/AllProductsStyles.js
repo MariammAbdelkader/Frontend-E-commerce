@@ -31,30 +31,59 @@ const styles = {
     fontWeight: "bold",
     fontSize: "25px",
   },
-  gridWrapper: {
-    maxHeight: "400px",
+  productContainer: {
+    width: "1090px",
+    p: 4,
+    margin: "0 auto",
+    maxHeight: "72vh",
     overflowY: "auto",
-    overflowX: "hidden",
-    paddingBottom: "20px",
-    height: "auto",
+    scrollbarWidth: "thin",
+    "&::-webkit-scrollbar": {
+      width: "6px",
+    },
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: "#1600c9",
+      borderRadius: "4px",
+    },
   },
+
   card: {
-    width: "300px",
-    background: "#fff",
-    color: "#1b0099",
-    borderRadius: "16px",
-    border: "1px solid #1b0099",
-    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-    overflow: "hidden",
-    transition: "transform 0.3s ease-in-out",
-    height: "100%",
+    borderRadius: 4,
+    transition: "transform 0.3s, box-shadow 0.3s",
+    "&:hover": {
+      transform: "scale(1.03)",
+      boxShadow: 6,
+    },
   },
-  cardButtonEdit: {
-    marginRight: "10px",
-    backgroundColor: "#6200ea",
+  cardMedia: {
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
   },
-  cardButtonRemove: {
-    backgroundColor: "#d32f2f",
+  buttonEdit: {
+    backgroundColor: "#43a047",
+    color: "#fff",
+    fontWeight: "bold",
+    "&:hover": {
+      backgroundColor: "#388e3c",
+    },
+  },
+  buttonRemove: {
+    color: "#fff",
+    backgroundColor: "#e53935",
+    fontWeight: "bold",
+    padding: "0px 20px",
+    "&:hover": {
+      backgroundColor: "#ffebee",
+      color: "#c62828",
+    },
+  },
+  buttonReview: {
+    backgroundColor: "#1600c9",
+    color: "#fff",
+    fontWeight: "bold",
+    "&:hover": {
+      backgroundColor: "#0f009c",
+    },
   },
   dialogFileInput: {
     width: "100%",
@@ -151,16 +180,6 @@ const styles = {
   noReviewText: {
     color: "#fff",
     textAlign: "center",
-  },
-  cardButtonReview: {
-    marginTop: "10px",
-    marginLeft: "8px",
-    backgroundColor: "#1b0099",
-    color: "#fff",
-    textTransform: "none",
-    fontWeight: "bold",
-    padding: "6px 12px",
-    transition: "all 0.3s ease",
   },
 };
 

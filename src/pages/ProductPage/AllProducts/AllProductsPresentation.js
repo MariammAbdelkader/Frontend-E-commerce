@@ -6,6 +6,8 @@ import {
   CardMedia,
   Typography,
   Button,
+  Stack,
+  Rating,
   TextField,
   Select,
   MenuItem,
@@ -56,6 +58,30 @@ const ProductList = () => {
     direction,
   } = useProductContainer();
 
+  const renderStatus = (status) => {
+    let statusColor = "#43a047";
+    if (status === "Out of Stock") {
+      statusColor = "#e53935";
+    } else if (status === "Coming Soon") {
+      statusColor = "#fbc02d";
+    }
+
+    return (
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        sx={{
+          backgroundColor: statusColor,
+          color: "#fff",
+          padding: "2px 8px",
+          borderRadius: "12px",
+          fontWeight: "bold",
+        }}>
+        {status}
+      </Typography>
+    );
+  };
+
   return (
     <div style={styles.container}>
       <div style={styles.contentWrapper}>
@@ -88,14 +114,12 @@ const ProductList = () => {
             <Select
               labelId="subcategory-label"
               name="subCategory"
-              value={filters.subcategory}
+              value={filters.subcategoryId}
               onChange={handleSubcategoryFilter}
               label="Subcategory"
               required>
               {subcategories.map((scat) => (
-                <MenuItem
-                  key={scat.subcategoryId}
-                  value={scat.subcategoryId}>
+                <MenuItem key={scat.subcategoryId} value={scat.subcategoryId}>
                   {scat.name}
                 </MenuItem>
               ))}
@@ -119,62 +143,82 @@ const ProductList = () => {
           </Typography>
         </Box>
 
-        <div style={styles.gridWrapper}>
-          <Grid container spacing={4}>
+        <Box p={4} sx={styles.productContainer}>
+          <Grid container spacing={3}>
             {products.length > 0 ? (
-              products.map((product) => (
-                <Grid item xs={12} sm={6} md={4} key={product.productId}>
+              products.map((product, index) => (
+                <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
                   <Card sx={styles.card}>
                     <CardMedia
                       component="img"
-                      height="150"
+                      height="180"
                       image={product.images?.[0]?.url}
                       alt={product.name}
+                      sx={styles.cardMedia}
                     />
                     <CardContent>
-                      <Typography
-                        variant="h6"
-                        color="inherit"
-                        fontWeight="bold">
+                      <Typography variant="h6" fontWeight="bold">
                         {product.name}
                       </Typography>
-                      <Typography variant="body2" color="inherit">
-                        <strong>Category:</strong> {product.category}
+                      <Typography variant="body2" color="text.secondary">
+                        {product.category} → {product.subcategory}
                       </Typography>
-                      <Typography variant="body2" color="inherit">
-                        <strong>Subcategory:</strong> {product.subcategory}
+                      <Typography
+                        variant="body2"
+                        color="text.secondary"
+                        mt={1}
+                        gutterBottom>
+                        {product.description}
                       </Typography>
-                      <Typography variant="body2" color="inherit">
-                        <strong>Price:</strong> {product.price}
+                      <Typography variant="body2" mb={1}>
+                        Quantity: {product.quantity}
                       </Typography>
-                      <Typography variant="body2" color="inherit">
-                        <strong>Status:</strong> {product.status}
-                      </Typography>
-                      <Typography variant="body2" color="inherit" paragraph>
-                        <strong>Description:</strong> {product.description}
-                      </Typography>
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => handleEdit(product)}
-                        style={styles.cardButtonEdit}>
-                        Edit
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="error"
-                        onClick={() => handleDeleteConfirmation(product)}
-                        style={styles.cardButtonRemove}>
-                        Remove
-                      </Button>
-                      <Button
-                        variant="outlined"
-                        color="primary"
-                        onClick={() => handleOpenReviewDialog(product)}
-                        style={styles.cardButtonReview}>
-                        Review
-                      </Button>
+                      <Box
+                        display="flex"
+                        justifyContent="space-between"
+                        alignItems="center">
+                        <Typography variant="body1" fontWeight="bold">
+                          {product.price} $
+                        </Typography>
+                        <Rating
+                          value={product.rate}
+                          precision={0.5}
+                          readOnly
+                          size="small"
+                        />
+                      </Box>
+                      {renderStatus(product.status)}
                     </CardContent>
+                    <Box px={2} pb={2}>
+                      <Stack
+                        direction="row"
+                        spacing={1}
+                        justifyContent="space-between">
+                        <Button
+                          variant="contained"
+                          size="small"
+                          fullWidth
+                          onClick={() => handleEdit(product)}
+                          sx={styles.buttonEdit}>
+                          Edit
+                        </Button>
+                        <Button
+                          size="small"
+                          fullWidth
+                          onClick={() => handleDeleteConfirmation(product)}
+                          sx={styles.buttonRemove}>
+                          Remove
+                        </Button>
+                        <Button
+                          variant="contained"
+                          size="small"
+                          fullWidth
+                          onClick={() => handleOpenReviewDialog(product)}
+                          sx={styles.buttonReview}>
+                          Review
+                        </Button>
+                      </Stack>
+                    </Box>
                   </Card>
                 </Grid>
               ))
@@ -182,7 +226,7 @@ const ProductList = () => {
               <Typography>No products found.</Typography>
             )}
           </Grid>
-        </div>
+        </Box>
 
         {/* Delete Confirmation Dialog */}
         <Dialog open={openDeleteDialog} onClose={handleDeleteCancel}>
