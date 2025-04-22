@@ -284,9 +284,9 @@ const useProductContainer = () => {
     );
   };
 
-  if (!currentReview) {
-    return null;
-  }
+  // if (!currentReview) {
+  //   return null;
+  // }
 
   return {
     openDialog,

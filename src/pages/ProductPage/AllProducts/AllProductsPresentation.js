@@ -312,23 +312,28 @@ const ProductList = () => {
               </IconButton>
 
               <div style={styles.reviewContent}>
-                <div style={styles.reviewTop}>
-                  <Typography variant="body2" style={styles.rating}>
-                    {`Rating: ${currentReview.rating}`}
-                  </Typography>
-                  <Typography variant="body2" style={styles.createdAt}>
-                    {`Created At: ${new Date(
-                      currentReview.createdAt
-                    ).toLocaleDateString()}`}
-                  </Typography>
-                  <Typography variant="body2" style={styles.userId}>
-                    {`User: ${currentReview.userId}`}
-                  </Typography>
-                </div>
-
-                <Typography variant="body2" style={styles.comment}>
-                  {currentReview.comment}
-                </Typography>
+                {currentReview ? (
+                  <>
+                    <div style={styles.reviewTop}>
+                      <Typography variant="body2" style={styles.rating}>
+                        {`Rating: ${currentReview.rating}`}
+                      </Typography>
+                      <Typography variant="body2" style={styles.createdAt}>
+                        {`Created At: ${new Date(
+                          currentReview.createdAt
+                        ).toLocaleDateString()}`}
+                      </Typography>
+                      <Typography variant="body2" style={styles.userId}>
+                        {`User: ${currentReview.userId}`}
+                      </Typography>
+                    </div>
+                    <Typography variant="body2" style={styles.comment}>
+                      {currentReview.comment}
+                    </Typography>
+                  </>
+                ) : (
+                  <Typography variant="body2">No review available</Typography>
+                )}
               </div>
 
               {/* Right Arrow */}
