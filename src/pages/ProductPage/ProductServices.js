@@ -65,8 +65,8 @@ export const getProductById = async (productId) => {
 
 export const getAllProducts = async (filters) => {
   try {
-    console.log(API_BASE_URL)
-    const response = await axios.get(`${API_BASE_URL}`, filters,{
+    console.log(filters)
+    const response = await axios.post(`${API_BASE_URL}`, filters,{
       withCredentials: true,
       headers: {
         "Content-Type": "application/json",
@@ -150,7 +150,10 @@ export const uploadCSV = async (file) => {
 
 export const editProduct = async (productId, productData) => {
   try {
-    await axios.put(`${API_BASE_URL}/${productId}`, productData, {
+    console.log("productId: ",productId)
+    console.log("productData: ",productData)
+
+    await axios.patch(`${API_BASE_URL}/${productId}`, productData, {
       withCredentials: true,
       headers: {
         "Content-Type": "application/json",

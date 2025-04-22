@@ -77,7 +77,7 @@ const ProductList = () => {
               label="Category"
               required>
               {categories.map((cat) => (
-                <MenuItem key={cat.categoryId} value={String(cat.categoryId)}>
+                <MenuItem key={cat.categoryId} value={cat.categoryId}>
                   {cat.name}
                 </MenuItem>
               ))}
@@ -95,7 +95,7 @@ const ProductList = () => {
               {subcategories.map((scat) => (
                 <MenuItem
                   key={scat.subcategoryId}
-                  value={String(scat.subcategoryId)}>
+                  value={scat.subcategoryId}>
                   {scat.name}
                 </MenuItem>
               ))}

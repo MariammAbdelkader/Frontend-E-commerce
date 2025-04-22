@@ -14,9 +14,9 @@ const useProductContainer = () => {
   const [subcategories, setSubcategories] = useState([]);
   const [filters, setFilters] = useState({
     searchTerm: "",
-    category: "All",
-    subcategory: "All",
-    price: "",
+    categoryId:"",
+    subcategoryId:"",
+    price_lt: "",
   });
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
@@ -63,9 +63,9 @@ const useProductContainer = () => {
       try {
         const result = await getSubcategories();
         if (Array.isArray(result)) {
-          if (filters.category !== "All") {
+          if (filters.categoryId !== "") {
             const filtered = result.filter(
-              (sub) => String(sub.categoryId) === String(filters.category)
+              (sub) => String(sub.categoryId) === String(filters.categoryId)
             );
             setSubcategories(filtered);
           } else {
@@ -81,11 +81,12 @@ const useProductContainer = () => {
     };
 
     fetchSubcategories();
-  }, [filters.category]);
+  }, [filters.categoryId]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+      
         const result = await getAllProducts(filters);
         if (Array.isArray(result)) {
           setProducts(result);
@@ -106,11 +107,11 @@ const useProductContainer = () => {
   };
 
   const handleCategoryFilter = (event) => {
-    setFilters({ ...filters, category: String(event.target.value) });
+    setFilters({ ...filters, categoryId: Number(event.target.value),subcategoryId:"" });
   };
 
   const handleSubcategoryFilter = (event) => {
-    setFilters({ ...filters, subcategory: String(event.target.value) });
+    setFilters({ ...filters, subcategoryId:Number(event.target.value) });
   };
 
   const handlePriceFilter = (event) => {
@@ -118,7 +119,7 @@ const useProductContainer = () => {
     setPrice(value);
 
     if (value === "" || (!isNaN(value) && Number(value) > 0)) {
-      setFilters({ ...filters, pricelt: value });
+      setFilters({ ...filters, price_lt: Number(value) });
     }
   };
 
@@ -201,7 +202,7 @@ const useProductContainer = () => {
         subcategory: subcategoryObj?.name || formData.subcategory,
       };
 
-      const response = await editProduct(productDataToSend);
+      const response = await editProduct(selectedProduct.productId,productDataToSend);
 
       if (response) {
         alert("Product edited successfully!");
