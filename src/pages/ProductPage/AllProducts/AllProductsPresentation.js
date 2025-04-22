@@ -42,6 +42,13 @@ const ProductList = () => {
     handleDeleteConfirmation,
     handleDeleteCancel,
     handleDeleteConfirm,
+    reviewDialogOpen,
+    reviews,
+    currentReviewIndex,
+    handleOpenReviewDialog,
+    handleCloseReviewDialog,
+    handleNextReview,
+    handlePreviousReview,
   } = useProductContainer();
 
   return (
@@ -55,42 +62,40 @@ const ProductList = () => {
             onChange={handleSearch}
             style={styles.searchInput}
           />
-           <FormControl  style={styles.formControl}>
-                <InputLabel id="category-label">Category</InputLabel>
-                <Select
-                  labelId="category-label"
-                  name="category"
-                  value={filters.category}
-                  onChange={handleCategoryFilter}
-                  label="Category"
-                  required>
-                  {categories.map((cat) => (
-                    <MenuItem
-                      key={cat.categoryId}
-                      value={String(cat.categoryId)}>
-                      {cat.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <FormControl  style={styles.formControl}>
-                <InputLabel id="subcategory-label">Subcategory</InputLabel>
-                <Select
-                  labelId="subcategory-label"
-                  name="subCategory"
-                  value={filters.subcategory}
-                  onChange={handleSubcategoryFilter}
-                  label="Subcategory"
-                  required>
-                  {subcategories.map((scat) => (
-                    <MenuItem
-                      key={scat.subcategoryId}
-                      value={String(scat.subcategoryId)}>
-                      {scat.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+          <FormControl style={styles.formControl}>
+            <InputLabel id="category-label">Category</InputLabel>
+            <Select
+              labelId="category-label"
+              name="category"
+              value={filters.category}
+              onChange={handleCategoryFilter}
+              label="Category"
+              required>
+              {categories.map((cat) => (
+                <MenuItem key={cat.categoryId} value={String(cat.categoryId)}>
+                  {cat.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl style={styles.formControl}>
+            <InputLabel id="subcategory-label">Subcategory</InputLabel>
+            <Select
+              labelId="subcategory-label"
+              name="subCategory"
+              value={filters.subcategory}
+              onChange={handleSubcategoryFilter}
+              label="Subcategory"
+              required>
+              {subcategories.map((scat) => (
+                <MenuItem
+                  key={scat.subcategoryId}
+                  value={String(scat.subcategoryId)}>
+                  {scat.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
 
           <TextField
             label="Price less than"
@@ -156,6 +161,13 @@ const ProductList = () => {
                         onClick={() => handleDeleteConfirmation(product)}
                         style={styles.cardButtonRemove}>
                         Remove
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => handleOpenReviewDialog(product)}
+                        style={styles.cardButtonReview}>
+                        Review
                       </Button>
                     </CardContent>
                   </Card>
@@ -280,6 +292,36 @@ const ProductList = () => {
               style={styles.dialogButtonSave}>
               Save
             </Button>
+          </DialogActions>
+        </Dialog>
+        <Dialog open={reviewDialogOpen} onClose={handleCloseReviewDialog}>
+          <DialogTitle>Product Reviews</DialogTitle>
+          <DialogContent>
+            {reviews.length > 0 ? (
+              <>
+                <Typography variant="body1" gutterBottom>
+                  {reviews[currentReviewIndex]?.content}
+                </Typography>
+                <Typography variant="caption" color="textSecondary">
+                  — {reviews[currentReviewIndex]?.author || "Anonymous"}
+                </Typography>
+              </>
+            ) : (
+              <Typography>No reviews available for this product.</Typography>
+            )}
+          </DialogContent>
+          <DialogActions>
+            <Button
+              onClick={handlePreviousReview}
+              disabled={currentReviewIndex === 0}>
+              Previous
+            </Button>
+            <Button
+              onClick={handleNextReview}
+              disabled={currentReviewIndex >= reviews.length - 1}>
+              Next
+            </Button>
+            <Button onClick={handleCloseReviewDialog}>Close</Button>
           </DialogActions>
         </Dialog>
       </div>

@@ -5,6 +5,7 @@ import {
   deleteProduct,
   getCategories,
   getSubcategories,
+  getProductReviews,
 } from "../ProductServices";
 
 const useProductContainer = () => {
@@ -32,6 +33,10 @@ const useProductContainer = () => {
     image: "",
   });
   const [error, setError] = useState(null);
+  const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
+  const [selectedReviewProduct, setSelectedReviewProduct] = useState(null);
+  const [reviews, setReviews] = useState([]);
+  const [currentReviewIndex, setCurrentReviewIndex] = useState(0);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -150,20 +155,6 @@ const useProductContainer = () => {
     }
   };
 
-  // const handleFormChange = (e) => {
-  //   const { name, value, files } = e.target;
-
-  //   if (name === "image") {
-  //     setFormData((prev) => ({ ...prev, image: files[0] }));
-  //   } else if (["price", "quantity"].includes(name)) {
-  //     setFormData((prev) => ({ ...prev, [name]: Number(value) }));
-  //   } else if (name === "category") {
-  //     setFormData((prev) => ({ ...prev, category: value, subcategory: "" }));
-  //   } else {
-  //     setFormData((prev) => ({ ...prev, [name]: value }));
-  //   }
-  // };
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -254,6 +245,42 @@ const useProductContainer = () => {
     }
   };
 
+  const handleOpenReviewDialog = async (product) => {
+    try {
+      const result = await getProductReviews(product.id);
+      if (Array.isArray(result)) {
+        setReviews(result);
+        setCurrentReviewIndex(0);
+        setSelectedReviewProduct(product);
+        setReviewDialogOpen(true);
+      } else {
+        setReviews([]);
+      }
+    } catch (err) {
+      setError("Failed to fetch reviews. Please try again.");
+      console.error(err);
+    }
+  };
+
+  const handleCloseReviewDialog = () => {
+    setReviewDialogOpen(false);
+    setSelectedReviewProduct(null);
+    setReviews([]);
+    setCurrentReviewIndex(0);
+  };
+
+  const handleNextReview = () => {
+    if (currentReviewIndex < reviews.length - 1) {
+      setCurrentReviewIndex((prev) => prev + 1);
+    }
+  };
+
+  const handlePreviousReview = () => {
+    if (currentReviewIndex > 0) {
+      setCurrentReviewIndex((prev) => prev - 1);
+    }
+  };
+
   return {
     openDialog,
     products,
@@ -264,7 +291,7 @@ const useProductContainer = () => {
     selectedProduct,
     openDeleteDialog,
     productToDelete,
-    error, // Expose error state for UI feedback
+    error,
     handleSearch,
     handleCategoryFilter,
     handleSubcategoryFilter,
@@ -278,76 +305,15 @@ const useProductContainer = () => {
     handleDeleteConfirmation,
     handleDeleteCancel,
     handleDeleteConfirm,
+    reviewDialogOpen,
+    reviews,
+    currentReviewIndex,
+    selectedReviewProduct,
+    handleOpenReviewDialog,
+    handleCloseReviewDialog,
+    handleNextReview,
+    handlePreviousReview,
   };
 };
 
 export default useProductContainer;
-
-// const handleChange = (e) => {
-//   const { name, value, files } = e.target;
-
-//   if (name === "category") {
-//     setProductData((prev) => ({
-//       ...prev,
-//       category: String(value),
-//       subCategory: "",
-//     }));
-//     setFilters((prevFilters) => ({
-//       ...prevFilters,
-//       category: value,
-//       subcategory: "",
-//     }));
-//   } else if (name === "subCategory") {
-//     setProductData((prev) => ({
-//       ...prev,
-//       subCategory: String(value),
-//     }));
-//     setFilters((prevFilters) => ({
-//       ...prevFilters,
-//       subcategory: value,
-//     }));
-//   } else if (name === "image") {
-//     setProductData((prev) => ({ ...prev, image: files[0] }));
-//   } else if (["price", "quantity"].includes(name)) {
-//     setProductData((prev) => ({
-//       ...prev,
-//       [name]: Number(value),
-//     }));
-//   } else {
-//     setProductData((prev) => ({
-//       ...prev,
-//       [name]: value,
-//     }));
-//   }
-// };
-
-// useEffect(() => {
-//   const fetchProducts = async () => {
-//     const result = await getAllProducts(filters);
-//     if (Array.isArray(result)) {
-//       setProducts(result);
-//     } else {
-//       setProducts([]);
-//     }
-//   };
-
-//   fetchProducts();
-// }, [filters]);
-
-// <select name="category" value={productData.category} onChange={handleChange}>
-//   <option value="">Select Category</option>
-//   {categories.map((category) => (
-//     <option key={category.id} value={category.id}>
-//       {category.name}
-//     </option>
-//   ))}
-// </select>
-
-// <select name="subCategory" value={productData.subCategory} onChange={handleChange}>
-//   <option value="">Select Subcategory</option>
-//   {filteredSubCategories.map((subCategory) => (
-//     <option key={subCategory.id} value={subCategory.id}>
-//       {subCategory.name}
-//     </option>
-//   ))}
-// </select>
