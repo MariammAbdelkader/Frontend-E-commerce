@@ -147,75 +147,37 @@ const styles = {
     fontWeight: "bold",
     textAlign: "center",
   },
-  reviewWindow: {
+  loadingBox: {
+    display: "flex",
+    justifyContent: "center",
+    py: 4,
+  },
+  noReviewsText: {
+    textAlign: "center",
+  },
+  reviewContainer: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    width: "100%",
-    height: "400px",
   },
-  arrowButton: {
-    fontSize: "2rem",
-    padding: 0,
-    transition: "transform 0.3s ease, opacity 0.5s ease",
-    opacity: 1,
-    cursor: "pointer",
-    "&:hover": {
-      transform: "scale(1.2)",
-    },
-  },
-  arrowIcon: {
-    color: "#fff",
-  },
-  reviewCard: {
-    flex: 1,
-    height: "100%",
-    backgroundColor: "#fff",
-    borderRadius: "20px",
-    padding: "20px",
-    margin: "0 10px",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.3)",
-  },
-  avatar: {
-    width: "80px",
-    height: "80px",
-    borderRadius: "50%",
-    objectFit: "cover",
-    marginBottom: "10px",
-  },
-  userName: {
-    fontWeight: "bold",
-    fontSize: "1rem",
-    marginBottom: "5px",
-  },
-  stars: {
-    color: "#ffb400",
-    fontSize: "1.2rem",
-    marginBottom: "15px",
-  },
-  reviewText: {
+  commentText: {
     fontStyle: "italic",
-    textAlign: "center",
-    color: "#555",
-    marginBottom: "15px",
   },
-  closeButton: {
-    marginTop: "auto",
-    backgroundColor: "#ff4c61",
-    color: "#fff",
-    fontWeight: "bold",
-    borderRadius: "20px",
-    padding: "6px 20px",
-    textTransform: "none",
-    boxShadow: "0 2px 6px rgba(0,0,0,0.2)",
-    transition: "all 0.3s ease",
+  ratingBox: {
+    mt: 2,
   },
-  noReviewText: {
-    color: "#fff",
-    textAlign: "center",
+  dateText: {
+    mt: 1,
+  },
+  userStack: {
+    direction: "row",
+    spacing: 2,
+    alignItems: "center",
+    justifyContent: "center",
+    mt: 3,
+  },
+  userInfoText: {
+    textAlign: "left",
   },
 };
 

@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { React, useState, useEffect } from "react";
+import { Slide } from "@mui/material";
 import {
   getAllProducts,
   editProduct,
@@ -33,12 +34,17 @@ const useProductContainer = () => {
     image: "",
   });
   const [error, setError] = useState(null);
-  const [reviews, setReviews] = useState([]);
+  // const [reviews, setReviews] = useState([]);
   const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
   const [selectedReviewProduct, setSelectedReviewProduct] = useState(null);
+  // const [index, setIndex] = useState(0);
+  // const [direction, setDirection] = useState("right");
+  // const currentReview = reviews?.[index];
+
+  const [open, setOpen] = useState(false);
+  const [reviews, setReviews] = useState([]);
   const [index, setIndex] = useState(0);
-  const [direction, setDirection] = useState("right");
-  const currentReview = reviews?.[index];
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -256,6 +262,7 @@ const useProductContainer = () => {
 
   useEffect(() => {
     const fetchReviews = async (productId) => {
+      setLoading(true);
       try {
         const result = await getProductReviews(productId);
         if (result) {
@@ -265,11 +272,13 @@ const useProductContainer = () => {
         }
       } catch (err) {
         console.error("Failed to fetch reviews.", err);
+        setReviews([]);
       }
+      setLoading(false);
     };
 
     if (selectedReviewProduct) {
-      fetchReviews(selectedReviewProduct.productId); // Replace with actual product ID if available
+      fetchReviews(selectedReviewProduct.productId);
     }
   }, [selectedReviewProduct]);
 
@@ -281,20 +290,14 @@ const useProductContainer = () => {
   const handleCloseReviewDialog = () => {
     setReviewDialogOpen(false);
   };
+  const handleNext = () => setIndex((prev) => (prev + 1) % reviews.length);
+  const handlePrev = () =>
+    setIndex((prev) => (prev - 1 + reviews.length) % reviews.length);
+  const Transition = React.forwardRef((props, ref) => (
+    <Slide direction="up" ref={ref} {...props} />
+  ));
 
-  const handleNextReview = () => {
-    if (index < reviews.length - 1) {
-      setDirection("right");
-      setIndex((prev) => prev + 1);
-    }
-  };
-
-  const handlePreviousReview = () => {
-    if (index > 0) {
-      setDirection("left");
-      setIndex((prev) => prev - 1);
-    }
-  };
+  const current = reviews[index];
   function calculateDiscountedPrice(
     price,
     categoryDiscountPercentage,
@@ -337,14 +340,17 @@ const useProductContainer = () => {
     handleDeleteConfirmation,
     handleDeleteCancel,
     handleDeleteConfirm,
-    reviews,
+    setOpen,
+    current,
+    handlePrev,
+    handleNext,
     reviewDialogOpen,
+    open,
+    loading,
+    reviews,
+    Transition,
     handleOpenReviewDialog,
     handleCloseReviewDialog,
-    handleNextReview,
-    handlePreviousReview,
-    currentReview,
-    direction,
     calculateDiscountedPrice,
   };
 };

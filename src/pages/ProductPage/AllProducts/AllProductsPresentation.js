@@ -18,11 +18,12 @@ import {
   DialogContent,
   DialogTitle,
   Box,
+  Avatar,
   IconButton,
+  CircularProgress,
 } from "@mui/material";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { motion, AnimatePresence } from "framer-motion";
+import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
+import dayjs from "dayjs";
 
 import useProductContainer from "./AllProductsContainer";
 import styles from "./AllProductsStyles";
@@ -49,13 +50,15 @@ const ProductList = () => {
     handleDeleteConfirmation,
     handleDeleteCancel,
     handleDeleteConfirm,
-    reviewDialogOpen,
+    setOpen,
+    current,
+    open,
+    loading,
+    handlePrev,
+    handleNext,
+    reviews,
+    Transition,
     handleOpenReviewDialog,
-    handleCloseReviewDialog,
-    handleNextReview,
-    handlePreviousReview,
-    currentReview,
-    direction,
     calculateDiscountedPrice,
   } = useProductContainer();
 
@@ -386,70 +389,61 @@ const ProductList = () => {
         </Dialog>
 
         <Dialog
-          open={reviewDialogOpen}
-          onClose={handleCloseReviewDialog}
-          maxWidth="xs"
+          open={open}
+          TransitionComponent={Transition}
+          onClose={() => setOpen(false)}
+          maxWidth="sm"
           fullWidth
-          PaperProps={{ style: styles.dialogPaper }}>
-          <DialogTitle style={styles.dialogTitle}>Product Reviews</DialogTitle>
-
+          PaperProps={styles.dialogPaperProps}>
           <DialogContent>
-            <div style={styles.reviewWindow}>
-              {/* Left Arrow */}
-              <IconButton
-                style={styles.arrowButton}
-                onClick={handlePreviousReview}>
-                <ArrowBackIcon style={styles.arrowIcon} />
-              </IconButton>
+            {loading ? (
+              <Box sx={styles.loadingBox}>
+                <CircularProgress />
+              </Box>
+            ) : reviews.length === 0 ? (
+              <Typography sx={styles.noReviewsText}>
+                No reviews available.
+              </Typography>
+            ) : (
+              <Box sx={styles.reviewContainer}>
+                <IconButton onClick={handlePrev}>
+                  <ArrowBackIos />
+                </IconButton>
 
-              {/* Animated Review Card */}
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentReview?.id || "no-review"}
-                  style={styles.reviewCard}
-                  initial={{
-                    opacity: 0,
-                    x: direction === "right" ? 100 : -100,
-                  }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: direction === "right" ? -100 : 100 }}
-                  transition={{ duration: 0.4 }}>
-                  {currentReview ? (
-                    <>
-                      <img
-                        src="/path-to-default-avatar.png"
-                        alt="User"
-                        style={styles.avatar}
-                      />
-                      <Typography variant="subtitle1" style={styles.userName}>
-                        {currentReview.userId}
-                      </Typography>
-                      <div style={styles.stars}>
-                        {"★".repeat(currentReview.rating)}
-                        {"☆".repeat(5 - currentReview.rating)}
-                      </div>
-                      <Typography variant="body1" style={styles.reviewText}>
-                        {currentReview.comment}
-                      </Typography>
-                      <Button
-                        onClick={handleCloseReviewDialog}
-                        style={styles.closeButton}>
-                        Close
-                      </Button>
-                    </>
-                  ) : (
-                    <Typography variant="body2" style={styles.noReviewText}>
-                      No review available
-                    </Typography>
-                  )}
-                </motion.div>
-              </AnimatePresence>
+                <Box flex={1} px={2} textAlign="center">
+                  <Typography variant="h6" sx={styles.commentText}>
+                    "{current.comment}"
+                  </Typography>
 
-              {/* Right Arrow */}
-              <IconButton style={styles.arrowButton} onClick={handleNextReview}>
-                <ArrowForwardIcon style={styles.arrowIcon} />
-              </IconButton>
-            </div>
+                  <Box sx={styles.ratingBox}>
+                    <Rating value={current.rating} readOnly precision={0.5} />
+                  </Box>
+
+                  <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    sx={styles.dateText}>
+                    {dayjs(current.createdAt).format("MMM D, YYYY")}
+                  </Typography>
+
+                  <Stack sx={styles.userStack}>
+                    <Avatar src={current.avatar} />
+                    <Box sx={styles.userInfoText}>
+                      <Typography variant="subtitle1" fontWeight="bold">
+                        {current.name}
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        @{current.userId}
+                      </Typography>
+                    </Box>
+                  </Stack>
+                </Box>
+
+                <IconButton onClick={handleNext}>
+                  <ArrowForwardIos />
+                </IconButton>
+              </Box>
+            )}
           </DialogContent>
         </Dialog>
       </div>
