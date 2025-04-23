@@ -34,13 +34,8 @@ const useProductContainer = () => {
     image: "",
   });
   const [error, setError] = useState(null);
-  // const [reviews, setReviews] = useState([]);
   const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
   const [selectedReviewProduct, setSelectedReviewProduct] = useState(null);
-  // const [index, setIndex] = useState(0);
-  // const [direction, setDirection] = useState("right");
-  // const currentReview = reviews?.[index];
-
   const [open, setOpen] = useState(false);
   const [reviews, setReviews] = useState([]);
   const [index, setIndex] = useState(0);

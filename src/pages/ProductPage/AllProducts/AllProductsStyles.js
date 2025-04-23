@@ -147,6 +147,7 @@ const styles = {
     fontWeight: "bold",
     textAlign: "center",
   },
+  dialogPaperProps: { borderRadius: 4, p: 2 },
   loadingBox: {
     display: "flex",
     justifyContent: "center",
