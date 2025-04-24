@@ -11,6 +11,8 @@ const useViewDiscounts = () => {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [editingDiscount, setEditingDiscount] = useState(null);
   const [confirmDialogOpen, setConfirmDialogOpen] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
   const [selectedDiscountId, setSelectedDiscountId] = useState(null);
   const [selectedDiscountType, setSelectedDiscountType] = useState(null);
 
@@ -80,35 +82,60 @@ const useViewDiscounts = () => {
     }
   };
 
-  const confirmDelete = async (id, type) => {
-    if (!id || !type) {
-      console.error("No discount selected for deletion.");
+  const confirmDelete = async () => {
+    if (!selectedDiscountId || !selectedDiscountType) {
+      console.error("No discount selected for expiration.");
       return;
     }
-
+  
     let result;
-
-    if (type === "product") {
-      result = await removeDiscountOnProduct(id);
-    } else if (type === "category") {
-      result = await removeDiscountOnCategory(id);
-    }
-
-    if (result.success) {
-      setDiscounts((prev) => prev.filter((d) => d.id !== id));
-      setConfirmDialogOpen(false);
-      setSelectedDiscountId(null);
-      setSelectedDiscountType(null);
-    } else {
-      console.error("Failed to delete the discount:", result.error);
+  
+    try {
+      console.log("Attempting to expire discount...");
+      if (selectedDiscountType === "product") {
+        console.log(`Expiring product discount with ID: ${selectedDiscountId}`);
+        result = await removeDiscountOnProduct(selectedDiscountId);
+      } else if (selectedDiscountType === "category") {
+        console.log(`Expiring category discount with ID: ${selectedDiscountId}`);
+        result = await removeDiscountOnCategory(selectedDiscountId);
+      }
+  
+      console.log("API result:", result); 
+  
+      if (result && result.message) {
+        console.log("Message from API:", result.message); 
+  
+        if (result.message.toLowerCase().includes("terminated")) {
+          console.log("Success detected in message!");
+          setSnackbarMessage("Discount expired successfully!");
+          setSnackbarOpen(true);
+          setTimeout(() => {
+            console.log("Closing confirmation dialog...");
+            setConfirmDialogOpen(false);
+            setSelectedDiscountId(null);
+            setSelectedDiscountType(null);
+          }, 2000); // Delay for 2 seconds to show Snackbar before closing dialog
+        } else {
+          console.error("Failed to expire the discount: ", result.message);
+          setConfirmDialogOpen(false); 
+        }
+      } else {
+        console.error("Invalid response structure:", result);
+        setConfirmDialogOpen(false); // Handle invalid response
+      }
+    } catch (error) {
+      console.error("Error during discount expiration:", error);
+      setConfirmDialogOpen(false); // Close dialog on error
     }
   };
-
+  
   return {
     discounts,
     editDialogOpen,
     editingDiscount,
     confirmDialogOpen,
+    snackbarOpen,
+    snackbarMessage,
     selectedDiscountId,
     selectedDiscountType,
     getStatus,
@@ -120,6 +147,8 @@ const useViewDiscounts = () => {
     setConfirmDialogOpen,
     setSelectedDiscountId,
     setSelectedDiscountType,
+    setSnackbarOpen,
+    setSnackbarMessage,
   };
 };
 

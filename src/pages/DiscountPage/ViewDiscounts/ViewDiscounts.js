@@ -15,6 +15,7 @@ import {
   DialogActions,
   Button,
   TextField,
+  Snackbar,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -27,6 +28,8 @@ const ViewDiscounts = () => {
     editDialogOpen,
     editingDiscount,
     confirmDialogOpen,
+    snackbarOpen,
+    snackbarMessage,
     getStatus,
     handleEdit,
     handleDialogChange,
@@ -37,6 +40,7 @@ const ViewDiscounts = () => {
     setSelectedDiscountId,
     setSelectedDiscountType,
     selectedDiscountId,
+    setSnackbarOpen,
   } = useViewDiscounts();
 
   const handleDeleteClick = (discount, index) => {
@@ -211,11 +215,23 @@ const ViewDiscounts = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setConfirmDialogOpen(false)}>Cancel</Button>
-          <Button variant="contained" color="error" onClick={confirmDelete}>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={confirmDelete}
+          >
             Expire
           </Button>
         </DialogActions>
       </Dialog>
+
+      {/* Snackbar for Confirmation */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={() => setSnackbarOpen(false)}
+        message={snackbarMessage}
+      />
     </Box>
   );
 };
