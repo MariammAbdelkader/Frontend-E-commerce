@@ -2,6 +2,7 @@
 const styles = {
   container: {
     p: 2,
+    pb: 0,
     backgroundColor: "#f5f5f5",
   },
   heading: {
@@ -25,19 +26,20 @@ const styles = {
       color: "#1b0099",
     },
     "& .Mui-selected": {
-      backgroundColor: "#1b0099",
       color: "#fff",
-      "&:hover": {
-        backgroundColor: "#14007a",
-      },
-    },
-    "& .MuiToggleButton-root:not(.Mui-selected):hover": {
-      backgroundColor: "#e0e0e0",
     },
   },
+  toggleButton: {
+    "&.Mui-selected": {
+      backgroundColor: "#1b0099",
+      color: "white",
+    },
+    borderRadius: "10px",
+    px: 3,
+  },
   searchInput: {
-    width: 250,
-    borderRadius: 25,
+    width: 400,
+    borderRadius: 15,
   },
   outerScrollBox: {
     maxHeight: 390,
