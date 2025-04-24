@@ -72,24 +72,34 @@ const CustomerList = () => {
                   </Typography>
                   <Typography sx={styles.cardContentStyle}>
                     <strong style={styles.strongText}>Phone: </strong>
-                    <span style={styles.textStyle}>{customer.phone}</span>
+                    <span style={styles.textStyle}>{customer.phoneNumber}</span>
                   </Typography>
                   <Typography sx={styles.cardContentStyle}>
                     <strong style={styles.strongText}>Address: </strong>
                     <span style={styles.textStyle}>{customer.address}</span>
+                  </Typography>
+                  <Typography sx={styles.cardContentStyle}>
+                    <strong style={styles.strongText}>Segmentation: </strong>
+                    <span style={styles.textStyle}>
+                      {customer.segmentation}
+                    </span>
+                  </Typography>
+                  <Typography sx={styles.cardContentStyle}>
+                    <strong style={styles.strongText}>Gender: </strong>
+                    <span style={styles.textStyle}>{customer.gender}</span>
                   </Typography>
                 </CardContent>
 
                 {/* Buttons */}
                 <Box
                   component="button"
-                  onClick={() => console.log("View Profile", customer.id)}
+                  onClick={() => console.log("View Profile", customer.userId)}
                   sx={styles.viewProfileButton}>
                   View Profile
                 </Box>
                 <Box
                   component="button"
-                  onClick={() => console.log("View History", customer.id)}
+                  onClick={() => console.log("View History", customer.userId)}
                   sx={styles.viewHistoryButton}>
                   View History
                 </Box>
@@ -340,6 +350,16 @@ export default CustomerList;
 //                   <Typography sx={styles.cardContentStyle}>
 //                     <strong style={styles.strongText}>Address: </strong>
 //                     <span style={styles.textStyle}>{customer.address}</span>
+//                   </Typography>
+//                   <Typography sx={styles.cardContentStyle}>
+//                     <strong style={styles.strongText}>Segmentation: </strong>
+//                     <span style={styles.textStyle}>
+//                       {customer.segmentation}
+//                     </span>
+//                   </Typography>
+//                   <Typography sx={styles.cardContentStyle}>
+//                     <strong style={styles.strongText}>Gender: </strong>
+//                     <span style={styles.textStyle}>{customer.gender}</span>
 //                   </Typography>
 //                 </CardContent>
 
