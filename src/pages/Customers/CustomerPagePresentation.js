@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   Card,
   CardContent,
@@ -6,199 +6,14 @@ import {
   Avatar,
   Box,
   TextField,
+  CircularProgress,
 } from "@mui/material";
 import styles from "./CustomerPageStyles";
-
-const customers = [
-  {
-    name: "Mohamed F",
-    email: "mohamedf@example.com",
-    firstName: "Mohamed",
-    lastName: "Fareed",
-    phone: "011534782155",
-    address: "Alsharqia, 10th Of Ramadan",
-    avatar: "https://i.pravatar.cc/100?img=1",
-  },
-  {
-    name: "Sara K",
-    email: "sarak@example.com",
-    firstName: "Sara",
-    lastName: "Khaled",
-    phone: "01012345678",
-    address: "Cairo, Maadi",
-    avatar: "https://i.pravatar.cc/100?img=2",
-  },
-  {
-    name: "Ahmed M",
-    email: "ahmedm@example.com",
-    firstName: "Ahmed",
-    lastName: "Mohamed",
-    phone: "01234567890",
-    address: "Alexandria, City Center",
-    avatar: "https://i.pravatar.cc/100?img=3",
-  },
-  {
-    name: "Layla Z",
-    email: "laylaz@example.com",
-    firstName: "Layla",
-    lastName: "Zaki",
-    phone: "01124578945",
-    address: "Giza, 6th October City",
-    avatar: "https://i.pravatar.cc/100?img=4",
-  },
-  {
-    name: "Omar E",
-    email: "omare@example.com",
-    firstName: "Omar",
-    lastName: "El-Sayed",
-    phone: "01098765432",
-    address: "Cairo, Zamalek",
-    avatar: "https://i.pravatar.cc/100?img=5",
-  },
-  {
-    name: "Mohamed F",
-    email: "mohamedf@example.com",
-    firstName: "Mohamed",
-    lastName: "Fareed",
-    phone: "011534782155",
-    address: "Alsharqia, 10th Of Ramadan",
-    avatar: "https://i.pravatar.cc/100?img=1",
-  },
-  {
-    name: "Sara K",
-    email: "sarak@example.com",
-    firstName: "Sara",
-    lastName: "Khaled",
-    phone: "01012345678",
-    address: "Cairo, Maadi",
-    avatar: "https://i.pravatar.cc/100?img=2",
-  },
-  {
-    name: "Ahmed M",
-    email: "ahmedm@example.com",
-    firstName: "Ahmed",
-    lastName: "Mohamed",
-    phone: "01234567890",
-    address: "Alexandria, City Center",
-    avatar: "https://i.pravatar.cc/100?img=3",
-  },
-  {
-    name: "Layla Z",
-    email: "laylaz@example.com",
-    firstName: "Layla",
-    lastName: "Zaki",
-    phone: "01124578945",
-    address: "Giza, 6th October City",
-    avatar: "https://i.pravatar.cc/100?img=4",
-  },
-  {
-    name: "Omar E",
-    email: "omare@example.com",
-    firstName: "Omar",
-    lastName: "El-Sayed",
-    phone: "01098765432",
-    address: "Cairo, Zamalek",
-    avatar: "https://i.pravatar.cc/100?img=5",
-  },
-  {
-    name: "Mohamed F",
-    email: "mohamedf@example.com",
-    firstName: "Mohamed",
-    lastName: "Fareed",
-    phone: "011534782155",
-    address: "Alsharqia, 10th Of Ramadan",
-    avatar: "https://i.pravatar.cc/100?img=1",
-  },
-  {
-    name: "Sara K",
-    email: "sarak@example.com",
-    firstName: "Sara",
-    lastName: "Khaled",
-    phone: "01012345678",
-    address: "Cairo, Maadi",
-    avatar: "https://i.pravatar.cc/100?img=2",
-  },
-  {
-    name: "Ahmed M",
-    email: "ahmedm@example.com",
-    firstName: "Ahmed",
-    lastName: "Mohamed",
-    phone: "01234567890",
-    address: "Alexandria, City Center",
-    avatar: "https://i.pravatar.cc/100?img=3",
-  },
-  {
-    name: "Layla Z",
-    email: "laylaz@example.com",
-    firstName: "Layla",
-    lastName: "Zaki",
-    phone: "01124578945",
-    address: "Giza, 6th October City",
-    avatar: "https://i.pravatar.cc/100?img=4",
-  },
-  {
-    name: "Omar E",
-    email: "omare@example.com",
-    firstName: "Omar",
-    lastName: "El-Sayed",
-    phone: "01098765432",
-    address: "Cairo, Zamalek",
-    avatar: "https://i.pravatar.cc/100?img=5",
-  },
-];
-
-const CustomerCard = ({ customer }) => (
-  <Card sx={styles.cardStyle}>
-    <CardContent>
-      <Box sx={styles.boxStyle}>
-        <Avatar
-          src={customer.avatar}
-          alt={customer.name}
-          sx={styles.avatarStyle}
-        />
-        <Box sx={styles.nameAndEmailStyle}>
-          <Typography variant="subtitle1" sx={styles.cardTitleStyle}>
-            {customer.name}
-          </Typography>
-          <Typography variant="body2" sx={styles.cardTitleStyle}>
-            {customer.email}
-          </Typography>
-        </Box>
-      </Box>
-      <Typography sx={styles.cardContentStyle}>
-        <strong style={styles.strongText}>FirstName: </strong>
-        <span style={styles.textStyle}>{customer.firstName}</span>
-      </Typography>
-      <Typography sx={styles.cardContentStyle}>
-        <strong style={styles.strongText}>LastName: </strong>
-        <span style={styles.textStyle}>{customer.lastName}</span>
-      </Typography>
-      <Typography sx={styles.cardContentStyle}>
-        <strong style={styles.strongText}>Phone: </strong>
-        <span style={styles.textStyle}>{customer.phone}</span>
-      </Typography>
-      <Typography sx={styles.cardContentStyle}>
-        <strong style={styles.strongText}>Address: </strong>
-        <span style={styles.textStyle}>{customer.address}</span>
-      </Typography>
-    </CardContent>
-  </Card>
-);
+import useCustomerPageContainer from "./CustomerPageContainer";
 
 const CustomerList = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const filteredCustomers = customers.filter((customer) => {
-    return (
-      customer.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      customer.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      customer.phone.includes(searchTerm)
-    );
-  });
+  const { customers, loading, error, searchTerm, handleSearchChange } =
+    useCustomerPageContainer();
 
   return (
     <Box sx={styles.customerListContainer}>
@@ -212,18 +27,342 @@ const CustomerList = () => {
           value={searchTerm}
           onChange={handleSearchChange}
           sx={styles.searchInputStyle}
+          size="small"
         />
       </Box>
 
-      <Box sx={styles.filteredCustomerBoxStyle}>
-        {filteredCustomers.map((customer, index) => (
-          <Box key={index}>
-            <CustomerCard customer={customer} />
-          </Box>
-        ))}
-      </Box>
+      {loading ? (
+        <Box sx={styles.CircularProgressbox}>
+          <CircularProgress sx={styles.CircularProgress} />
+        </Box>
+      ) : error ? (
+        <Typography color="error">{error}</Typography>
+      ) : (
+        <Box sx={styles.filteredCustomerBoxStyle}>
+          {customers.map((customer, index) => (
+            <Box key={index} sx={styles.cardWrapper}>
+              <Card sx={styles.cardStyle}>
+                <Box sx={styles.fixedHeader}>
+                  <Box sx={styles.boxStyle}>
+                    <Avatar
+                      src={customer.image}
+                      alt={customer.firstName}
+                      sx={styles.avatarStyle}
+                    />
+                    <Box sx={styles.nameAndEmailStyle}>
+                      <Typography
+                        variant="subtitle1"
+                        sx={styles.cardTitleStyle}>
+                        {customer.firstName + " " + customer.lastName}
+                      </Typography>
+                      <Typography variant="body2" sx={styles.cardTitleStyle}>
+                        {customer.email}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+                <CardContent sx={styles.scrollableCardContent}>
+                  <Typography sx={styles.cardContentStyle}>
+                    <strong style={styles.strongText}>FirstName: </strong>
+                    <span style={styles.textStyle}>{customer.firstName}</span>
+                  </Typography>
+                  <Typography sx={styles.cardContentStyle}>
+                    <strong style={styles.strongText}>LastName: </strong>
+                    <span style={styles.textStyle}>{customer.lastName}</span>
+                  </Typography>
+                  <Typography sx={styles.cardContentStyle}>
+                    <strong style={styles.strongText}>Phone: </strong>
+                    <span style={styles.textStyle}>{customer.phone}</span>
+                  </Typography>
+                  <Typography sx={styles.cardContentStyle}>
+                    <strong style={styles.strongText}>Address: </strong>
+                    <span style={styles.textStyle}>{customer.address}</span>
+                  </Typography>
+                </CardContent>
+
+                {/* Buttons */}
+                <Box
+                  component="button"
+                  onClick={() => console.log("View Profile", customer.id)}
+                  sx={styles.viewProfileButton}>
+                  View Profile
+                </Box>
+                <Box
+                  component="button"
+                  onClick={() => console.log("View History", customer.id)}
+                  sx={styles.viewHistoryButton}>
+                  View History
+                </Box>
+              </Card>
+            </Box>
+          ))}
+        </Box>
+      )}
     </Box>
   );
 };
 
 export default CustomerList;
+
+// import React, { useState, useEffect } from "react";
+// import {
+//   Card,
+//   CardContent,
+//   Typography,
+//   Avatar,
+//   Box,
+//   TextField,
+//   CircularProgress,
+// } from "@mui/material";
+// import styles from "./CustomerPageStyles";
+
+// const dummyCustomers = [
+//   {
+//     id: 1,
+//     firstName: "John",
+//     lastName: "Doe",
+//     email: "john@example.com",
+//     phone: "1234567890",
+//     address: "123 Main St",
+//     image: "https://i.pravatar.cc/150?img=1",
+//   },
+//   {
+//     id: 2,
+//     firstName: "Jane",
+//     lastName: "Smith",
+//     email: "jane@example.com",
+//     phone: "0987654321",
+//     address: "456 Elm St",
+//     image: "https://i.pravatar.cc/150?img=2",
+//   },
+//   {
+//     id: 3,
+//     firstName: "Alice",
+//     lastName: "Brown",
+//     email: "alice@example.com",
+//     phone: "5555555555",
+//     address: "789 Oak Ave",
+//     image: "https://i.pravatar.cc/150?img=3",
+//   },
+//   {
+//     id: 2,
+//     firstName: "Jane",
+//     lastName: "Smith",
+//     email: "jane@example.com",
+//     phone: "0987654321",
+//     address: "456 Elm St",
+//     image: "https://i.pravatar.cc/150?img=2",
+//   },
+//   {
+//     id: 3,
+//     firstName: "Alice",
+//     lastName: "Brown",
+//     email: "alice@example.com",
+//     phone: "5555555555",
+//     address: "789 Oak Ave",
+//     image: "https://i.pravatar.cc/150?img=3",
+//   },
+//   {
+//     id: 2,
+//     firstName: "Jane",
+//     lastName: "Smith",
+//     email: "jane@example.com",
+//     phone: "0987654321",
+//     address: "456 Elm St",
+//     image: "https://i.pravatar.cc/150?img=2",
+//   },
+//   {
+//     id: 3,
+//     firstName: "Alice",
+//     lastName: "Brown",
+//     email: "alice@example.com",
+//     phone: "5555555555",
+//     address: "789 Oak Ave",
+//     image: "https://i.pravatar.cc/150?img=3",
+//   },
+//   {
+//     id: 2,
+//     firstName: "Jane",
+//     lastName: "Smith",
+//     email: "jane@example.com",
+//     phone: "0987654321",
+//     address: "456 Elm St",
+//     image: "https://i.pravatar.cc/150?img=2",
+//   },
+//   {
+//     id: 3,
+//     firstName: "Alice",
+//     lastName: "Brown",
+//     email: "alice@example.com",
+//     phone: "5555555555",
+//     address: "789 Oak Ave",
+//     image: "https://i.pravatar.cc/150?img=3",
+//   },
+//   {
+//     id: 2,
+//     firstName: "Jane",
+//     lastName: "Smith",
+//     email: "jane@example.com",
+//     phone: "0987654321",
+//     address: "456 Elm St",
+//     image: "https://i.pravatar.cc/150?img=2",
+//   },
+//   {
+//     id: 3,
+//     firstName: "Alice",
+//     lastName: "Brown",
+//     email: "alice@example.com",
+//     phone: "5555555555",
+//     address: "789 Oak Ave",
+//     image: "https://i.pravatar.cc/150?img=3",
+//   },
+//   {
+//     id: 2,
+//     firstName: "Jane",
+//     lastName: "Smith",
+//     email: "jane@example.com",
+//     phone: "0987654321",
+//     address: "456 Elm St",
+//     image: "https://i.pravatar.cc/150?img=2",
+//   },
+//   {
+//     id: 3,
+//     firstName: "Alice",
+//     lastName: "Brown",
+//     email: "alice@example.com",
+//     phone: "5555555555",
+//     address: "789 Oak Ave",
+//     image: "https://i.pravatar.cc/150?img=3",
+//   },
+//   {
+//     id: 2,
+//     firstName: "Jane",
+//     lastName: "Smith",
+//     email: "jane@example.com",
+//     phone: "0987654321",
+//     address: "456 Elm Stajsbdj jasjdasjS tajsbdjjas jdasjStajsbdjjasjdasj",
+//     image: "https://i.pravatar.cc/150?img=2",
+//   },
+//   {
+//     id: 3,
+//     firstName: "Alice",
+//     lastName: "Brown",
+//     email: "alice@example.com",
+//     phone: "5555555555",
+//     address: "789 Oak Ave",
+//     image: "https://i.pravatar.cc/150?img=3",
+//   },
+// ];
+
+// const CustomerList = () => {
+//   const [customers, setCustomers] = useState([]);
+//   const [searchTerm, setSearchTerm] = useState("");
+//   const [loading, setLoading] = useState(true);
+
+//   useEffect(() => {
+//     // Simulate loading delay
+//     const timer = setTimeout(() => {
+//       setCustomers(dummyCustomers);
+//       setLoading(false);
+//     }, 1000);
+//     return () => clearTimeout(timer);
+//   }, []);
+
+//   const handleSearchChange = (event) => {
+//     setSearchTerm(event.target.value);
+//   };
+
+//   const filteredCustomers = customers.filter(
+//     (customer) =>
+//       customer.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//       customer.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//       customer.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+//       customer.phone.includes(searchTerm)
+//   );
+
+//   return (
+//     <Box sx={styles.customerListContainer}>
+//       <Box sx={styles.customerSearchBox}>
+//         <Typography variant="h4" sx={styles.headingStyle}>
+//           My Customers
+//         </Typography>
+//         <TextField
+//           variant="outlined"
+//           label="Search Customers"
+//           value={searchTerm}
+//           onChange={handleSearchChange}
+//           sx={styles.searchInputStyle}
+//         />
+//       </Box>
+
+//       {loading ? (
+//         <CircularProgress />
+//       ) : (
+//         <Box sx={styles.filteredCustomerBoxStyle}>
+//           {filteredCustomers.map((customer) => (
+//             <Box key={customer.id} sx={styles.cardWrapper}>
+//               <Card sx={styles.cardStyle}>
+//                 {/* Fixed Top Section */}
+//                 <Box sx={styles.fixedHeader}>
+//                   <Box sx={styles.boxStyle}>
+//                     <Avatar
+//                       src={customer.image}
+//                       alt={customer.firstName}
+//                       sx={styles.avatarStyle}
+//                     />
+//                     <Box sx={styles.nameAndEmailStyle}>
+//                       <Typography
+//                         variant="subtitle1"
+//                         sx={styles.cardTitleStyle}>
+//                         {customer.firstName} {customer.lastName}
+//                       </Typography>
+//                       <Typography variant="body2" sx={styles.cardTitleStyle}>
+//                         {customer.email}
+//                       </Typography>
+//                     </Box>
+//                   </Box>
+//                 </Box>
+
+//                 {/* Scrollable Content */}
+//                 <CardContent sx={styles.scrollableCardContent}>
+//                   <Typography sx={styles.cardContentStyle}>
+//                     <strong style={styles.strongText}>FirstName: </strong>
+//                     <span style={styles.textStyle}>{customer.firstName}</span>
+//                   </Typography>
+//                   <Typography sx={styles.cardContentStyle}>
+//                     <strong style={styles.strongText}>LastName: </strong>
+//                     <span style={styles.textStyle}>{customer.lastName}</span>
+//                   </Typography>
+//                   <Typography sx={styles.cardContentStyle}>
+//                     <strong style={styles.strongText}>Phone: </strong>
+//                     <span style={styles.textStyle}>{customer.phone}</span>
+//                   </Typography>
+//                   <Typography sx={styles.cardContentStyle}>
+//                     <strong style={styles.strongText}>Address: </strong>
+//                     <span style={styles.textStyle}>{customer.address}</span>
+//                   </Typography>
+//                 </CardContent>
+
+//                 {/* Buttons */}
+//                 <Box
+//                   component="button"
+//                   onClick={() => console.log("View Profile", customer.id)}
+//                   sx={styles.viewProfileButton}>
+//                   View Profile
+//                 </Box>
+//                 <Box
+//                   component="button"
+//                   onClick={() => console.log("View History", customer.id)}
+//                   sx={styles.viewHistoryButton}>
+//                   View History
+//                 </Box>
+//               </Card>
+//             </Box>
+//           ))}
+//         </Box>
+//       )}
+//     </Box>
+//   );
+// };
+
+// export default CustomerList;
