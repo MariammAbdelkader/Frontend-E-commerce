@@ -14,10 +14,9 @@ const useViewDiscounts = () => {
   const [selectedDiscountId, setSelectedDiscountId] = useState(null);
   const [selectedDiscountType, setSelectedDiscountType] = useState(null);
 
-  const getStatus = (endDate) => {
-    const today = new Date();
-    const end = new Date(endDate);
-    return end < today ? "Expired" : "Active";
+  const getStatus = (discount) => {
+    if (!discount.status) return "Unknown";
+    return discount.status.charAt(0).toUpperCase() + discount.status.slice(1);
   };
 
   useEffect(() => {
@@ -25,7 +24,19 @@ const useViewDiscounts = () => {
       const data = await fetchDiscounts();
       if (data.success !== false) {
         const allDiscounts = [...data.CategoryDiscounts, ...data.ProductDiscounts];
-        setDiscounts(allDiscounts);
+
+        // Sort discounts to move expired ones to the bottom
+        const sortedDiscounts = allDiscounts.sort((a, b) => {
+          if (a.status === "expired" && b.status !== "expired") {
+            return 1; // Move expired discount to the bottom
+          }
+          if (a.status !== "expired" && b.status === "expired") {
+            return -1; // Keep non-expired discounts at the top
+          }
+          return 0; // No change if both have the same status
+        });
+
+        setDiscounts(sortedDiscounts);
       } else {
         console.error(data.error);
       }
@@ -69,23 +80,22 @@ const useViewDiscounts = () => {
     }
   };
 
-  const confirmDelete = async () => {
-    if (!selectedDiscountId || !selectedDiscountType) {
+  const confirmDelete = async (id, type) => {
+    if (!id || !type) {
       console.error("No discount selected for deletion.");
       return;
     }
 
-    const type = selectedDiscountType;
     let result;
 
     if (type === "product") {
-      result = await removeDiscountOnProduct(selectedDiscountId);
+      result = await removeDiscountOnProduct(id);
     } else if (type === "category") {
-      result = await removeDiscountOnCategory(selectedDiscountId);
+      result = await removeDiscountOnCategory(id);
     }
 
     if (result.success) {
-      setDiscounts((prev) => prev.filter((d) => d.id !== selectedDiscountId));
+      setDiscounts((prev) => prev.filter((d) => d.id !== id));
       setConfirmDialogOpen(false);
       setSelectedDiscountId(null);
       setSelectedDiscountType(null);
