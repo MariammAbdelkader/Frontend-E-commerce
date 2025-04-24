@@ -3,8 +3,9 @@ const styles = {
     maxWidth: 1000,
     textAlign: "left",
     p: 3,
+    pb: 0,
     overflowY: "auto",
-    maxHeight: "80vh",
+    maxHeight: "78vh",
     direction: "rtl",
     "&::-webkit-scrollbar": {
       width: "8px",

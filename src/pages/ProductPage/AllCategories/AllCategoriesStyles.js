@@ -2,7 +2,7 @@ const styles = {
   bigBox: {
     display: "flex",
     flexDirection: "column",
-    minHeight: "83vh",
+    minHeight: "82vh",
   },
   stickyHeader: {
     position: "sticky",
