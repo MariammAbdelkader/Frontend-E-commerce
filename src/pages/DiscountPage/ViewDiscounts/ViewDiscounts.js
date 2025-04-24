@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Typography,
@@ -36,7 +36,32 @@ const ViewDiscounts = () => {
     setConfirmDialogOpen,
     setSelectedDiscountId,
     setSelectedDiscountType,
+    selectedDiscountId,
   } = useViewDiscounts();
+
+  // Function to handle setting the discount id and type, then opening the confirmation dialog
+  const handleDeleteClick = (discount, index) => {
+    const discountWithId = {
+      ...discount,
+      id: discount.id || discount.discountId || index,
+    };
+
+    console.log("Selected discount for deletion:", discountWithId);
+
+    if (discountWithId.id) {
+      setSelectedDiscountId(discountWithId.id);
+      setSelectedDiscountType(discount.productName ? "product" : "category");
+      setConfirmDialogOpen(true);
+    } else {
+      console.error("Discount ID is missing");
+    }
+  };
+
+  useEffect(() => {
+    if (selectedDiscountId) {
+      console.log("Selected Discount ID in useEffect:", selectedDiscountId);
+    }
+  }, [selectedDiscountId]);
 
   return (
     <Box sx={{ p: 3 }}>
@@ -45,61 +70,96 @@ const ViewDiscounts = () => {
       </Typography>
 
       <Paper elevation={2}>
-        <Table>
-          <TableHead>
-            <TableRow sx={{ backgroundColor: "#1b0099" }}>
-              <TableCell sx={styles.headerCellStyle}>
-                Category / Product
-              </TableCell>
-              <TableCell sx={styles.headerCellStyle}>Discount Rate</TableCell>
-              <TableCell sx={styles.headerCellStyle}>Start Date</TableCell>
-              <TableCell sx={styles.headerCellStyle}>End Date</TableCell>
-              <TableCell sx={styles.headerCellStyle}>Status</TableCell>
-              <TableCell align="center" sx={styles.headerCellStyle}>
-                Actions
-              </TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {discounts.map((discount) => (
-              <TableRow key={discount.id} sx={styles.tableRowStyle}>
-                <TableCell>{discount.target}</TableCell>
-                <TableCell>{discount.rate}</TableCell>
-                <TableCell>{discount.startDate}</TableCell>
-                <TableCell>{discount.endDate}</TableCell>
-                <TableCell>{getStatus(discount.endDate)}</TableCell>
-                <TableCell align="center">
-                  <IconButton
-                    onClick={() => {
-                      setSelectedDiscountId(discount.id);
-                      setSelectedDiscountType(discount.type);
-                      handleEdit(discount);
-                    }}
-                    sx={styles.actionButtonStyle}>
-                    <EditIcon sx={{ color: "#1b0099" }} />
-                  </IconButton>
-                  <IconButton
-                    onClick={() => {
-                      setSelectedDiscountId(discount.id);
-                      setSelectedDiscountType(discount.type);
-                      setConfirmDialogOpen(true);
-                    }}
-                    color="error">
-                    <DeleteIcon />
-                  </IconButton>
+        <Box sx={{ maxHeight: 400, overflowY: "auto" }}>
+          <Table>
+            <TableHead>
+              <TableRow sx={{ backgroundColor: "#1b0099" }}>
+                <TableCell sx={styles.headerCellStyle}>
+                  Category / Product
+                </TableCell>
+                <TableCell sx={styles.headerCellStyle}>Discount Rate</TableCell>
+                <TableCell sx={styles.headerCellStyle}>Start Date</TableCell>
+                <TableCell sx={styles.headerCellStyle}>End Date</TableCell>
+                <TableCell sx={styles.headerCellStyle}>Status</TableCell>
+                <TableCell align="center" sx={styles.headerCellStyle}>
+                  Actions
                 </TableCell>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHead>
+            <TableBody>
+              {discounts.map((discount, index) => (
+                <TableRow key={index} sx={styles.tableRowStyle}>
+                  <TableCell>
+                    {discount.categoryName
+                      ? discount.categoryName
+                      : discount.productName || "N/A"}
+                  </TableCell>
+                  <TableCell>
+                    {discount.percentage
+                      ? `${discount.percentage}%`
+                      : discount.rate
+                      ? `${discount.rate}%`
+                      : "N/A"}
+                  </TableCell>
+                  <TableCell>
+                    {new Date(
+                      discount.begin || discount.startDate
+                    ).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>
+                    {new Date(
+                      discount.end || discount.endDate
+                    ).toLocaleDateString()}
+                  </TableCell>
+                  <TableCell>{getStatus(discount)}</TableCell>
+                  <TableCell align="center">
+                    <IconButton
+                      onClick={() => {
+                        setSelectedDiscountId(discount.id);
+                        setSelectedDiscountType(
+                          discount.productName ? "product" : "category"
+                        );
+                        handleEdit({
+                          ...discount,
+                          rate: discount.percentage || discount.rate,
+                          startDate: discount.begin || discount.startDate,
+                          endDate: discount.end || discount.endDate,
+                        });
+                      }}
+                      sx={styles.actionButtonStyle}
+                    >
+                      <EditIcon sx={{ color: "#1b0099" }} />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => handleDeleteClick(discount, index)} // Pass index as fallback for ID
+                      color="error"
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </Box>
       </Paper>
 
+      {/* Edit Dialog */}
       <Dialog
         open={editDialogOpen}
         onClose={() => setEditDialogOpen(false)}
         fullWidth
         maxWidth="md"
-        sx={styles.dialogStyles.dialogPaper}>
+        PaperProps={{
+          sx: {
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            m: 0,
+          },
+        }}
+      >
         <DialogTitle>Edit Discount</DialogTitle>
         <DialogContent sx={styles.dialogStyles.dialogContent}>
           <TextField
@@ -134,25 +194,27 @@ const ViewDiscounts = () => {
           <Button
             variant="contained"
             onClick={handleSave}
-            sx={styles.buttonStyles.saveButton}>
+            sx={styles.buttonStyles.saveButton}
+          >
             Save
           </Button>
         </DialogActions>
       </Dialog>
 
+      
       <Dialog
         open={confirmDialogOpen}
         onClose={() => setConfirmDialogOpen(false)}>
         <DialogTitle>Confirm Deletion</DialogTitle>
         <DialogContent>
           <Typography>
-            Are you sure that you want to delete this discount?
+            Are you sure that you want to expire this discount?
           </Typography>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setConfirmDialogOpen(false)}>Cancel</Button>
           <Button variant="contained" color="error" onClick={confirmDelete}>
-            Delete
+            Expire
           </Button>
         </DialogActions>
       </Dialog>

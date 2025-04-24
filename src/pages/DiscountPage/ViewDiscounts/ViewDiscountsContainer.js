@@ -24,7 +24,8 @@ const useViewDiscounts = () => {
     const getDiscounts = async () => {
       const data = await fetchDiscounts();
       if (data.success !== false) {
-        setDiscounts([...data.CategoryDiscounts, ...data.ProductDiscounts]);
+        const allDiscounts = [...data.CategoryDiscounts, ...data.ProductDiscounts];
+        setDiscounts(allDiscounts);
       } else {
         console.error(data.error);
       }
@@ -33,13 +34,21 @@ const useViewDiscounts = () => {
   }, []);
 
   const handleEdit = (discount) => {
-    setEditingDiscount({ ...discount });
+    setEditingDiscount({
+      ...discount,
+      rate: discount.percentage || discount.rate,
+      startDate: discount.begin || discount.startDate,
+      endDate: discount.end || discount.endDate,
+    });
     setEditDialogOpen(true);
   };
 
   const handleDialogChange = (e) => {
     const { name, value } = e.target;
-    setEditingDiscount((prev) => ({ ...prev, [name]: value }));
+    setEditingDiscount((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
   };
 
   const handleSave = async () => {
@@ -50,7 +59,9 @@ const useViewDiscounts = () => {
     const result = await updateDiscount(type, id, updateData);
     if (result.success) {
       setDiscounts((prev) =>
-        prev.map((d) => (d.id === editingDiscount.id ? editingDiscount : d))
+        prev.map((d) =>
+          d.id === editingDiscount.id ? { ...editingDiscount, rate } : d
+        )
       );
       setEditDialogOpen(false);
     } else {
@@ -59,21 +70,27 @@ const useViewDiscounts = () => {
   };
 
   const confirmDelete = async () => {
-    const discount = discounts.find((d) => d.id === selectedDiscountId);
-    const type = selectedDiscountType;
+    if (!selectedDiscountId || !selectedDiscountType) {
+      console.error("No discount selected for deletion.");
+      return;
+    }
 
+    const type = selectedDiscountType;
     let result;
+
     if (type === "product") {
-      result = await removeDiscountOnProduct(discount.id);
-    } else {
-      result = await removeDiscountOnCategory(discount.id);
+      result = await removeDiscountOnProduct(selectedDiscountId);
+    } else if (type === "category") {
+      result = await removeDiscountOnCategory(selectedDiscountId);
     }
 
     if (result.success) {
       setDiscounts((prev) => prev.filter((d) => d.id !== selectedDiscountId));
       setConfirmDialogOpen(false);
+      setSelectedDiscountId(null);
+      setSelectedDiscountType(null);
     } else {
-      console.error(result.error);
+      console.error("Failed to delete the discount:", result.error);
     }
   };
 

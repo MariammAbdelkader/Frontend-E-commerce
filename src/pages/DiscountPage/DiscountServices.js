@@ -189,9 +189,8 @@ export const updateDiscount = async (type, id, updateData) => {
  */
 export const removeDiscountOnProduct = async (productId) => {
   try {
-    const response = await axios.post(
-      `${API_BASE_URL}/remove/product`,
-      productId,
+    const response = await axios.delete(
+      `${API_BASE_URL}/product/${productId}`, 
       {
         withCredentials: true, // Ensures cookies are sent with the request
       }
@@ -202,12 +201,13 @@ export const removeDiscountOnProduct = async (productId) => {
     return {
       success: false,
       error:
-        error.response?.data?.message || // Backend error message
-        error.message || // Axios error message
-        "Server error. Please try again.", // Fallback message
+        error.response?.data?.message || 
+        error.message || 
+        "Server error. Please try again.",
     };
   }
 };
+
 
 /*
  * remove discount form a category.
@@ -229,9 +229,8 @@ export const removeDiscountOnProduct = async (productId) => {
  */
 export const removeDiscountOnCategory = async (categoryId) => {
   try {
-    const response = await axios.post(
-      `${API_BASE_URL}/remove/category`,
-      categoryId,
+    const response = await axios.delete(
+      `${API_BASE_URL}/category/${categoryId}`, 
       {
         withCredentials: true, // Ensures cookies are sent with the request
       }
@@ -242,12 +241,15 @@ export const removeDiscountOnCategory = async (categoryId) => {
     return {
       success: false,
       error:
-        error.response?.data?.message || // Backend error message
-        error.message || // Axios error message
-        "Server error. Please try again.", // Fallback message
+        error.response?.data?.message || 
+        error.message || 
+        "Server error. Please try again.",
     };
   }
 };
+
+
+
 
 
 
