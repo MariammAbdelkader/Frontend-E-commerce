@@ -39,14 +39,11 @@ const ViewDiscounts = () => {
     selectedDiscountId,
   } = useViewDiscounts();
 
-  // Function to handle setting the discount id and type, then opening the confirmation dialog
   const handleDeleteClick = (discount, index) => {
     const discountWithId = {
       ...discount,
       id: discount.id || discount.discountId || index,
     };
-
-    console.log("Selected discount for deletion:", discountWithId);
 
     if (discountWithId.id) {
       setSelectedDiscountId(discountWithId.id);
@@ -131,7 +128,7 @@ const ViewDiscounts = () => {
                       <EditIcon sx={{ color: "#1b0099" }} />
                     </IconButton>
                     <IconButton
-                      onClick={() => handleDeleteClick(discount, index)} // Pass index as fallback for ID
+                      onClick={() => handleDeleteClick(discount, index)}
                       color="error"
                     >
                       <DeleteIcon />
@@ -201,10 +198,11 @@ const ViewDiscounts = () => {
         </DialogActions>
       </Dialog>
 
-      
+      {/* Confirm Delete Dialog */}
       <Dialog
         open={confirmDialogOpen}
-        onClose={() => setConfirmDialogOpen(false)}>
+        onClose={() => setConfirmDialogOpen(false)}
+      >
         <DialogTitle>Confirm Deletion</DialogTitle>
         <DialogContent>
           <Typography>
