@@ -50,16 +50,15 @@ const ProductList = () => {
     handleDeleteConfirmation,
     handleDeleteCancel,
     handleDeleteConfirm,
-    setOpen,
     current,
     open,
     loading,
     handlePrev,
     handleNext,
+    currentIndex,
     reviews,
-    Transition,
     handleOpenReviewDialog,
-    calculateDiscountedPrice,
+    handleCloseReviewDialog
   } = useProductContainer();
 
   const renderStatus = (status) => {
@@ -103,7 +102,7 @@ const ProductList = () => {
             <Select
               labelId="category-label"
               name="category"
-              value={filters.category}
+              value={filters.categoryId}
               onChange={handleCategoryFilter}
               label="Category"
               required>
@@ -194,7 +193,7 @@ const ProductList = () => {
                         display="flex"
                         justifyContent="space-between"
                         alignItems="center">
-                        {product.status === "discounted" ? (
+                        {product.discountprice? (
                           <Typography>
                             <span
                               style={{
@@ -207,11 +206,7 @@ const ProductList = () => {
                             <span
                               style={{ color: "#d32f2f", fontWeight: "bold" }}>
                               $
-                              {calculateDiscountedPrice(
-                                product.price,
-                                product.categoryDiscountPercentage,
-                                product.productDiscountPercentage
-                              )}
+                              {product.discountprice}
                             </span>
                           </Typography>
                         ) : (
@@ -390,11 +385,10 @@ const ProductList = () => {
 
         <Dialog
           open={open}
-          TransitionComponent={Transition}
-          onClose={() => setOpen(false)}
+          onClose={handleCloseReviewDialog}
           maxWidth="sm"
           fullWidth
-          PaperProps={styles.dialogPaperProps}>
+          style={styles.dialogPaperProps}>
           <DialogContent>
             {loading ? (
               <Box sx={styles.loadingBox}>
@@ -402,11 +396,11 @@ const ProductList = () => {
               </Box>
             ) : reviews.length === 0 ? (
               <Typography sx={styles.noReviewsText}>
-                No reviews available.
+                No reviews yet.
               </Typography>
             ) : (
               <Box sx={styles.reviewContainer}>
-                <IconButton onClick={handlePrev}>
+                <IconButton onClick={handlePrev} disabled={currentIndex === 0}>
                   <ArrowBackIos />
                 </IconButton>
 
@@ -439,7 +433,7 @@ const ProductList = () => {
                   </Stack>
                 </Box>
 
-                <IconButton onClick={handleNext}>
+                <IconButton onClick={handleNext} disabled={currentIndex === reviews.length - 1}>
                   <ArrowForwardIos />
                 </IconButton>
               </Box>

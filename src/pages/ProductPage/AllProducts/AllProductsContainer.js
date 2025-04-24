@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { Slide } from "@mui/material";
+import  { useState, useEffect } from "react";
 import {
   getAllProducts,
   editProduct,
@@ -34,12 +33,11 @@ const useProductContainer = () => {
     image: "",
   });
   const [error, setError] = useState(null);
-  const [reviewDialogOpen, setReviewDialogOpen] = useState(false);
   const [selectedReviewProduct, setSelectedReviewProduct] = useState(null);
   const [open, setOpen] = useState(false);
   const [reviews, setReviews] = useState([]);
-  const [index, setIndex] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -113,6 +111,7 @@ const useProductContainer = () => {
       subcategoryId: "",
     });
   };
+
 
   const handleSubcategoryFilter = (event) => {
     setFilters({ ...filters, subcategoryId: Number(event.target.value) });
@@ -279,37 +278,25 @@ const useProductContainer = () => {
 
   const handleOpenReviewDialog = (product) => {
     setSelectedReviewProduct(product);
-    setReviewDialogOpen(true);
+    setOpen(true);
   };
 
   const handleCloseReviewDialog = () => {
-    setReviewDialogOpen(false);
+    setOpen(false);
   };
-  const handleNext = () => setIndex((prev) => (prev + 1) % reviews.length);
-  const handlePrev = () =>
-    setIndex((prev) => (prev - 1 + reviews.length) % reviews.length);
-  const Transition = React.forwardRef((props, ref) => (
-    <Slide direction="up" ref={ref} {...props} />
-  ));
-
-  const current = reviews[index];
-  function calculateDiscountedPrice(
-    price,
-    categoryDiscountPercentage,
-    productDiscountPercentage
-  ) {
-    let discountedPrice = price;
-
-    if (categoryDiscountPercentage) {
-      discountedPrice -= (discountedPrice * categoryDiscountPercentage) / 100;
+  const handlePrev = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex((prev) => prev - 1);
     }
-
-    if (productDiscountPercentage) {
-      discountedPrice -= (discountedPrice * productDiscountPercentage) / 100;
+  };
+  
+  const handleNext = () => {
+    if (currentIndex < reviews.length - 1) {
+      setCurrentIndex((prev) => prev + 1);
     }
+  };
 
-    return parseFloat(discountedPrice.toFixed(2));
-  }
+  const current = reviews[currentIndex];
 
   return {
     openDialog,
@@ -335,18 +322,16 @@ const useProductContainer = () => {
     handleDeleteConfirmation,
     handleDeleteCancel,
     handleDeleteConfirm,
-    setOpen,
     current,
     handlePrev,
     handleNext,
-    reviewDialogOpen,
+    currentIndex,
     open,
     loading,
     reviews,
-    Transition,
     handleOpenReviewDialog,
     handleCloseReviewDialog,
-    calculateDiscountedPrice,
+    
   };
 };
 
