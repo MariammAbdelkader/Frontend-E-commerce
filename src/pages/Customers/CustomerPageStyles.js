@@ -1,6 +1,5 @@
 const styles = {
   container: {
-    p: 2,
     backgroundColor: "#f5f5f5",
   },
   headingStyle: {
@@ -21,7 +20,6 @@ const styles = {
   boxStyle: {
     display: "flex",
     alignItems: "center",
-    mb: 2,
   },
   avatarStyle: {
     width: 56,
@@ -48,8 +46,9 @@ const styles = {
     opacity: 0.8,
   },
   customerListContainer: {
-    p: 4,
-    maxWidth: "1400px",
+    p: 3,
+    maxWidth: "1100px",
+    pb: 0,
   },
   customerSearchBox: {
     display: "flex",
@@ -60,10 +59,18 @@ const styles = {
   searchInputStyle: {
     width: "500px",
   },
+  CircularProgressbox: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "460px",
+  },
+  CircularProgress: {
+    color: "#1b0099 ",
+  },
   filteredCustomerBoxStyle: {
-    maxHeight: "460px",
+    height: "460px",
     overflowY: "auto",
-    pr: 5,
     display: "flex",
     flexWrap: "wrap",
     gridTemplateColumns: "repeat(3, 1fr)",
@@ -84,7 +91,74 @@ const styles = {
       display: "none",
     },
     "& > div": {
-      width: "calc(33.33% - 20px)", // 3 items per row
+      width: "calc(33.33% - 20px)",
+    },
+  },
+  viewProfileButton: {
+    position: "absolute",
+    bottom: 5,
+    left: 35,
+    py: 1,
+    px: 2,
+    backgroundColor: "#00AFFF",
+    border: "none",
+    cursor: "pointer",
+    borderRadius: 4,
+    color: "white",
+    fontWeight: "bold",
+    transition: "transform 0.3s ease-in-out",
+    "&:hover": {
+      backgroundColor: "#008FCC",
+      transform: "scale(1.03)",
+    },
+  },
+  viewHistoryButton: {
+    position: "absolute",
+    bottom: 5,
+    right: 75,
+    py: 1,
+    px: 2,
+    border: "none",
+    borderRadius: 4,
+    cursor: "pointer",
+    backgroundColor: "#ffffff",
+    color: "#1b0099",
+    transition: "transform 0.3s ease-in-out",
+    fontWeight: "bold",
+    "&:hover": {
+      backgroundColor: "#e0e0e0",
+      transform: "scale(1.03)",
+    },
+  },
+  cardWrapper: {
+    position: "relative",
+    width: "300px",
+    height: "230px",
+  },
+  fixedHeader: {
+    pt: "12px",
+    pl: "16px",
+  },
+
+  scrollableCardContent: {
+    overflowY: "scroll", // Ensures scrollbar is always visible
+    maxHeight: "100px",
+    mr: "10px",
+    padding: 0,
+    mt: "10px",
+    ml: "25px",
+
+    // WebKit (Chrome, Safari, Edge)
+    "&::-webkit-scrollbar": {
+      width: "8px",
+    },
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: "#1b0099",
+      borderRadius: "4px",
+    },
+    "&::-webkit-scrollbar-track": {
+      background: "#f1f1f1",
+      borderRadius: "4px",
     },
   },
 };
