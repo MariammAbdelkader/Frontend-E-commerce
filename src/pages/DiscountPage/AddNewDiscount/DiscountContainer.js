@@ -82,15 +82,26 @@ const useDiscount = () => {
         startDate,
         endDate
       );
+  
       setLoading(false);
-      if (result.success) {
+      console.log("API result:", result);
+  
+      // Check if discount was applied successfully
+      if (result === "Category discount applied successfully") {
+        // Show the success message
         setSuccessMessage("Discount applied successfully!");
-        handleCloseCategoryDialog();
+  
+        // Wait for 2 seconds before closing the dialog
+        setTimeout(() => {
+          handleCloseCategoryDialog();
+        }, 2000); // 2 seconds delay to show the confirmation message
       } else {
-        setErrorMessage(result.error || "Unknown error occurred. Please try again.");
+        setErrorMessage("Unknown error occurred. Please try again.");
       }
     } catch (error) {
       setLoading(false);
+      console.log("Error details:", error);
+  
       if (error.response) {
         setErrorMessage(
           error.response?.data?.message || "Something went wrong. Please try again."
@@ -102,38 +113,37 @@ const useDiscount = () => {
       }
     }
   };
-
+  
+  
   const handleSaveProductDiscount = async () => {
     setLoading(true);
     try {
-      // Debugging: Log productId and other values before the API call
-      console.log("Saving product discount", {
-        productId,
-        discountPercentage,
-        startDate,
-        endDate,
-      });
-
       const result = await AddDiscountOnProduct(
         productId,
         discountPercentage,
         startDate,
         endDate
       );
-
+  
       setLoading(false);
       console.log("API result:", result);
-
-      // Debugging: Check if a discount exists already
-      if (result.success) {
+  
+      // Check if discount was applied successfully
+      if (result === "Product discount applied successfully") {
+        // Show the success message
         setSuccessMessage("Discount applied successfully!");
-        handleCloseProductDialog();
+  
+        // Wait for 2 seconds before closing the dialog
+        setTimeout(() => {
+          handleCloseProductDialog();
+        }, 2000); // 2 seconds delay to show the confirmation message
       } else {
-        console.log("Error message from API:", result.error);
-        setErrorMessage(result.error || "Unknown error occurred. Please try again.");
+        setErrorMessage("Unknown error occurred. Please try again.");
       }
     } catch (error) {
       setLoading(false);
+      console.log("Error details:", error);
+  
       if (error.response) {
         setErrorMessage(
           error.response?.data?.message || "Something went wrong. Please try again."
@@ -145,7 +155,7 @@ const useDiscount = () => {
       }
     }
   };
-
+  
   return {
     openCategoryDialog,
     openProductDialog,
