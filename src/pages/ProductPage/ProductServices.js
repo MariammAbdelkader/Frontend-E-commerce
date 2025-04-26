@@ -105,11 +105,22 @@ export const addProduct = async (productData) => {
   try {       
         
         console.log("Submitting productData:", productData);
+
     
         const { image, ...rest } = productData;
-        console.log("rest productData:", rest);
+
+        const data= {
+          name:rest.name,
+          price:rest.price,
+          description:rest.description,
+          categoryId:rest.category,
+          subcategoryId: rest.subCategory,
+          quantity:rest.quantity,
+          status:rest.status
+        }   
+        console.log("rest productData:", data);
         // 1. Send data (except image)
-        const response = await axios.post(`${API_BASE_URL}/create`, rest, {
+        const response = await axios.post(`${API_BASE_URL}/create`, data, {
           withCredentials: true,
           headers: {
             "Content-Type": "application/json",

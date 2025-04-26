@@ -45,13 +45,11 @@ const useProductContainer = () => {
     );
     setFilteredSubCategories(filtered);
 
-    if (
-      !filtered.some((sub) => sub.subcategoryId === productData.subCategory)
-    ) {
-      setProductData((prev) => ({ ...prev, subCategory: "" }));
-    }
-  }, [productData.category, productData.subCategory, allSubCategories]);
-
+    setProductData((prev) => ({
+      ...prev,
+      subCategory: "",
+    }));
+  }, [productData.category, allSubCategories]);
   const handleOpen = () => setOpen(true);
 
   const handleClose = () => {
@@ -84,6 +82,7 @@ const useProductContainer = () => {
         ...prev,
         subCategory: String(value),
       }));
+      console.log(productData)
     } else if (name === "image") {
       setProductData((prev) => ({ ...prev, image: files[0] }));
     } else if (["price", "quantity"].includes(name)) {
@@ -113,8 +112,8 @@ const useProductContainer = () => {
       // 📦 Prepare data to send
       const productDataToSend = {
         ...productData,
-        category: categoryObj?.name || productData.category,
-        subCategory: subcategoryObj?.name || productData.subCategory,
+        category: categoryObj?.categoryId || productData.category,
+        subCategory: subcategoryObj?.subcategoryId || productData.subCategory,
       };
 
       // console.log("Sending this data:", productDataToSend);

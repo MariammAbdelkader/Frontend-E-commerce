@@ -177,7 +177,6 @@ const ProductPresentation = ({ activeSubItem }) => {
                   required>
                   <MenuItem value="in_stock">In Stock</MenuItem>
                   <MenuItem value="out_of_stock">Out of Stock</MenuItem>
-                  <MenuItem value="discontinued">discontinued</MenuItem>
                 </Select>
               </FormControl>
               <TextField
