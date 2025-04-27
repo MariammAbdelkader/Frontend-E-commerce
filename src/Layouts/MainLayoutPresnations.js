@@ -14,6 +14,9 @@ import OrdersPagePresentation from "../pages/OrdersPage/OrdersPagePresentation";
 import CustomerPage from "../pages/Customers/CustomerPagePresentation";
 import styles from "./MainLayoutStyles";
 
+
+import DashboardContainer from "../pages/DashboardPage/DashboardContainer"
+
 const getSubSidebarItems = (activeItem) => {
   const sidebarOptions = {
     Products: [
@@ -73,6 +76,9 @@ const MainLayoutPresentation = () => {
       }
     }
 
+    if(activeItem==="Home"){
+      return <DashboardContainer />
+    }
     return null;
   };
 
