@@ -16,6 +16,7 @@ import {
   Chat,
   Settings,
 } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 import Logo from "../../images/Logo.png";
 import styles from "./SidebarStyles";
 
@@ -30,6 +31,16 @@ const sidebarItems = [
 ];
 
 const Sidebar = ({ activeItem, setActiveItem }) => {
+  const navigate = useNavigate();
+
+  const handleItemClick = (text) => {
+    if (text === "Online Store") {
+      navigate("/store");
+    } else {
+      setActiveItem(text);
+    }
+  };
+
   return (
     <Box sx={styles.sidebar}>
       <Box component="img" src={Logo} alt="Logo" sx={styles.sidebarLogo} />
@@ -38,7 +49,7 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
           <ListItem
             button
             key={text}
-            onClick={() => setActiveItem(text)}
+            onClick={() => handleItemClick(text)}
             sx={styles.sidebarItem(activeItem === text)}>
             <ListItemIcon sx={{ minWidth: "unset", color: "inherit" }}>
               {icon}

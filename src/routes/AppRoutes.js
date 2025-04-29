@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import MainLayout from "../Layouts/MainLayoutPresnations";
-import StorePage from "../pages/StorePage/StorePage";
+import StorePage from "../pages/StorePage/StorePagePresentation";
 import ChatbotPage from "../pages/ChatbotPage/ChatbotPresentation";
 import LoginPage from "../pages/LoginPage/LoginPresentation";
 import SignUpPage from "../pages/SignupPage/SignupPresentation";
