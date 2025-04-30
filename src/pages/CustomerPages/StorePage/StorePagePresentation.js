@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, GlobalStyles, Typography } from "@mui/material";
-import Navbar from "../../Components/onlineStoreNavbar/Navbar";
-import ProductRow from "../../Components/ProductRow/ProductRow";
+import Navbar from "../../../Components/onlineStoreNavbar/Navbar";
+import ProductRow from "../../../Components/ProductRow/ProductRow";
 import StorePageContainer from "./StorePageContainer";
 import { StorePageStyles } from "./StorePageStyles";
 

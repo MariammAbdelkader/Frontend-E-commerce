@@ -19,8 +19,7 @@ const useDiscount = () => {
   const [categories, setCategories] = useState([]);
 
   // Fetch categories only once when the component mounts
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
 
   const handleOpenCategoryDialog = async () => {
     setOpenCategoryDialog(true);
@@ -28,7 +27,10 @@ const useDiscount = () => {
     // Fetch categories only when the dialog opens
     try {
       const fetchedCategories = await getCategories();
-      console.log("Fetched Categories:", JSON.stringify(fetchedCategories, null, 2));
+      console.log(
+        "Fetched Categories:",
+        JSON.stringify(fetchedCategories, null, 2)
+      );
 
       if (Array.isArray(fetchedCategories) && fetchedCategories.length > 0) {
         setCategories(fetchedCategories);
@@ -82,15 +84,15 @@ const useDiscount = () => {
         startDate,
         endDate
       );
-  
+
       setLoading(false);
       console.log("API result:", result);
-  
+
       // Check if discount was applied successfully
       if (result === "Category discount applied successfully") {
         // Show the success message
         setSuccessMessage("Discount applied successfully!");
-  
+
         // Wait for 2 seconds before closing the dialog
         setTimeout(() => {
           handleCloseCategoryDialog();
@@ -101,20 +103,22 @@ const useDiscount = () => {
     } catch (error) {
       setLoading(false);
       console.log("Error details:", error);
-  
+
       if (error.response) {
         setErrorMessage(
-          error.response?.data?.message || "Something went wrong. Please try again."
+          error.response?.data?.message ||
+            "Something went wrong. Please try again."
         );
       } else if (error.request) {
-        setErrorMessage("Network error: No response from the server. Please check your internet connection.");
+        setErrorMessage(
+          "Network error: No response from the server. Please check your internet connection."
+        );
       } else {
         setErrorMessage("An error occurred: " + error.message);
       }
     }
   };
-  
-  
+
   const handleSaveProductDiscount = async () => {
     setLoading(true);
     try {
@@ -124,15 +128,15 @@ const useDiscount = () => {
         startDate,
         endDate
       );
-  
+
       setLoading(false);
       console.log("API result:", result);
-  
+
       // Check if discount was applied successfully
       if (result === "Product discount applied successfully") {
         // Show the success message
         setSuccessMessage("Discount applied successfully!");
-  
+
         // Wait for 2 seconds before closing the dialog
         setTimeout(() => {
           handleCloseProductDialog();
@@ -143,19 +147,22 @@ const useDiscount = () => {
     } catch (error) {
       setLoading(false);
       console.log("Error details:", error);
-  
+
       if (error.response) {
         setErrorMessage(
-          error.response?.data?.message || "Something went wrong. Please try again."
+          error.response?.data?.message ||
+            "Something went wrong. Please try again."
         );
       } else if (error.request) {
-        setErrorMessage("Network error: No response from the server. Please check your internet connection.");
+        setErrorMessage(
+          "Network error: No response from the server. Please check your internet connection."
+        );
       } else {
         setErrorMessage("An error occurred: " + error.message);
       }
     }
   };
-  
+
   return {
     openCategoryDialog,
     openProductDialog,
