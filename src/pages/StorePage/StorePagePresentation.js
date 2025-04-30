@@ -8,6 +8,7 @@ import { StorePageStyles } from "./StorePageStyles";
 const StorePage = () => {
   const {
     cartCount,
+    setCartCount,
     cartAnchorEl,
     profileAnchorEl,
     cartItems,
@@ -30,6 +31,7 @@ const StorePage = () => {
       <GlobalStyles styles={StorePageStyles.globalStyles} />
       <Navbar
         cartCount={cartCount}
+        setCartCount={setCartCount}
         onCartClick={handleCartClick}
         onProfileClick={handleProfileClick}
         profileAnchorEl={profileAnchorEl}

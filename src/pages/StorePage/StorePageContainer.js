@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
 
 const StorePageContainer = () => {
   const navigate = useNavigate();
@@ -10,6 +12,15 @@ const StorePageContainer = () => {
 
   const isCartOpen = Boolean(cartAnchorEl);
   const isProfileMenuOpen = Boolean(profileAnchorEl);
+
+  const location = useLocation();
+  const newCartItems = location.state?.cartItems;
+
+  useEffect(() => {
+    if (newCartItems) {
+      setCartItems(newCartItems);
+    }
+  }, [newCartItems]);
 
   const products = [
     {
@@ -585,21 +596,38 @@ const StorePageContainer = () => {
             : item
         )
       );
-    } else {
-      setCartItems([...cartItems, { ...product, quantity: 1 }]);
+    }
+    if (!cartItems.find((item) => item.id === product.id)) {
+      setCartItems([...cartItems, product]); // Add new item
     }
     setCartCount(cartCount + 1);
   };
 
-  const handleProceedToCheckout = () => navigate("/cart");
+  const handleProceedToCheckout = () => {
+    navigate("/checkout", { state: { cartItems } });
+  };
   const handleCartClose = () => setCartAnchorEl(null);
 
   const removeItemFromCart = (productName) => {
     setCartItems((prevItems) => {
-      const updatedItems = prevItems.filter(
-        (item) => item.name !== productName
+      const updatedItems = prevItems
+        .map((item) => {
+          if (item.name === productName) {
+            if (item.quantity > 1) {
+              return { ...item, quantity: item.quantity - 1 };
+            }
+            return null;
+          }
+          return item;
+        })
+        .filter((item) => item !== null);
+
+      setCartCount(
+        updatedItems.reduce((count, item) => count + item.quantity, 0)
       );
-      setCartCount(updatedItems.length);
+
+      localStorage.setItem("cartItems", JSON.stringify(updatedItems));
+
       return updatedItems;
     });
   };
@@ -616,6 +644,7 @@ const StorePageContainer = () => {
 
   return {
     cartCount,
+    setCartCount,
     cartAnchorEl,
     profileAnchorEl,
     cartItems,

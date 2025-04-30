@@ -8,6 +8,7 @@ import LoginPage from "../pages/LoginPage/LoginPresentation";
 import SignUpPage from "../pages/SignupPage/SignupPresentation";
 import ProductPage from "../pages/ProductPage/AddNewProduct/ProductPresentation";
 import ProfilePage from "../pages/ProfilePage/ProfilePagePresentation";
+import CartPage from "../pages/CartPage/CartPage";
 
 import Dashboard from "../pages/DashboardPage/DashboardPresentation";
 
@@ -23,6 +24,7 @@ const AppRoutes = () => {
         <Route path="/store" element={<StorePage />} />
         <Route path="/product" element={<ProductPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/checkout" element={<CartPage />} />
       </Routes>
     </Router>
   );

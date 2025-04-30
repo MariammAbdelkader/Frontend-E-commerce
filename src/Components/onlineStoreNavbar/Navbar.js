@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import {
   Box,
   Typography,
@@ -31,6 +32,7 @@ import NavbarStyles from "./NavbarStyles";
 
 const Navbar = ({
   cartCount,
+  setCartCount,
   onCartClick,
   onProfileClick,
   profileAnchorEl,
@@ -50,6 +52,24 @@ const Navbar = ({
   const handleLinkClick = (path) => {
     navigate(path);
   };
+
+  useEffect(() => {
+    const handleCartChange = () => {
+      const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+      const count = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+      setCartCount(count);
+    };
+
+    handleCartChange();
+
+    window.addEventListener("storage", handleCartChange);
+    window.addEventListener("cartUpdated", handleCartChange);
+
+    return () => {
+      window.removeEventListener("storage", handleCartChange);
+      window.removeEventListener("cartUpdated", handleCartChange);
+    };
+  }, [setCartCount]);
 
   return (
     <>
@@ -222,11 +242,13 @@ const Navbar = ({
             <Typography sx={NavbarStyles.totalPrice}>Total</Typography>
             <Typography sx={NavbarStyles.totalPrice}>
               $
-              {cartItems.reduce(
-                (total, item) =>
-                  total + (item.discountprice || item.price) * item.quantity,
-                0
-              )}
+              {cartItems
+                .reduce(
+                  (total, item) =>
+                    total + (item.discountprice || item.price) * item.quantity,
+                  0
+                )
+                .toFixed(2)}
             </Typography>
           </Box>
 
