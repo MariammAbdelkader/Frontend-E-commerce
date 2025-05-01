@@ -28,16 +28,17 @@ useEffect(() => {
                 }
             };
 
+    
     const BarChartData = async () => {
         try {
+            
+            let chartData = handleChartData(Profitdata);
             if(selectedMetric == "Revenue") {
-                const chartData = handleChartData(Revenuedata);
-                setChartData(chartData);
+                chartData = handleChartData(Revenuedata);
             }
-            else {
-                const chartData = handleChartData(Profitdata);
-                setChartData(chartData);
-            }
+
+            setChartData(chartData);
+
             const options = {
                 chart: {
                     title: selectedMetric === 'Revenue' ? 'Revenue Growth Rate' : 'Profit Growth Rate'
