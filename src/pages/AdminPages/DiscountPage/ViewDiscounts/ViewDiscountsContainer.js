@@ -25,7 +25,10 @@ const useViewDiscounts = () => {
     const getDiscounts = async () => {
       const data = await fetchDiscounts();
       if (data.success !== false) {
-        const allDiscounts = [...data.CategoryDiscounts, ...data.ProductDiscounts];
+        const allDiscounts = [
+          ...data.CategoryDiscounts,
+          ...data.ProductDiscounts,
+        ];
 
         // Sort discounts to move expired ones to the bottom
         const sortedDiscounts = allDiscounts.sort((a, b) => {
@@ -87,24 +90,26 @@ const useViewDiscounts = () => {
       console.error("No discount selected for expiration.");
       return;
     }
-  
+
     let result;
-  
+
     try {
       console.log("Attempting to expire discount...");
       if (selectedDiscountType === "product") {
         console.log(`Expiring product discount with ID: ${selectedDiscountId}`);
         result = await removeDiscountOnProduct(selectedDiscountId);
       } else if (selectedDiscountType === "category") {
-        console.log(`Expiring category discount with ID: ${selectedDiscountId}`);
+        console.log(
+          `Expiring category discount with ID: ${selectedDiscountId}`
+        );
         result = await removeDiscountOnCategory(selectedDiscountId);
       }
-  
-      console.log("API result:", result); 
-  
+
+      console.log("API result:", result);
+
       if (result && result.message) {
-        console.log("Message from API:", result.message); 
-  
+        console.log("Message from API:", result.message);
+
         if (result.message.toLowerCase().includes("terminated")) {
           console.log("Success detected in message!");
           setSnackbarMessage("Discount expired successfully!");
@@ -117,7 +122,7 @@ const useViewDiscounts = () => {
           }, 2000); // Delay for 2 seconds to show Snackbar before closing dialog
         } else {
           console.error("Failed to expire the discount: ", result.message);
-          setConfirmDialogOpen(false); 
+          setConfirmDialogOpen(false);
         }
       } else {
         console.error("Invalid response structure:", result);
@@ -128,7 +133,7 @@ const useViewDiscounts = () => {
       setConfirmDialogOpen(false); // Close dialog on error
     }
   };
-  
+
   return {
     discounts,
     editDialogOpen,

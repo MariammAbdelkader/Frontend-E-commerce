@@ -1,8 +1,7 @@
 import axios from "axios";
 import { uploadProductImage } from "./ImageServices"; // adjust path
-import {handleError} from "../../utilities/Errorhandling"
+import { handleError } from "../../../utilities/Errorhandling";
 const API_BASE_URL = `${process.env.REACT_APP_API_BASE_URL}/product`;
-
 
 /**
  * Fetches a product by its ID, including its category, subcategory,
@@ -35,7 +34,7 @@ export const getProductById = async (productId) => {
 
     return response.data.data;
   } catch (error) {
-    return handleError(error)
+    return handleError(error);
   }
 };
 
@@ -65,18 +64,17 @@ export const getProductById = async (productId) => {
 
 export const getAllProducts = async (filters) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}`, filters,{
+    const response = await axios.post(`${API_BASE_URL}`, filters, {
       withCredentials: true,
       headers: {
         "Content-Type": "application/json",
       },
     });
     const products = response.data.data;
- 
 
     return products;
   } catch (error) {
-    return handleError(error)
+    return handleError(error);
   }
 };
 
@@ -97,49 +95,45 @@ export const deleteProduct = async (productId) => {
       withCredentials: true, // Ensures cookies are sent with the request
     });
   } catch (error) {
-    return handleError(error)
+    return handleError(error);
   }
 };
 
 export const addProduct = async (productData) => {
-  try {       
-        
-        console.log("Submitting productData:", productData);
+  try {
+    console.log("Submitting productData:", productData);
 
-    
-        const { image, ...rest } = productData;
+    const { image, ...rest } = productData;
 
-        const data= {
-          name:rest.name,
-          price:rest.price,
-          description:rest.description,
-          categoryId:rest.category,
-          subcategoryId: rest.subCategory,
-          quantity:rest.quantity,
-          status:rest.status
-        }   
-        console.log("rest productData:", data);
-        // 1. Send data (except image)
-        const response = await axios.post(`${API_BASE_URL}/create`, data, {
-          withCredentials: true,
-          headers: {
-            "Content-Type": "application/json",
-          }
-        },
-        );
-    
-        const productId = response.data?.newProduct?.productId;
-    
-        if (!productId) {
-          throw new Error("Product ID not returned from create endpoint");
-        }
-        if(image)
-          {
-            await uploadProductImage(image, productId);
-          }
+    const data = {
+      name: rest.name,
+      price: rest.price,
+      description: rest.description,
+      categoryId: rest.category,
+      subcategoryId: rest.subCategory,
+      quantity: rest.quantity,
+      status: rest.status,
+    };
+    console.log("rest productData:", data);
+    // 1. Send data (except image)
+    const response = await axios.post(`${API_BASE_URL}/create`, data, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const productId = response.data?.newProduct?.productId;
+
+    if (!productId) {
+      throw new Error("Product ID not returned from create endpoint");
+    }
+    if (image) {
+      await uploadProductImage(image, productId);
+    }
     return response.data.success;
   } catch (error) {
-    return handleError(error)
+    return handleError(error);
   }
 };
 
@@ -148,21 +142,25 @@ export const uploadCSV = async (file) => {
     const formData = new FormData();
     formData.append("file", file);
 
-    const response = await axios.post(`http://localhost:3000/upload/csv`, formData, {
-      headers: { "Content-Type": "multipart/form-data" },
-      withCredentials: true,
-    });
+    const response = await axios.post(
+      `http://localhost:3000/upload/csv`,
+      formData,
+      {
+        headers: { "Content-Type": "multipart/form-data" },
+        withCredentials: true,
+      }
+    );
 
     return response.data.message;
   } catch (error) {
-    return handleError(error)
+    return handleError(error);
   }
 };
 
 export const editProduct = async (productId, productData) => {
   try {
-    console.log("productId: ",productId)
-    console.log("productData: ",productData)
+    console.log("productId: ", productId);
+    console.log("productData: ", productData);
 
     await axios.patch(`${API_BASE_URL}/${productId}`, productData, {
       withCredentials: true,
@@ -173,7 +171,7 @@ export const editProduct = async (productId, productData) => {
 
     return { success: true, message: "Product updated successfully." };
   } catch (error) {
-    return handleError(error)
+    return handleError(error);
   }
 };
 ///////////////////////////////Reviews////////////////////////////////////////////////////
@@ -182,23 +180,20 @@ const API_BASE_URL_reviews = `${process.env.REACT_APP_API_BASE_URL}/reviews`;
 
 export const getProductReviews = async (productId) => {
   try {
-    console.log(" productId.",productId)
+    console.log(" productId.", productId);
     productId = Number(productId);
     if (isNaN(productId)) {
-     
-
       throw new Error("Invalid productId.");
-  
     }
 
     const response = await axios.get(`${API_BASE_URL_reviews}/${productId}`, {
       withCredentials: true, // Ensures cookies are sent with the request
     });
 
-    console.log(response.data)
+    console.log(response.data);
     return response.data.reviews;
   } catch (error) {
-    return handleError(error)
+    return handleError(error);
   }
 };
 export const getProductRating = async (productId) => {
@@ -208,45 +203,56 @@ export const getProductRating = async (productId) => {
       throw new Error("Invalid productId.");
     }
 
-    const response = await axios.get(`${API_BASE_URL_reviews}/rating${productId}`, {
-      withCredentials: true, // Ensures cookies are sent with the request
-    });
+    const response = await axios.get(
+      `${API_BASE_URL_reviews}/rating${productId}`,
+      {
+        withCredentials: true, // Ensures cookies are sent with the request
+      }
+    );
 
     return response.data;
   } catch (error) {
-    return handleError(error)
+    return handleError(error);
   }
 };
-export const addProductReview = async (productId,review) => {
+export const addProductReview = async (productId, review) => {
   try {
     productId = Number(productId);
     if (isNaN(productId)) {
       throw new Error("Invalid productId.");
     }
 
-    const response = await axios.post(`${API_BASE_URL_reviews}/${productId}`, review,{
-      withCredentials: true, // Ensures cookies are sent with the request
-    });
+    const response = await axios.post(
+      `${API_BASE_URL_reviews}/${productId}`,
+      review,
+      {
+        withCredentials: true, // Ensures cookies are sent with the request
+      }
+    );
 
     return response.data.message;
   } catch (error) {
-    return handleError(error)
+    return handleError(error);
   }
 };
-export const editProductReview = async (reviewId,review) => {
+export const editProductReview = async (reviewId, review) => {
   try {
     reviewId = Number(reviewId);
     if (isNaN(reviewId)) {
       throw new Error("Invalid productId.");
     }
 
-    const response = await axios.put(`${API_BASE_URL_reviews}/${reviewId}`, review,{
-      withCredentials: true, // Ensures cookies are sent with the request
-    });
+    const response = await axios.put(
+      `${API_BASE_URL_reviews}/${reviewId}`,
+      review,
+      {
+        withCredentials: true, // Ensures cookies are sent with the request
+      }
+    );
 
     return response.data.message;
   } catch (error) {
-    return handleError(error)
+    return handleError(error);
   }
 };
 export const deleteProductReview = async (reviewId) => {
@@ -256,17 +262,15 @@ export const deleteProductReview = async (reviewId) => {
       throw new Error("Invalid productId.");
     }
 
-    const response = await axios.delete(`${API_BASE_URL_reviews}/${reviewId}`,{
+    const response = await axios.delete(`${API_BASE_URL_reviews}/${reviewId}`, {
       withCredentials: true, // Ensures cookies are sent with the request
     });
 
     return response.data.message;
   } catch (error) {
-    return handleError(error)
+    return handleError(error);
   }
 };
-
-
 
 ///////////////////////////////Categories////////////////////////////////////////////////////
 
@@ -278,7 +282,7 @@ export const getCategories = async () => {
 
     return response.data.categories;
   } catch (error) {
-    return handleError(error)
+    return handleError(error);
   }
 };
 
@@ -290,39 +294,41 @@ export const getSubcategories = async () => {
 
     return response.data.subcategories;
   } catch (error) {
-    return handleError(error)
+    return handleError(error);
   }
 };
-
 
 const API_BASE_URL_cat = `${process.env.REACT_APP_API_BASE_URL}/category`;
 
-
 export const addCategory = async (name) => {
   try {
-  
-    const response = await axios.post(`${API_BASE_URL_cat}/add`,{name}, {
-      withCredentials: true,
-    });
+    const response = await axios.post(
+      `${API_BASE_URL_cat}/add`,
+      { name },
+      {
+        withCredentials: true,
+      }
+    );
 
     return response.data.message;
   } catch (error) {
-    return handleError(error)
+    return handleError(error);
   }
 };
 
-export const editCategory = async (categoryId,name) => {
+export const editCategory = async (categoryId, name) => {
   try {
-
-
-    const response = await axios.patch(`${API_BASE_URL_cat}/${categoryId}`,name, {
-      withCredentials: true,
-    }); 
-
+    const response = await axios.patch(
+      `${API_BASE_URL_cat}/${categoryId}`,
+      name,
+      {
+        withCredentials: true,
+      }
+    );
 
     return response.data.message;
   } catch (error) {
-    return handleError(error)
+    return handleError(error);
   }
 };
 export const deleteCategory = async (categoryId) => {
@@ -331,53 +337,55 @@ export const deleteCategory = async (categoryId) => {
       withCredentials: true,
     });
 
-    
-    console.log(response.data.message)
+    console.log(response.data.message);
     return response.data;
   } catch (error) {
-    return handleError(error)
+    return handleError(error);
   }
 };
 
 const API_BASE_URL_subcat = `${process.env.REACT_APP_API_BASE_URL}/subcategory`;
 
-
 export const addSubCategory = async (data) => {
   try {
-    console.log(data)
+    console.log(data);
 
-    const response = await axios.post(`${API_BASE_URL_subcat}/add`,data, {
+    const response = await axios.post(`${API_BASE_URL_subcat}/add`, data, {
       withCredentials: true,
     });
 
     return response.data.message;
   } catch (error) {
-    return handleError(error)
+    return handleError(error);
   }
 };
 
-export const editSubCategory = async (subcategoryId,data) => {
+export const editSubCategory = async (subcategoryId, data) => {
   try {
-   
-    const response = await axios.patch(`${API_BASE_URL_subcat}/${subcategoryId}`,data, {
-      withCredentials: true,
-    });
+    const response = await axios.patch(
+      `${API_BASE_URL_subcat}/${subcategoryId}`,
+      data,
+      {
+        withCredentials: true,
+      }
+    );
 
     return response.data.message;
   } catch (error) {
-    return handleError(error)
+    return handleError(error);
   }
 };
 export const deleteSubCategory = async (subcategoryId) => {
   try {
-    const response = await axios.delete(`${API_BASE_URL_subcat}/${subcategoryId}`, {
-      withCredentials: true,
-    });
+    const response = await axios.delete(
+      `${API_BASE_URL_subcat}/${subcategoryId}`,
+      {
+        withCredentials: true,
+      }
+    );
 
     return response.data.message;
   } catch (error) {
-    return handleError(error)
+    return handleError(error);
   }
 };
-
-

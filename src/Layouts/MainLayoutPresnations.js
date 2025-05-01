@@ -4,18 +4,17 @@ import LayoutContainer from "./MainLayoutContainer";
 import Sidebar from "../Components/Sidebar/SidebarPresentation";
 import Navbar from "../Components/NavBar/NavbarPresentation";
 import SubSidebar from "../Components/SubSidebar/SubsidebarPresentation";
-import DiscountPresentation from "../pages/DiscountPage/AddNewDiscount/DiscountPresentation";
-import ViewDiscounts from "../pages/DiscountPage/ViewDiscounts/ViewDiscounts";
-import ProductPresentation from "../pages/ProductPage/AddNewProduct/ProductPresentation";
-import AllProducts from "../pages/ProductPage/AllProducts/AllProductsPresentation";
-import AllCategories from "../pages/ProductPage/AllCategories/AllCategoriesPresentation";
-import ChatbotPage from "../pages/ChatbotPage/ChatbotPresentation";
-import OrdersPagePresentation from "../pages/OrdersPage/OrdersPagePresentation";
-import CustomerPage from "../pages/Customers/CustomerPagePresentation";
+import DiscountPresentation from "../pages/AdminPages/DiscountPage/AddNewDiscount/DiscountPresentation";
+import ViewDiscounts from "../pages/AdminPages/DiscountPage/ViewDiscounts/ViewDiscounts";
+import ProductPresentation from "../pages/AdminPages/ProductPage/AddNewProduct/ProductPresentation";
+import AllProducts from "../pages/AdminPages/ProductPage/AllProducts/AllProductsPresentation";
+import AllCategories from "../pages/AdminPages/ProductPage/AllCategories/AllCategoriesPresentation";
+import ChatbotPage from "../pages/AdminPages/ChatbotPage/ChatbotPresentation";
+import OrdersPagePresentation from "../pages/AdminPages/OrdersPage/OrdersPagePresentation";
+import CustomerPage from "../pages/AdminPages/Customers/CustomerPagePresentation";
 import styles from "./MainLayoutStyles";
 
-
-import DashboardContainer from "../pages/DashboardPage/DashboardContainer"
+import DashboardContainer from "../pages/AdminPages/DashboardPage/DashboardContainer";
 
 const getSubSidebarItems = (activeItem) => {
   const sidebarOptions = {
@@ -76,9 +75,10 @@ const MainLayoutPresentation = () => {
       }
     }
 
-    if(activeItem==="Home"){
-      return <DashboardContainer />
+    if (activeItem === "Home") {
+      return <DashboardContainer />;
     }
+
     return null;
   };
 

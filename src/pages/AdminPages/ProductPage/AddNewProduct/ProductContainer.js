@@ -82,7 +82,7 @@ const useProductContainer = () => {
         ...prev,
         subCategory: String(value),
       }));
-      console.log(productData)
+      console.log(productData);
     } else if (name === "image") {
       setProductData((prev) => ({ ...prev, image: files[0] }));
     } else if (["price", "quantity"].includes(name)) {

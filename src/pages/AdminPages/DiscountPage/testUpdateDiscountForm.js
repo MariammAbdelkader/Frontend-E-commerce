@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { updateDiscount } from "./DiscountServices";
+import { updateDiscount } from "../../DiscountPage/DiscountServices";
 
 const UpdateDiscountForm = () => {
   const [id, setId] = useState("");
