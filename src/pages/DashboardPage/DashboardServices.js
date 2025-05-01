@@ -23,7 +23,6 @@ export const getRevenueAnalytics = async ({year}) => {
         }
         response.data.response.details=details;
 
-        console.log("response",response.data.response.details);
         return response.data.response;
 
     } catch (error) {
@@ -49,7 +48,6 @@ export const getProfitAnalytics = async ({year}) => {
         }
         response.data.response.details=details;
 
-        console.log("response",response.data.response.details);
         return response.data.response;
     } catch (error) {
         return handleError(error);
@@ -87,6 +85,39 @@ export const getconversionRateAnalytics = async ({year}) => {
         return handleError(error);
     }
 };
+export const getTopCategories=async ({year,month})=>{
+    try {
+        const response = await axios.get(`${API_BASE_URL}/topselling/categories/${year}`, {
+            params: month?{ month }:{},  
+            withCredentials: true,
+        });
+        return response.data.categories;
+    } catch (error) {
+        return handleError(error);
+    }
+}
+
+export const getGrowthRateProfit=async ()=>{
+    try {
+        const response = await axios.get(`${API_BASE_URL}/Profit/growthrate` ,{
+            withCredentials: true,
+        });
+        return response.data.growth;
+    } catch (error) {
+        return handleError(error);
+    }
+}
+export const getGrowthRateRevenue=async ()=>{
+    try {
+        const response = await axios.get(`${API_BASE_URL}/Revenue/growthrate` ,{
+            withCredentials: true,
+        });
+        return response.data.growth;
+    } catch (error) {
+        return handleError(error);
+    }
+}
+
 
 const getTotalRevenueAnalytics = async ({ year, quarter }) => {
     try {
@@ -111,3 +142,5 @@ const getTotalProfitAnalytics = async ({ year, quarter }) => {
       return handleError(error);
     }
 };
+
+

@@ -1,7 +1,9 @@
 import React from 'react';
 import { FormControl, InputLabel, Select, MenuItem, Box, Typography } from '@mui/material';
 import AnalyticsChart from '../../Components/AnalyticsChart/AnalyticsChartContainer';
-
+import { Pie } from 'recharts';
+import PieChartContainer from '../../Components/PieChart/PieChartContainer';
+import BarChartContainer from '../../Components/BarChart/BarChartContainer';
 
 const DashboardPresentation = ({
   revenueData,
@@ -9,8 +11,11 @@ const DashboardPresentation = ({
   returnRateData,
   grossRateData,
   conversionRateData,
+  topCategoriesData,
   selectedYear,
-  onYearChange
+  onYearChange,
+  growthRateProfitData,
+  growthRateRevenueData
 }) => {
 
   const years = [2023, 2024, 2025, 2026, 2027, 2028];
@@ -69,7 +74,7 @@ const DashboardPresentation = ({
         <AnalyticsChart
           data={grossRateData}
           year={selectedYear}
-          title="Gross Rate"
+          title="Monthely Gross Rate"
           dataKey="grossRate"
           yAxisMax={100} 
         />
@@ -80,6 +85,13 @@ const DashboardPresentation = ({
           dataKey="conversionRate"
           yAxisMax={100} 
         />
+
+        <PieChartContainer data={topCategoriesData}/>
+        <BarChartContainer Profitdata={growthRateProfitData} Revenuedata={growthRateRevenueData}/>
+
+        <PieChartContainer data={topCategoriesData}/>
+        
+
         </Box>
     </Box>
 );
