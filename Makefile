@@ -7,7 +7,7 @@ build:
 
 # Run the Docker container
 up:
-	docker run -d --name $(CONTAINER_NAME) -p 3001:80 $(IMAGE_NAME)
+	docker run -d --name $(CONTAINER_NAME) -p 8001:80 $(IMAGE_NAME)
 
 # Stop and remove the Docker container
 down:
