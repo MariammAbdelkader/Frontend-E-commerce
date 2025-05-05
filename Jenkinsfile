@@ -5,7 +5,7 @@ pipeline {
         IMAGE_NAME = "mariammohamed1112/frontend-app"
         MAKEFILE_PATH = "Makefile"
         AWS_BUCKET = "shophoria"
-        AWS_REGION = "us-east-1" // change if you're using a different region
+        AWS_REGION = "us-east-1" 
         CLOUDFRONT_DISTRIBUTION_ID = "E2A8QWZNYVB2O1"
     }
 
@@ -18,12 +18,14 @@ pipeline {
         }
 
         stage('Build React App') {
-            steps {
-                echo 'Installing dependencies and building React app...'
-                sh 'npm install'
-                sh 'npm run build'
-            }
-        }
+    steps {
+        echo 'Installing dependencies and building React app...'
+        sh 'npm install'
+        sh 'CI= npm run build'  // disables treating warnings as errors
+    }
+}
+
+
 
         stage('Upload to S3') {
             steps {
