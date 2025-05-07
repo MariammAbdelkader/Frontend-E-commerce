@@ -3,6 +3,10 @@ import { Card, CardContent, Typography, Select, MenuItem,FormControl } from '@mu
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const AnalyticsChartView = ({ title, chartData, details, selectedQuarter, onChangeQuarter,isSummableMetric }) => {
+  const maxY=(Math.max(...chartData.map(item => item.value)));
+  const minY = Math.min(...chartData.map(item => item.value));
+
+
   return (
     <Card sx={{ p: 2, borderRadius: '16px', width: "60%", mb: 3 }}>
       <CardContent>
@@ -42,7 +46,7 @@ const AnalyticsChartView = ({ title, chartData, details, selectedQuarter, onChan
           <LineChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="date" tick={{ fontSize: 12 }} interval={0} />
-            <YAxis />
+            <YAxis domain={[Math.min(0,minY), maxY]} />
             <Tooltip />
             <Line type="linear" dataKey="value" stroke="#1976d2" strokeWidth={3} />
           </LineChart>

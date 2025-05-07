@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { getRevenueAnalytics,getProfitAnalytics,getreturnRatetAnalytics,getgrossRateAnalytics,getconversionRateAnalytics } from './DashboardServices';
+import { getRevenueAnalytics,getProfitAnalytics,
+  getreturnRatetAnalytics,getgrossRateAnalytics,
+  getconversionRateAnalytics,getTopCategories,
+getGrowthRateProfit,getGrowthRateRevenue } from './DashboardServices';
 import DashboardPresentation from './DashboardPresentation';
 
 const DashboardContainer = () => {
@@ -8,6 +11,11 @@ const DashboardContainer = () => {
   const [returnRateData, setreturnRateData] = useState([]);
   const [grossRateData, setgrossRateData] = useState([]);
   const [conversionRateData, setconversionRateData] = useState([]);
+  const [topCategoriesData, setTopCategoriesData] = useState([])
+
+  const[growthRateProfitData,setGrowthRateProfitData]=useState([])
+  const[growthRateRevenueData,setGrowthRateRevenueData]=useState([])
+  
 
 
   const [selectedYear, setSelectedYear] = useState(2025); // Default year is 2025
@@ -20,12 +28,20 @@ const DashboardContainer = () => {
         const returnRateRepoonse = await getreturnRatetAnalytics({ year: selectedYear });
         const grossRateRepoonse = await getgrossRateAnalytics({ year: selectedYear });
         const conversionRateRepoonse = await getconversionRateAnalytics({ year: selectedYear });
-        
+        const topCategoriesResponse = await getTopCategories({ year: selectedYear });
+        const growthRateProfitResponse = await getGrowthRateProfit();
+        const growthRateRevenueResponse = await getGrowthRateRevenue();
+          // console.log("Topcategories Response:",topCategoriesResponse)
         setRevenueData(revenueRepoonse);
         setProfitData(profitRepoonse);
         setreturnRateData(returnRateRepoonse);  
         setgrossRateData(grossRateRepoonse);
         setconversionRateData(conversionRateRepoonse);
+        setTopCategoriesData(topCategoriesResponse);
+        setGrowthRateProfitData(growthRateProfitResponse)
+        setGrowthRateRevenueData(growthRateRevenueResponse)
+
+        // console.log("Topcategories data:",topCategoriesData)
 
       } catch (error) {
         console.error('Error fetching revenue analytics:', error);
@@ -42,6 +58,9 @@ const DashboardContainer = () => {
         returnRateData={returnRateData}
         grossRateData={grossRateData}
         conversionRateData={conversionRateData}
+        growthRateProfitData={growthRateProfitData}
+        growthRateRevenueData={growthRateRevenueData}
+        topCategoriesData={topCategoriesData}
         selectedYear={selectedYear}
         onYearChange={setSelectedYear} // Pass the year change handler to the presentation
     />
