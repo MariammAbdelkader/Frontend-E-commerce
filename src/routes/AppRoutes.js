@@ -7,7 +7,8 @@ import ChatbotPage from "../pages/AdminPages/ChatbotPage/ChatbotPresentation";
 import LoginPage from "../pages/AdminPages/LoginPage/LoginPresentation";
 import SignUpPage from "../pages/AdminPages/SignupPage/SignupPresentation";
 import ProductPage from "../pages/AdminPages/ProductPage/AddNewProduct/ProductPresentation";
-import ProfilePage from "../pages/AdminPages/ProfilePage/ProfilePagePresentation";
+import AdminProfilePage from "../pages/AdminPages/ProfilePage/ProfilePagePresentation";
+import UserProfilePage from "../pages/CustomerPages/ProfilePage/ProfilePage";
 import CartPage from "../pages/CustomerPages/CartPage/CartPage";
 
 import Dashboard from "../pages/AdminPages/DashboardPage/DashboardPresentation";
@@ -23,7 +24,8 @@ const AppRoutes = () => {
         <Route path="/chatbot" element={<ChatbotPage />} />
         <Route path="/store" element={<StorePage />} />
         <Route path="/product" element={<ProductPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/adminprofile" element={<AdminProfilePage />} />
+        <Route path="/userprofile" element={<UserProfilePage />} />
         <Route path="/checkout" element={<CartPage />} />
       </Routes>
     </Router>
