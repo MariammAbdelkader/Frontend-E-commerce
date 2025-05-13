@@ -48,17 +48,18 @@ const useViewDiscounts = () => {
     };
     getDiscounts();
   }, []);
-
   const handleEdit = (discount) => {
+    console.log(discount);  
+    const discountType = discount.categoryName ? "category" : "product"; 
     setEditingDiscount({
-      ...discount,
+      ...discount,  // This should include the `discountId` field
       rate: discount.percentage || discount.rate,
       startDate: discount.begin || discount.startDate,
       endDate: discount.end || discount.endDate,
+      discountType,  // Add discountType here
     });
     setEditDialogOpen(true);
   };
-
   const handleDialogChange = (e) => {
     const { name, value } = e.target;
     setEditingDiscount((prev) => ({
@@ -68,23 +69,64 @@ const useViewDiscounts = () => {
   };
 
   const handleSave = async () => {
-    const { id, rate, startDate, endDate } = editingDiscount;
-    const updateData = { rate, startDate, endDate };
-    const type = selectedDiscountType;
-
-    const result = await updateDiscount(type, id, updateData);
+    if (!editingDiscount?.discountId) {
+      console.error("Discount ID is missing", editingDiscount);
+      return;
+    }
+  
+    const { discountId, rate, startDate, endDate, discountType } = editingDiscount;
+  
+    if (!discountType) {
+      console.error("Discount type is missing:", editingDiscount);
+      return;
+    }
+    const updateData = {
+      percentage: parseFloat(rate), 
+      startDate,
+      endDate,
+    };
+    
+  
+    console.log('Sending update:', { discountId, updateData, type: discountType });
+  
+    const result = await updateDiscount(discountType, discountId, updateData);
+    console.log('Update result:', result);
+  
     if (result.success) {
-      setDiscounts((prev) =>
-        prev.map((d) =>
-          d.id === editingDiscount.id ? { ...editingDiscount, rate } : d
+      setDiscounts((prevDiscounts) =>
+        prevDiscounts.map((d) =>
+          d.discountId === discountId
+            ? { ...d, rate, startDate, endDate }
+            : d
         )
       );
+      const data = await fetchDiscounts(); 
+      if (data.success !== false) {
+        const allDiscounts = [
+          ...data.CategoryDiscounts,
+          ...data.ProductDiscounts,
+        ];
+        const sortedDiscounts = allDiscounts.sort((a, b) => {
+          if (a.status === "expired" && b.status !== "expired") {
+            return 1; 
+          }
+          if (a.status !== "expired" && b.status === "expired") {
+            return -1; // Keep non-expired discounts at the top
+          }
+          return 0; // No change if both have the same status
+        });
+  
+        setDiscounts(sortedDiscounts);  
+      } else {
+        console.error(data.error);
+      }
       setEditDialogOpen(false);
     } else {
-      console.error(result.error);
+      alert("Failed to update discount: " + result.error);
     }
   };
-
+  
+  
   const confirmDelete = async () => {
     if (!selectedDiscountId || !selectedDiscountType) {
       console.error("No discount selected for expiration.");

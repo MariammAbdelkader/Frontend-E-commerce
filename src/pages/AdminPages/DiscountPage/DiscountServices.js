@@ -153,11 +153,13 @@ export const updateDiscount = async (type, id, updateData) => {
       withCredentials: true, 
     });
 
+    console.log('API response:', response);  // Log the API response
     return {
       success: true,
       message: response.data.message,
     };
   } catch (error) {
+    console.error("Error in updateDiscount:", error);  // Log errors
     return {
       success: false,
       error:
@@ -167,7 +169,6 @@ export const updateDiscount = async (type, id, updateData) => {
     };
   }
 };
-
 
 /**
  * remove discount form product.
