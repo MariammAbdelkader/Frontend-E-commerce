@@ -584,7 +584,7 @@ const StorePageContainer = () => {
   const handleProfileClick = (event) => setProfileAnchorEl(event.currentTarget);
   const handleMenuClose = () => setProfileAnchorEl(null);
   const handleSignOut = () => navigate("/login");
-  const handleProfile = () => navigate("/profile");
+  const handleProfile = () => navigate("/userprofile");
 
   const handleAddToCart = (product) => {
     const existingItem = cartItems.find((item) => item.name === product.name);

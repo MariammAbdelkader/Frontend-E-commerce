@@ -5,7 +5,7 @@ const API_BASE_URL = `${process.env.REACT_APP_API_BASE_URL}`;
 
 export const loginUser = async (credentials) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/login`, credentials, {
+    const response = await axios.post(`${API_BASE_URL}/auth/login`, credentials, {
       headers: { "Content-Type": "application/json" },
       withCredentials: true, // Ensures cookies (JWT) are sent & received
     });
