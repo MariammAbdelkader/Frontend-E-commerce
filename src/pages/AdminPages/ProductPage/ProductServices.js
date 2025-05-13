@@ -70,6 +70,7 @@ export const getAllProducts = async (filters) => {
         "Content-Type": "application/json",
       },
     });
+    
     const products = response.data.data;
 
     return products;

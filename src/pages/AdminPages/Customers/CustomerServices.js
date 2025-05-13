@@ -2,17 +2,19 @@ import axios from "axios";
 
 const API_BASE_URL = `${process.env.REACT_APP_API_BASE_URL}`;
 
-export const getAllCustomersInformation = async (filters) => {
+export const getAllCustomersInformation = async () => {
   try {
     const response = await axios.get(
       `${API_BASE_URL}/customermanagement/customer-info`,
-      filters,
-      {
+            {
         withCredentials: true,
       }
     );
 
-    return response.data;
+    return {
+      success: true,
+      data: response.data.segmenteedUsers,
+    };
   } catch (error) {
     return {
       success: false,
