@@ -10,7 +10,7 @@ import ProductPage from "../pages/AdminPages/ProductPage/AddNewProduct/ProductPr
 import AdminProfilePage from "../pages/AdminPages/ProfilePage/ProfilePagePresentation";
 import UserProfilePage from "../pages/CustomerPages/ProfilePage/ProfilePage";
 import CartPage from "../pages/CustomerPages/CartPage/CartPage";
-import ViewHistory from "../pages/AdminPages/Customers/ViewHistoryPage";
+import ViewHistory from "../pages/AdminPages/Customers/ViewHistory/ViewHistoryPage";
 import ViewProfile from "../pages/AdminPages/Customers/viewProfilePage";
 
 import Dashboard from "../pages/AdminPages/DashboardPage/DashboardPresentation";
