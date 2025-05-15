@@ -12,7 +12,7 @@ import UserProfilePage from "../pages/CustomerPages/ProfilePage/ProfilePage";
 import CartPage from "../pages/CustomerPages/CartPage/CartPage";
 import ViewHistory from "../pages/AdminPages/Customers/ViewHistory/ViewHistoryPage";
 import ViewProfile from "../pages/AdminPages/Customers/viewProfilePage";
-
+import Profile from "../pages/AdminPages/ProfilePage/ProfilePagePresentation";
 import Dashboard from "../pages/AdminPages/DashboardPage/DashboardPresentation";
 
 const AppRoutes = () => {
@@ -31,6 +31,7 @@ const AppRoutes = () => {
         <Route path="/checkout" element={<CartPage />} />
         <Route path="/viewhistory" element={<ViewHistory />} />
         <Route path="/viewprofile" element={<ViewProfile />} />
+        <Route path="/profile" element={<Profile />} />
       </Routes>
     </Router>
   );

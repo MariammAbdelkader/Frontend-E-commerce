@@ -58,7 +58,7 @@ const ProductList = () => {
     currentIndex,
     reviews,
     handleOpenReviewDialog,
-    handleCloseReviewDialog
+    handleCloseReviewDialog,
   } = useProductContainer();
 
   const renderStatus = (status) => {
@@ -86,7 +86,7 @@ const ProductList = () => {
   };
 
   return (
-    <div style={styles.container}>
+    <div style={styles.productcontainer}>
       <div style={styles.contentWrapper}>
         <div style={styles.filterWrapper}>
           <TextField
@@ -190,7 +190,7 @@ const ProductList = () => {
                         display="flex"
                         justifyContent="space-between"
                         alignItems="center">
-                        {product.discountprice? (
+                        {product.discountprice ? (
                           <Typography>
                             <span
                               style={{
@@ -202,8 +202,7 @@ const ProductList = () => {
                             </span>
                             <span
                               style={{ color: "#d32f2f", fontWeight: "bold" }}>
-                              $
-                              {product.discountprice}
+                              ${product.discountprice}
                             </span>
                           </Typography>
                         ) : (
@@ -392,9 +391,7 @@ const ProductList = () => {
                 <CircularProgress />
               </Box>
             ) : reviews.length === 0 ? (
-              <Typography sx={styles.noReviewsText}>
-                No reviews yet.
-              </Typography>
+              <Typography sx={styles.noReviewsText}>No reviews yet.</Typography>
             ) : (
               <Box sx={styles.reviewContainer}>
                 <IconButton onClick={handlePrev} disabled={currentIndex === 0}>
@@ -430,7 +427,9 @@ const ProductList = () => {
                   </Stack>
                 </Box>
 
-                <IconButton onClick={handleNext} disabled={currentIndex === reviews.length - 1}>
+                <IconButton
+                  onClick={handleNext}
+                  disabled={currentIndex === reviews.length - 1}>
                   <ArrowForwardIos />
                 </IconButton>
               </Box>

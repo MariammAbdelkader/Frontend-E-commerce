@@ -1,15 +1,15 @@
 const styles = {
-  container: {
+  productcontainer: {
     display: "flex",
     justifyContent: "center",
+    padding: 0,
   },
   contentWrapper: {
     maxWidth: "1100px",
-    width: "100%",
-    padding: "20px",
+    paddingTop: "20px",
   },
   filterWrapper: {
-    marginBottom: "20px",
+    marginBottom: "25px",
     display: "flex",
     gap: "20px",
   },
@@ -55,13 +55,12 @@ const styles = {
   },
 
   card: {
-    borderRadius: 4,
-    height: "450px",
+    borderRadius: 2,
     position: "relative",
     mr: 1,
     transition: "transform 0.3s, box-shadow 0.3s",
     "&:hover": {
-      transform: "scale(1.03)",
+      transform: "scale(1.01)",
       boxShadow: 6,
     },
   },

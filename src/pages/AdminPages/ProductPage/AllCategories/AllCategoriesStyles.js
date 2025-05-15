@@ -3,11 +3,12 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     minHeight: "82vh",
+    p: 0,
   },
   stickyHeader: {
     position: "sticky",
     top: 0,
-    padding: "8px 8px",
+    padding: "10px",
     zIndex: 1,
     color: "#1b0099",
   },
@@ -38,7 +39,7 @@ const styles = {
     },
   },
   scrollableContainer: {
-    maxHeight: "360px",
+    maxHeight: "400px",
     overflowY: "auto",
     scrollbarColor: "#3b0dab transparent",
     "&::-webkit-scrollbar": {

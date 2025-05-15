@@ -2,6 +2,7 @@ export const styles = {
   pageContainer: {
     backgroundColor: "#f9fafb",
     minHeight: "100vh",
+    p: 5,
   },
   appBar: {
     backgroundColor: "#ffffff",

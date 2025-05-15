@@ -1,7 +1,7 @@
 // OrdersPageStyles.js
 const styles = {
   container: {
-    p: 2,
+    p: 4,
     pb: 0,
     backgroundColor: "#f5f5f5",
   },

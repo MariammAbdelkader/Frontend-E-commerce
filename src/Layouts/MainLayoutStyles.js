@@ -9,6 +9,7 @@ const styles = {
     left: 0,
     right: 0,
     bottom: 0,
+    p: 0,
   },
 
   sidebar: {
@@ -122,7 +123,7 @@ const styles = {
     },
   }),
 
-  mainContent: { flexGrow: 1, padding: 2, overflow: "auto", maxWidth: "100%" },
+  mainContent: { flexGrow: 1, overflow: "auto", maxWidth: "100%" },
 
   divider: { width: "80%", bgcolor: "rgba(255,255,255,0.3)", mb: 2 },
 
