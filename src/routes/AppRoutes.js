@@ -10,6 +10,8 @@ import ProductPage from "../pages/AdminPages/ProductPage/AddNewProduct/ProductPr
 import AdminProfilePage from "../pages/AdminPages/ProfilePage/ProfilePagePresentation";
 import UserProfilePage from "../pages/CustomerPages/ProfilePage/ProfilePage";
 import CartPage from "../pages/CustomerPages/CartPage/CartPage";
+import ViewHistory from "../pages/AdminPages/Customers/ViewHistoryPage";
+import ViewProfile from "../pages/AdminPages/Customers/viewProfilePage";
 
 import Dashboard from "../pages/AdminPages/DashboardPage/DashboardPresentation";
 
@@ -27,6 +29,8 @@ const AppRoutes = () => {
         <Route path="/adminprofile" element={<AdminProfilePage />} />
         <Route path="/userprofile" element={<UserProfilePage />} />
         <Route path="/checkout" element={<CartPage />} />
+        <Route path="/viewhistory" element={<ViewHistory />} />
+        <Route path="/viewprofile" element={<ViewProfile />} />
       </Routes>
     </Router>
   );

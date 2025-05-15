@@ -10,9 +10,9 @@ const useCustomerPageContainer = () => {
   useEffect(() => {
     const fetchCustomers = async () => {
       setLoading(true);
-      
+
       const result = await getAllCustomersInformation();
-      if (result.success ) {
+      if (result.success) {
         setCustomers(result.data);
       } else {
         setError(result.error);

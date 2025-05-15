@@ -1,14 +1,13 @@
 import axios from "axios";
 
-
-import apiUrl from "../config/index"
+import apiUrl from "../config/index";
 const API_BASE_URL = `${apiUrl}`;
 
 export const getAllCustomersInformation = async () => {
   try {
     const response = await axios.get(
       `${API_BASE_URL}/customermanagement/customer-info`,
-            {
+      {
         withCredentials: true,
       }
     );
@@ -31,8 +30,7 @@ export const getAllCustomersInformation = async () => {
 export const getCustomerHistory = async (userId) => {
   try {
     const response = await axios.get(
-      `${API_BASE_URL}/customermanagement/userhistory`,
-      userId,
+      `${API_BASE_URL}/customermanagement/userhistory/${userId}`, // ✅ Append to path
       {
         withCredentials: true,
       }
@@ -43,9 +41,9 @@ export const getCustomerHistory = async (userId) => {
     return {
       success: false,
       error:
-        error.response?.data?.message || // Backend error message
-        error.message || // Axios error message
-        "Server error. Please try again.", // Fallback message
+        error.response?.data?.message ||
+        error.message ||
+        "Server error. Please try again.",
     };
   }
 };
