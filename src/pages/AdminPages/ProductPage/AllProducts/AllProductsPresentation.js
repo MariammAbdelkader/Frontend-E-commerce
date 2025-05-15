@@ -186,9 +186,6 @@ const ProductList = () => {
                         gutterBottom>
                         {product.description}
                       </Typography>
-                      <Typography variant="body2" mb={1}>
-                        Quantity: {product.quantity}
-                      </Typography>
                       <Box
                         display="flex"
                         justifyContent="space-between"
