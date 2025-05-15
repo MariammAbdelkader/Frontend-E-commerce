@@ -1,8 +1,7 @@
 import axios from "axios";
 
-
-const API_BASE_URL = `${process.env.REACT_APP_API_BASE_URL}/discount`;
-
+ import apiUrl from "../config/index"
+const API_BASE_URL = `${apiUrl}/discount`;
 /**
  * Fetches available product and category discounts from the backend.
  * @async

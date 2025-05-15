@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { getRevenueAnalytics,getProfitAnalytics,
   getreturnRatetAnalytics,getgrossRateAnalytics,
   getconversionRateAnalytics,getTopCategories,
-getGrowthRateProfit,getGrowthRateRevenue } from './DashboardServices';
+getGrowthRateProfit,getGrowthRateRevenue } from '../../../Services/DashboardServices';
 import DashboardPresentation from './DashboardPresentation';
 
 const DashboardContainer = () => {

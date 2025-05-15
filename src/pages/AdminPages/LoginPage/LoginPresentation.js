@@ -1,6 +1,6 @@
 import React from "react";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
-import { loginWithGoogle } from "./LoginServices";
+import { loginWithGoogle } from "../../../Services/LoginServices";
 import { loginStyles } from "./LoginStyles";
 import {
   Box,

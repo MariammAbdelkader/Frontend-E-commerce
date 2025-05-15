@@ -1,8 +1,8 @@
 // src/services/chatbotService.js
 // src/pages/ChatbotPage/ChatbotServices.js
 import axios from "axios";
-
-const API_BASE_URL = `${process.env.REACT_APP_API_BASE_URL}/chatbot`; 
+import apiUrl from "../config/index"
+const API_BASE_URL = `${apiUrl}/chatbot`;
 
 console.log("[ChatbotService] API_BASE_URL:", API_BASE_URL);
 

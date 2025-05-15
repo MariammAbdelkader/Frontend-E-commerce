@@ -8,7 +8,7 @@ import {
   addSubCategory,
   editSubCategory,
   deleteSubCategory,
-} from "../ProductServices";
+} from "../../../../Services/ProductServices";
 
 const AllCategoriesContainer = () => {
   const [categories, setCategories] = useState([]);

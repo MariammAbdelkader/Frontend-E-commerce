@@ -1,7 +1,9 @@
 import axios from "axios";
 import { uploadProductImage } from "./ImageServices"; // adjust path
-import { handleError } from "../../../utilities/Errorhandling";
-const API_BASE_URL = `${process.env.REACT_APP_API_BASE_URL}/product`;
+import { handleError } from "../utilities/Errorhandling";
+
+import apiUrl from "../config/index"
+const API_BASE_URL = `${apiUrl}/product`;
 
 /**
  * Fetches a product by its ID, including its category, subcategory,

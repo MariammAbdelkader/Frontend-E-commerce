@@ -6,7 +6,7 @@ import {
   getCategories,
   getSubcategories,
   getProductReviews,
-} from "../ProductServices";
+} from "../../../../Services/ProductServices";
 
 const useProductContainer = () => {
   const [products, setProducts] = useState([]);

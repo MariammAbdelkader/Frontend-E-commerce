@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import {
   AddDiscountOnProduct,
   AddDiscountOnCategory,
-} from "../DiscountServices";
-import { getCategories } from "../../ProductPage/ProductServices";
+} from "../../../../Services/DiscountServices";
+import { getCategories } from "../../../../Services/ProductServices";
 
 const useDiscount = () => {
   const [openCategoryDialog, setOpenCategoryDialog] = useState(false);

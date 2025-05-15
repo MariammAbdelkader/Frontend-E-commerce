@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getAllCustomersInformation } from "./CustomerServices";
+import { getAllCustomersInformation } from "../../../Services/CustomerServices";
 
 const useCustomerPageContainer = () => {
   const [customers, setCustomers] = useState([]);

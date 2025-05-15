@@ -4,7 +4,7 @@ import {
   updateDiscount,
   removeDiscountOnProduct,
   removeDiscountOnCategory,
-} from "../DiscountServices";
+} from "../../../../Services/DiscountServices";
 
 const useViewDiscounts = () => {
   const [discounts, setDiscounts] = useState([]);

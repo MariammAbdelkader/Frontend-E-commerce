@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signupUser } from "./SignupServices";
+import { signupUser } from "../../../Services/SignupServices";
 
 const SignupContainer = () => {
   const [showPassword, setShowPassword] = useState(false);

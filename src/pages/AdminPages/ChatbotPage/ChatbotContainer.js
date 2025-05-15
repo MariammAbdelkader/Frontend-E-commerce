@@ -6,7 +6,7 @@ import {
     sendMessage,
     getConversationMessages,
     deleteConversation,
-} from "./ChatbotServices"; // Corrected import
+} from "../../../Services/ChatbotServices"; // Corrected import
 
 const ChatbotContainer = () => {
     const [messages, setMessages] = useState([

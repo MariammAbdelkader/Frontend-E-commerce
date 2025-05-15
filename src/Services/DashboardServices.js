@@ -1,6 +1,8 @@
 import axios from 'axios';
-import {handleError} from '../../../utilities/Errorhandling';
-const API_BASE_URL =`${ process.env.REACT_APP_API_BASE_URL}/sales`;
+import {handleError} from '../utilities/Errorhandling';
+
+import apiUrl from "../config/index"
+const API_BASE_URL = `${apiUrl}/sales`;
 
 export const getRevenueAnalytics = async ({year}) => {
     try {

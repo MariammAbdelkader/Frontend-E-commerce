@@ -99,17 +99,17 @@ const OrderDetailsPage = () => {
                       {order.paymentStatus}
                     </TableCell>
                     <TableCell>
-                      <Stack direction="row" alignItems="center" spacing={1}>
-                        <Avatar src={order.customer.avatar} />
-                        <Box>
+                      {/* <Stack direction="row" alignItems="center" spacing={1}> */}
+                        {/* <Avatar src={order.customer.avatar} /> */}
+                        {/* <Box>
                           <Typography fontWeight={600}>
                             {order.customer.name}
                           </Typography>
                           <Typography variant="body2" color="text.secondary">
                             {order.customer.email}
                           </Typography>
-                        </Box>
-                      </Stack>
+                        </Box> */}
+                      {/* </Stack> */}
                     </TableCell>
                     <TableCell>
                       {order.products.reduce(

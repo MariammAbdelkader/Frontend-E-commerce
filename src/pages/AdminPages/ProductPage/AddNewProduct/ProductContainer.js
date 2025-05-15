@@ -4,7 +4,7 @@ import {
   addProduct,
   getCategories,
   getSubcategories,
-} from "../ProductServices";
+} from "../../../../Services/ProductServices";
 
 const useProductContainer = () => {
   const [open, setOpen] = useState(false);

@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { getAllOrder } from "./OrderServices";
+import { getAllOrder } from "../../../Services/OrderServices";
 
 const useOrdersPageContainer = () => {
   const [orders, setOrders] = useState([]);
@@ -12,12 +12,14 @@ const useOrdersPageContainer = () => {
     setLoading(true);
     setError(null);
 
-    const filters = {
-      filter,
-      search,
-    };
+  
 
     try {
+        const filters = {
+          filter,
+          search,
+      };
+
       const data = await getAllOrder(filters);
       if (data) {
         setOrders(data);
@@ -39,19 +41,10 @@ const useOrdersPageContainer = () => {
     if (newFilter !== null) setFilter(newFilter);
   };
 
-  const filteredOrders = orders.filter((order) => {
-    const matchesSearch =
-      order.customer.name.toLowerCase().includes(search.toLowerCase()) ||
-      order.customer.email.toLowerCase().includes(search.toLowerCase()) ||
-      order.orderId.toLowerCase().includes(search.toLowerCase());
 
-    const matchesFilter = filter === "all" || order.type === filter;
-
-    return matchesSearch && matchesFilter;
-  });
 
   return {
-    orders: filteredOrders,
+    orders,
     loading,
     error,
     filter,
