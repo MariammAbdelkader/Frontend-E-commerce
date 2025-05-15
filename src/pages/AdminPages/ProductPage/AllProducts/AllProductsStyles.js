@@ -110,7 +110,7 @@ const styles = {
     padding: "0px 20px",
     "&:hover": {
       backgroundColor: "#ffebee",
-      color: "#c62828",
+      // color: "#c62828",
     },
   },
   buttonReview: {
