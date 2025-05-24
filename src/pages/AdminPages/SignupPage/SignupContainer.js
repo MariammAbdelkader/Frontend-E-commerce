@@ -58,8 +58,7 @@ const SignupContainer = () => {
     const response = await signupUser(userData);
 
     if (response.success) {
-      console.log("Signup successful:", response.data);
-      navigate("/dashboard");
+      navigate("/store");
     } else {
       setErrors({ apiError: response.data?.message || response.error });
     }
