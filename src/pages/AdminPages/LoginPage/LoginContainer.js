@@ -38,8 +38,11 @@ const LoginContainer = () => {
     const response = await loginUser({ email, password });
 
     if (response.success) {
-      console.log("Login successful:", response.data);
-      navigate("/dashboard");
+      if(response.data.role==="Customer")
+          navigate("/store");
+      else if(response.data.role==="Admin")
+          navigate("/main");
+
     } else {
       setErrors((prev) => ({
         ...prev,

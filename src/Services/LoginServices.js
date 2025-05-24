@@ -10,6 +10,7 @@ export const loginUser = async (credentials) => {
       headers: { "Content-Type": "application/json" },
       withCredentials: true, // Ensures cookies (JWT) are sent & received
     });
+  
 
     return { success: true, data: response.data };
   } catch (error) {
