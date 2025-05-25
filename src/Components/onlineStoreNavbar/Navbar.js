@@ -1,5 +1,4 @@
-import React from "react";
-import { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -29,9 +28,9 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
 import NavbarStyles from "./NavbarStyles";
+import { getCart } from "../../Services/CartServices";
 
 const Navbar = ({
-  cartCount,
   setCartCount,
   onCartClick,
   onProfileClick,
@@ -40,7 +39,6 @@ const Navbar = ({
   handleMenuClose,
   onSignOut,
   onProfile,
-  cartItems,
   cartAnchorEl,
   isCartOpen,
   handleCartClose,
@@ -49,24 +47,38 @@ const Navbar = ({
 }) => {
   const navigate = useNavigate();
 
+  const [cartItems, setCartItems] = useState([]);
+
   const handleLinkClick = (path) => {
     navigate(path);
   };
 
+  // Fetch cart items from backend on mount
   useEffect(() => {
-    const handleCartChange = () => {
-      const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-      const count = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-      setCartCount(count);
+    const fetchCart = async () => {
+      try {
+        const response = await getCart();
+        if (response && Array.isArray(response)) {
+          setCartItems(response);
+
+          // Calculate total quantity for cartCount
+          const count = response.reduce((sum, item) => sum + item.quantity, 0);
+          setCartCount(count);
+        }
+      } catch (error) {
+        console.error("Failed to fetch cart items:", error);
+      }
     };
 
-    handleCartChange();
+    fetchCart();
 
-    window.addEventListener("storage", handleCartChange);
+    const handleCartChange = () => {
+      fetchCart();
+    };
+
     window.addEventListener("cartUpdated", handleCartChange);
 
     return () => {
-      window.removeEventListener("storage", handleCartChange);
       window.removeEventListener("cartUpdated", handleCartChange);
     };
   }, [setCartCount]);
@@ -136,7 +148,11 @@ const Navbar = ({
           {/* Cart Button */}
           <IconButton sx={NavbarStyles.iconButtonCart} onClick={onCartClick}>
             <Badge
-              badgeContent={cartCount > 0 ? cartCount : null}
+              badgeContent={
+                cartItems.length > 0
+                  ? cartItems.reduce((sum, i) => sum + i.quantity, 0)
+                  : null
+              }
               color="error">
               <ShoppingCartIcon />
             </Badge>

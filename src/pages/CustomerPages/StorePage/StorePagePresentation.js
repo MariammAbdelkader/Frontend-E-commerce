@@ -1,5 +1,13 @@
 import React from "react";
-import { Box, GlobalStyles, Typography } from "@mui/material";
+import {
+  Box,
+  GlobalStyles,
+  Typography,
+  MenuItem,
+  Select,
+  InputLabel,
+  FormControl,
+} from "@mui/material";
 import Navbar from "../../../Components/onlineStoreNavbar/Navbar";
 import ProductRow from "../../../Components/ProductRow/ProductRow";
 import StorePageContainer from "./StorePageContainer";
@@ -24,7 +32,24 @@ const StorePage = () => {
     handleCartClose,
     removeItemFromCart,
     grouped,
+    categories,
+    subcategories,
+    filters,
+    setFilters,
+    error,
   } = StorePageContainer();
+
+  const handleCategoryChange = (e) => {
+    setFilters((prev) => ({
+      ...prev,
+      categoryId: e.target.value,
+      subcategoryId: "",
+    }));
+  };
+
+  const handleSubcategoryChange = (e) => {
+    setFilters((prev) => ({ ...prev, subcategoryId: e.target.value }));
+  };
 
   return (
     <Box sx={StorePageStyles.container}>
@@ -46,6 +71,44 @@ const StorePage = () => {
         handleProceedToCheckout={handleProceedToCheckout}
         removeItemFromCart={removeItemFromCart}
       />
+
+      <Box sx={StorePageStyles.filterSection}>
+        <FormControl sx={{ minWidth: 200, mr: 2 }}>
+          <InputLabel>Category</InputLabel>
+          <Select
+            value={filters.categoryId}
+            onChange={handleCategoryChange}
+            label="Category">
+            <MenuItem value="">All</MenuItem>
+            {categories.map((cat) => (
+              <MenuItem key={cat.id} value={cat.id}>
+                {cat.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <FormControl sx={{ minWidth: 200 }}>
+          <InputLabel>Subcategory</InputLabel>
+          <Select
+            value={filters.subcategoryId}
+            onChange={handleSubcategoryChange}
+            label="Subcategory">
+            <MenuItem value="">All</MenuItem>
+            {subcategories.map((sub) => (
+              <MenuItem key={sub.id} value={sub.id}>
+                {sub.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+
+      {error && (
+        <Typography color="error" sx={{ mt: 2 }}>
+          {error}
+        </Typography>
+      )}
 
       <Box sx={StorePageStyles.featuredSection}>
         <Typography variant="h4" sx={StorePageStyles.headerTitle}>

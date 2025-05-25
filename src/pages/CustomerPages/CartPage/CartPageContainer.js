@@ -1,19 +1,29 @@
 import { useState, useEffect } from "react";
+import { getCart } from "../../../Services/CartServices";
 
-export const useCartPage = (initialItems) => {
-  const [cartItems, setCartItems] = useState(initialItems);
+export const useCartPage = () => {
+  const [cartItems, setCartItems] = useState([]);
   const [coupon, setCoupon] = useState("");
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const updateCart = (newCartItems) => {
-    localStorage.setItem("cartItems", JSON.stringify(newCartItems));
-    setCartItems(newCartItems);
+  const fetchCart = async () => {
+    try {
+      setLoading(true);
+      const { products, totalPrice } = await getCart();
+      setCartItems(products || []);
+      setTotalPrice(parseFloat(totalPrice) || 0);
+      setError(null);
+    } catch (err) {
+      setError(err?.message || "Failed to fetch cart");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
-    const savedCartItems = JSON.parse(localStorage.getItem("cartItems"));
-    if (savedCartItems) {
-      setCartItems(savedCartItems);
-    }
+    fetchCart();
   }, []);
 
   const updateQuantity = (index, amount) => {
@@ -22,27 +32,33 @@ export const useCartPage = (initialItems) => {
         ? { ...item, quantity: Math.max(1, item.quantity + amount) }
         : item
     );
-    updateCart(updatedCart);
+    setCartItems(updatedCart);
   };
 
   const removeItem = (index) => {
     const updatedCart = cartItems.filter((_, i) => i !== index);
-    updateCart(updatedCart);
+    setCartItems(updatedCart);
   };
 
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + (item.discountprice || item.price) * item.quantity,
-    0
-  );
+  const subtotal = Array.isArray(cartItems)
+    ? cartItems.reduce(
+        (sum, item) =>
+          sum + (item.pricePerOneItem || item.price) * item.quantity,
+        0
+      )
+    : 0;
 
   return {
     cartItems,
     setCartItems,
     coupon,
     setCoupon,
-    updateCart,
     updateQuantity,
     removeItem,
     subtotal,
+    totalPrice,
+    loading,
+    error,
+    refetch: fetchCart,
   };
 };
