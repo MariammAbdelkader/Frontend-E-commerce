@@ -25,9 +25,7 @@ const OrderDetailsPage = () => {
     orders,
     loading,
     error,
-    filter,
-    search,
-    setSearch,
+    ordering,
     handleFilterChange,
   } = useOrdersPageContainer();
 
@@ -42,29 +40,20 @@ const OrderDetailsPage = () => {
 
       <Stack sx={styles.filterRow}>
         <ToggleButtonGroup
-          value={filter}
+          value={ordering}
           exclusive
           onChange={handleFilterChange}
           sx={styles.toggleButtonGroup}>
-          <ToggleButton sx={styles.toggleButton} value="all">
-            View All
+          <ToggleButton sx={styles.toggleButton} value="orderDate">
+            Date
           </ToggleButton>
-          <ToggleButton sx={styles.toggleButton} value="top">
-            Top Orders
+          <ToggleButton sx={styles.toggleButton} value="totalAmount">
+            totalAmount
           </ToggleButton>
-          <ToggleButton sx={styles.toggleButton} value="latest">
-            Latest Orders
-          </ToggleButton>
+    
         </ToggleButtonGroup>
 
-        <TextField
-          placeholder="Search for orders..."
-          variant="outlined"
-          size="small"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          sx={styles.searchInput}
-        />
+       
       </Stack>
 
       {loading ? (
@@ -81,7 +70,7 @@ const OrderDetailsPage = () => {
                     "Order ID",
                     "Payment Status",
                     "Customer",
-                    "Quantity",
+                    // "Quantity",
                     "Total Amount",
                     "Details",
                   ].map((header) => (
@@ -99,24 +88,24 @@ const OrderDetailsPage = () => {
                       {order.paymentStatus}
                     </TableCell>
                     <TableCell>
-                      {/* <Stack direction="row" alignItems="center" spacing={1}> */}
-                        {/* <Avatar src={order.customer.avatar} /> */}
-                        {/* <Box>
+                      <Stack direction="row" alignItems="center" spacing={1}>
+                        <Avatar src={order.customer.avatar} />
+                        <Box>
                           <Typography fontWeight={600}>
                             {order.customer.name}
                           </Typography>
                           <Typography variant="body2" color="text.secondary">
                             {order.customer.email}
                           </Typography>
-                        </Box> */}
-                      {/* </Stack> */}
+                        </Box>
+                      </Stack> 
                     </TableCell>
-                    <TableCell>
+                    {/* <TableCell>
                       {order.products.reduce(
                         (sum, item) => sum + item.quantity,
                         0
                       )}
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell>{`$${order.totalAmount}`}</TableCell>
                     <TableCell>
                       <Button variant="contained" sx={styles.detailsButton}>

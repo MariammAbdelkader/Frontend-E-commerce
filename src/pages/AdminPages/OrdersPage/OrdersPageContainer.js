@@ -3,8 +3,7 @@ import { getAllOrder } from "../../../Services/OrderServices";
 
 const useOrdersPageContainer = () => {
   const [orders, setOrders] = useState([]);
-  const [filter, setFilter] = useState("all");
-  const [search, setSearch] = useState("");
+  const [ordering, setOrdering] = useState("totalAmount");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -15,12 +14,8 @@ const useOrdersPageContainer = () => {
   
 
     try {
-        const filters = {
-          filter,
-          search,
-      };
 
-      const data = await getAllOrder(filters);
+      const data = await getAllOrder(ordering);
       if (data) {
         setOrders(data);
       } else {
@@ -31,14 +26,14 @@ const useOrdersPageContainer = () => {
     } finally {
       setLoading(false);
     }
-  }, [filter, search]);
+  }, [ordering]);
 
   useEffect(() => {
     fetchOrders();
   }, [fetchOrders]);
 
   const handleFilterChange = (_, newFilter) => {
-    if (newFilter !== null) setFilter(newFilter);
+    if (newFilter !== null) setOrdering(newFilter);
   };
 
 
@@ -47,9 +42,7 @@ const useOrdersPageContainer = () => {
     orders,
     loading,
     error,
-    filter,
-    search,
-    setSearch,
+    ordering,
     handleFilterChange,
   };
 };

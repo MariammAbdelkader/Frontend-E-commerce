@@ -40,9 +40,9 @@ export const checkOut= async ({ shippingAddress, billingAddress})=>{
 }
 
 
-export const getAllOrder = async (filters={}) => {
+export const getAllOrder = async (ordering={}) => {
     try {
-        const response = await axios.post(`${API_BASE_URL}/all`,filters,{
+        const response = await axios.post(`${API_BASE_URL}/all`,{ordering},{
         withCredentials: true, // Ensures cookies are sent with the request
     });
 
