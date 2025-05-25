@@ -47,11 +47,13 @@ export const getCart = async () => {
 
 export const addTocart = async ({prodcutId,quantity}) => {
     try {
+
         const response = await axios.post(`${API_BASE_URL}/add`, 
         {prodcutId,quantity},
         {
              withCredentials: true, // Ensures cookies are sent with the request
         });
+
 
     return {message:response.data.message, totalPrice:response.data.cart.totalPrice};
   } catch (error) {

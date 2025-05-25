@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
+import { Navigate } from "react-router-dom";
 import MainLayout from "../Layouts/MainLayoutPresnations";
 import StorePage from "../pages/CustomerPages/StorePage/StorePagePresentation";
 import ChatbotPage from "../pages/AdminPages/ChatbotPage/ChatbotPresentation";
@@ -12,7 +12,7 @@ import UserProfilePage from "../pages/CustomerPages/ProfilePage/ProfilePage";
 import CartPage from "../pages/CustomerPages/CartPage/CartPage";
 import ViewHistory from "../pages/AdminPages/Customers/ViewHistory/ViewHistoryPage";
 import ViewProfile from "../pages/AdminPages/Customers/viewProfilePage";
-import Profile from "../pages/AdminPages/ProfilePage/ProfilePagePresentation";
+
 import Dashboard from "../pages/AdminPages/DashboardPage/DashboardPresentation";
 
 const AppRoutes = () => {
@@ -31,7 +31,8 @@ const AppRoutes = () => {
         <Route path="/checkout" element={<CartPage />} />
         <Route path="/viewhistory" element={<ViewHistory />} />
         <Route path="/viewprofile" element={<ViewProfile />} />
-        <Route path="/profile" element={<Profile />} />
+          <Route path="/" element={<Navigate to="/login" replace />} />
+
       </Routes>
     </Router>
   );
