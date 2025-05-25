@@ -12,6 +12,7 @@ import UserProfilePage from "../pages/CustomerPages/ProfilePage/ProfilePage";
 import CartPage from "../pages/CustomerPages/CartPage/CartPage";
 import ViewHistory from "../pages/AdminPages/Customers/ViewHistory/ViewHistoryPage";
 import ViewProfile from "../pages/AdminPages/Customers/viewProfilePage";
+import ViewDetails from "../pages/AdminPages/OrdersPage/ViewDetails/viewDetails";
 
 import Dashboard from "../pages/AdminPages/DashboardPage/DashboardPresentation";
 
@@ -31,8 +32,8 @@ const AppRoutes = () => {
         <Route path="/checkout" element={<CartPage />} />
         <Route path="/viewhistory" element={<ViewHistory />} />
         <Route path="/viewprofile" element={<ViewProfile />} />
-          <Route path="/" element={<Navigate to="/login" replace />} />
-
+        <Route path="/viewdetails" element={<ViewDetails />} />
+        <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>
     </Router>
   );

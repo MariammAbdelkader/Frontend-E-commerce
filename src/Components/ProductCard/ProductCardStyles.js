@@ -4,12 +4,13 @@ const ProductCardStyles = {
     width: 300,
     height: 400,
     bgcolor: "#2e2e2e",
+    my: 1,
     color: "white",
     borderRadius: 2,
     boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
     transition: "transform 0.3s ease",
     "&:hover": {
-      transform: "scale(1.05)",
+      transform: "scale(1.01)",
     },
   },
   cardMedia: {

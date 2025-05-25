@@ -3,7 +3,6 @@ import {
   Box,
   Typography,
   Button,
-  TextField,
   Table,
   TableBody,
   TableCell,
@@ -21,13 +20,8 @@ import styles from "./OrdersPageStyles";
 import useOrdersPageContainer from "./OrdersPageContainer";
 
 const OrderDetailsPage = () => {
-  const {
-    orders,
-    loading,
-    error,
-    ordering,
-    handleFilterChange,
-  } = useOrdersPageContainer();
+  const { orders, loading, error, ordering, handleFilterChange } =
+    useOrdersPageContainer();
 
   return (
     <Box sx={styles.container}>
@@ -50,10 +44,7 @@ const OrderDetailsPage = () => {
           <ToggleButton sx={styles.toggleButton} value="totalAmount">
             totalAmount
           </ToggleButton>
-    
         </ToggleButtonGroup>
-
-       
       </Stack>
 
       {loading ? (
@@ -98,7 +89,7 @@ const OrderDetailsPage = () => {
                             {order.customer.email}
                           </Typography>
                         </Box>
-                      </Stack> 
+                      </Stack>
                     </TableCell>
                     {/* <TableCell>
                       {order.products.reduce(

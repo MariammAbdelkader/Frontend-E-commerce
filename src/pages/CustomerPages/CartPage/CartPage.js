@@ -67,7 +67,7 @@ const CartPage = () => {
                       </Box>
 
                       <Typography sx={styles.cartItemPrice}>
-                        ${item.discountprice || item.price}
+                        ${item.pricePerOneItem}
                       </Typography>
 
                       <Box sx={styles.cartItemActions}>
@@ -79,10 +79,7 @@ const CartPage = () => {
                           <AddIcon fontSize="small" />
                         </IconButton>
                         <Typography fontWeight="500" sx={{ mx: 2 }}>
-                          $
-                          {(
-                            (item.discountprice || item.price) * item.quantity
-                          ).toFixed(2)}
+                          ${(item.pricePerOneItem * item.quantity).toFixed(2)}
                         </Typography>
                         <IconButton onClick={() => removeItem(index)}>
                           <DeleteIcon />

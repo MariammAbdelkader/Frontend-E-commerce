@@ -15,22 +15,7 @@ import { StorePageStyles } from "./StorePageStyles";
 
 const StorePage = () => {
   const {
-    cartCount,
-    setCartCount,
-    cartAnchorEl,
-    profileAnchorEl,
-    cartItems,
-    isCartOpen,
-    isProfileMenuOpen,
-    handleCartClick,
-    handleProfileClick,
-    handleMenuClose,
-    handleSignOut,
-    handleProfile,
     handleAddToCart,
-    handleProceedToCheckout,
-    handleCartClose,
-    removeItemFromCart,
     grouped,
     categories,
     subcategories,
@@ -54,23 +39,7 @@ const StorePage = () => {
   return (
     <Box sx={StorePageStyles.container}>
       <GlobalStyles styles={StorePageStyles.globalStyles} />
-      <Navbar
-        cartCount={cartCount}
-        setCartCount={setCartCount}
-        onCartClick={handleCartClick}
-        onProfileClick={handleProfileClick}
-        profileAnchorEl={profileAnchorEl}
-        isProfileMenuOpen={isProfileMenuOpen}
-        handleMenuClose={handleMenuClose}
-        onSignOut={handleSignOut}
-        onProfile={handleProfile}
-        cartItems={cartItems}
-        cartAnchorEl={cartAnchorEl}
-        isCartOpen={isCartOpen}
-        handleCartClose={handleCartClose}
-        handleProceedToCheckout={handleProceedToCheckout}
-        removeItemFromCart={removeItemFromCart}
-      />
+      <Navbar />
 
       <Box sx={StorePageStyles.filterSection}>
         <FormControl sx={{ minWidth: 200, mr: 2 }}>
