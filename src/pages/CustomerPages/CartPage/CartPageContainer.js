@@ -40,13 +40,13 @@ export const useCartPage = () => {
     setCartItems(updatedCart);
   };
 
-  const subtotal = Array.isArray(cartItems)
-    ? cartItems.reduce(
-        (sum, item) =>
-          sum + (item.pricePerOneItem || item.price) * item.quantity,
-        0
-      )
-    : 0;
+  // const subtotal = Array.isArray(cartItems)
+  //   ? cartItems.reduce(
+  //       (sum, item) =>
+  //         sum + (item.pricePerOneItem || item.price) * item.quantity,
+  //       0
+  //     )
+  //   : 0;
 
   return {
     cartItems,
@@ -55,7 +55,7 @@ export const useCartPage = () => {
     setCoupon,
     updateQuantity,
     removeItem,
-    subtotal,
+    // subtotal,
     totalPrice,
     loading,
     error,

@@ -13,25 +13,28 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Close";
 import ChevronLeft from "@mui/icons-material/ArrowBack";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { styles } from "./CartPageStyles";
 import { useCartPage } from "./CartPageContainer";
 
 const CartPage = () => {
-  const { state } = useLocation();
   const navigate = useNavigate();
-  const initialItems =
-    JSON.parse(localStorage.getItem("cartItems")) || state?.cartItems || [];
-
-  const { cartItems, coupon, setCoupon, updateQuantity, removeItem, subtotal } =
-    useCartPage(initialItems);
+  const {
+    cartItems,
+    coupon,
+    setCoupon,
+    updateQuantity,
+    removeItem,
+    // subtotal,
+    totalPrice,
+    loading,
+    error,
+  } = useCartPage();
 
   return (
     <Box sx={styles.cartContainer}>
       <Box display="flex" alignItems="center" mb={3}>
-        <IconButton
-          onClick={() => navigate("/store", { state: { cartItems } })}
-          sx={styles.backButton}>
+        <IconButton onClick={() => navigate("/store")} sx={styles.backButton}>
           <ChevronLeft fontSize="small" />
         </IconButton>
         <Typography sx={styles.backText}>Back</Typography>
@@ -43,7 +46,15 @@ const CartPage = () => {
         <Grid item xs={12} md={8}>
           <Box sx={styles.cartItemsContainer}>
             <Box sx={styles.cartItemsScroll}>
-              {cartItems.length === 0 ? (
+              {loading ? (
+                <Typography variant="h6" ml={3} color="textSecondary">
+                  Loading cart...
+                </Typography>
+              ) : error ? (
+                <Typography variant="h6" ml={3} color="error">
+                  {error}
+                </Typography>
+              ) : cartItems.length === 0 ? (
                 <Typography variant="h6" ml={3} color="textSecondary">
                   Your cart is empty.
                 </Typography>
@@ -124,7 +135,7 @@ const CartPage = () => {
             </Box>
             <Box sx={styles.cartTotalRow}>
               <Typography>Subtotal</Typography>
-              <Typography>${subtotal.toFixed(2)}</Typography>
+              <Typography>${totalPrice.toFixed(2)}</Typography>
             </Box>
 
             <Divider sx={{ my: 3 }} />
@@ -132,7 +143,7 @@ const CartPage = () => {
             <Box sx={styles.cartTotalRow}>
               <Typography sx={styles.totalRowBold}>Total</Typography>
               <Typography sx={styles.totalRowBold}>
-                ${subtotal.toFixed(2)}
+                ${totalPrice.toFixed(2)}
               </Typography>
             </Box>
 
@@ -143,7 +154,7 @@ const CartPage = () => {
               fullWidth
               startIcon={<ChevronLeft />}
               sx={styles.continueButton}
-              onClick={() => navigate("/store", { state: { cartItems } })}>
+              onClick={() => navigate("/store")}>
               CONTINUE SHOPPING
             </Button>
           </Box>
