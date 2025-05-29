@@ -100,4 +100,14 @@ export const styles = {
       backgroundColor: "#059669",
     },
   },
+    labelText: {
+    fontSize: '1.3rem', 
+    fontWeight: 'bold',
+    color: '#333',
+    mb: 0.5,
+  },
+  valueText: {
+    color: '#416899', // baby blue shade
+    fontSize: '1rem',
+  },
 };

@@ -15,7 +15,7 @@ import ViewProfile from "../pages/AdminPages/Customers/viewProfilePage";
 import OrderDetails from "../pages/AdminPages/OrdersPage/ViewOrders/ViewDetails";
 
 import Dashboard from "../pages/AdminPages/DashboardPage/DashboardPresentation";
-
+import Profile from "../pages/AdminPages/ProfilePage/ProfilePagePresentation";
 const AppRoutes = () => {
   return (
     <Router>
@@ -32,6 +32,7 @@ const AppRoutes = () => {
         <Route path="/checkout" element={<CartPage />} />
         <Route path="/viewhistory" element={<ViewHistory />} />
         <Route path="/viewprofile" element={<ViewProfile />} />
+        <Route path="/adminprofile" element={<Profile />} />
         <Route path="/viewdetails" element={<OrderDetails />} />
         <Route path="/" element={<Navigate to="/login" replace />} />
       </Routes>

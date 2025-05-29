@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   AppBar,
   Toolbar,
@@ -26,12 +26,13 @@ import {
 import styles from "./NavbarStyles";
 import { useNavigate } from "react-router-dom";
 import{logout} from "../../Services/LogoutServices";
-
+import{getCustomerProfile} from "../../Services/CustomerServices";
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [notifAnchorEl, setNotifAnchorEl] = useState(null);
   const [messageAnchorEl, setMessageAnchorEl] = useState(null);
 
+  const [profileData, setProfileData] = useState(null);
   const navigate = useNavigate();
 
   const notifications = [
@@ -62,11 +63,25 @@ const Navbar = () => {
     },
   ];
 
+
+  useEffect( () => {
+    const fetchProfile = async () => {
+        const res = await getCustomerProfile();
+        if (!res.success) {
+          alert("Failed to fetch profile data");
+          return;
+        }
+      setProfileData(res.profile);
+  };
+
+      fetchProfile();
+    }, []);
+  
   const handleMenuOpen = (event) => setAnchorEl(event.currentTarget);
   const handleMenuClose = () => setAnchorEl(null);
 
-  const handleProfile = () => {
-    navigate("/profile");
+  const handleProfile = async () => {
+    navigate("/adminprofile",{ state: { profileData: profileData } });
     handleMenuClose();
   };
 
@@ -114,12 +129,20 @@ const Navbar = () => {
             </Badge>
           </IconButton>
 
-          <Avatar alt="User" src="/profile.jpg" sx={styles.avatar}>
-            MF
-          </Avatar>
+            <Avatar 
+              alt="User" 
+              src={profileData?.avatar || ""} 
+              sx={styles.avatar}
+            >
+              {profileData 
+                ? `${profileData.firstName.charAt(0)}${profileData.lastName.charAt(0)}` 
+                : "U"}
+            </Avatar>
 
           <Box onClick={handleMenuOpen} sx={styles.nameWrapper}>
-            <Typography sx={styles.nameText}>Mohamed Fareed</Typography>
+            <Typography sx={styles.nameText}>
+              {profileData ? `${profileData.firstName} ${profileData.lastName}` : "Loading..."}
+            </Typography>
             <ArrowDropDown sx={styles.arrowIcon} />
           </Box>
         </Box>
@@ -133,11 +156,19 @@ const Navbar = () => {
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           transformOrigin={{ vertical: "top", horizontal: "right" }}>
           <Box sx={styles.profileBox} onClick={handleProfile}>
-            <Avatar alt="User" src="/profile.jpg" sx={styles.avatar}>
-              MF
+            <Avatar 
+              alt="User" 
+              src={profileData?.avatar || ""} 
+              sx={styles.avatar}
+            >
+              {profileData 
+                ? `${profileData.firstName.charAt(0)}${profileData.lastName.charAt(0)}` 
+                : "U"}
             </Avatar>
             <Box>
-              <Typography sx={styles.profileName}>Mohamed Fareed</Typography>
+            <Typography sx={styles.profileName}>
+              {profileData ? `${profileData.firstName} ${profileData.lastName}` : "User"}
+            </Typography>
               <Typography sx={styles.profileSubtext}>View Profile</Typography>
             </Box>
           </Box>

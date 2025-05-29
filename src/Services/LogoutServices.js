@@ -11,7 +11,7 @@ export const logout = async (credentials) => {
       withCredentials: true, // Ensures cookies (JWT) are sent & received
     });
   
-    console.log("Logout response:", response.data.message);
+    // console.log("Logout response:", response.data.message);
     return { success: true, data: response.data };
   } catch (error) {
     return {

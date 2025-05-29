@@ -54,7 +54,7 @@ export const getCustomerProfile = async () => {
       withCredentials: true,
     });
 
-    return response.data;
+    return {success:true,profile :response.data.profile};
   } catch (error) {
     return {
       success: false,
