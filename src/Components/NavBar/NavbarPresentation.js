@@ -25,6 +25,7 @@ import {
 } from "@mui/icons-material";
 import styles from "./NavbarStyles";
 import { useNavigate } from "react-router-dom";
+import{logout} from "../../Services/LogoutServices";
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -69,9 +70,11 @@ const Navbar = () => {
     handleMenuClose();
   };
 
-  const handleLogout = () => {
-    navigate("/login");
-    handleMenuClose();
+  const handleLogout = async() => {
+      const res=await logout();
+      if (res.success) 
+        navigate("/login");
+
   };
 
   const handleNotifOpen = (event) => setNotifAnchorEl(event.currentTarget);
