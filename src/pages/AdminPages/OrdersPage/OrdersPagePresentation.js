@@ -19,9 +19,21 @@ import {
 import styles from "./OrdersPageStyles";
 import useOrdersPageContainer from "./OrdersPageContainer";
 
+import OrderDetails from "./ViewOrders/ViewDetails"; 
+
+
 const OrderDetailsPage = () => {
   const { orders, loading, error, ordering, handleFilterChange } =
     useOrdersPageContainer();
+    const [open, setOpen] = React.useState(false);
+    const [selectedOrder, setSelectedOrder] = React.useState(null);
+
+    const handleClickViewDetails = (order) => {
+      setSelectedOrder(order);
+      setOpen(true);
+    };
+
+  
 
   return (
     <Box sx={styles.container}>
@@ -99,7 +111,11 @@ const OrderDetailsPage = () => {
                     </TableCell> */}
                     <TableCell>{`$${order.totalAmount}`}</TableCell>
                     <TableCell>
-                      <Button variant="contained" sx={styles.detailsButton}>
+                      <Button
+                        variant="contained"
+                        onClick={() => handleClickViewDetails(order)}
+                        sx={styles.detailsButton}
+                      >
                         View details
                       </Button>
                     </TableCell>
@@ -108,6 +124,11 @@ const OrderDetailsPage = () => {
               </TableBody>
             </Table>
           </TableContainer>
+                  <OrderDetails
+                    open={open}
+                    onClose={() => setOpen(false)}
+                    order={selectedOrder}
+        />
         </Box>
       )}
     </Box>
