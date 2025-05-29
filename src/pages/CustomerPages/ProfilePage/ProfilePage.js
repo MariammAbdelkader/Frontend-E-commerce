@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState,useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Box,
@@ -24,6 +24,10 @@ import ChevronLeft from "@mui/icons-material/ChevronLeft";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { styles } from "./ProfilePageStyles";
+import { useLocation } from "react-router-dom";
+import { use } from "react";
+import OTPDialog from "../../AdminPages/ProfilePage/OTPDialogWindow"
+import {changePassword,sendOtp} from "../../../Services/PasswordServices";
 
 const sidebarItems = ["Profile", "Password"];
 
@@ -34,14 +38,12 @@ const ProfilePage = () => {
   const [bgImage, setBgImage] = useState(null);
   const bgFileInputRef = useRef();
   const navigate = useNavigate();
-  const [userData, setUserData] = useState({
-    firstName: "Douglas",
-    lastName: "Potter",
-    address: "123 Magic Lane, Hogwarts",
-    bio: "A wizard with a passion for adventure and magic.",
-    email: "potter@sample.com",
-    gender: "Male",
-  });
+  const location = useLocation();
+  const profileData = location.state?.profileData;
+  const [userData, setUserData] = useState({})
+  const [otpDialogOpen, setOtpDialogOpen] = useState(false);
+  
+
 
   const [passwordData, setPasswordData] = useState({
     current: "",
@@ -51,6 +53,9 @@ const ProfilePage = () => {
     showNew: false,
     showConfirm: false,
   });
+  const [passwordError, setPasswordError] = useState(false);
+  const [emptypasswordError, setEmptypasswordError] = useState(true);
+
 
   const handleBgChange = (e) => {
     const file = e.target.files[0];
@@ -66,9 +71,53 @@ const ProfilePage = () => {
     setUserData((prev) => ({ ...prev, gender: e.target.value }));
   };
 
-  const handlePasswordChange = (field) => (e) => {
-    setPasswordData((prev) => ({ ...prev, [field]: e.target.value }));
-  };
+ const handlePasswordChange = (field) => (e) => {
+  const value = e.target.value;
+
+  setPasswordData((prev) => {
+    const updated = { ...prev, [field]: value };
+    console.log(updated)
+
+    if (field === "confirm" || field === "new") {
+      setPasswordError(updated.confirm !== updated.new);
+    }
+
+    setEmptypasswordError(!(updated.confirm.length>0 && updated.new.length>0 && updated.current.length>0))
+    console.log(emptypasswordError)
+  
+    return updated;
+  });
+};
+
+const handleUpdatePassword = async () => {
+    try {
+      const response = await changePassword({ currentPassword:passwordData.current, newPassword:passwordData.new });
+      if (response.message) {
+            setOtpDialogOpen(true)
+      } else {
+        alert("Failed to update password. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error updating password:", error);
+      alert("An error occurred while updating the password.");
+    }
+  } 
+
+  const handleConfirmOtp = async (code) => {
+   try {
+      const response = await sendOtp({ otp:code });
+      if (response.message) {
+        alert(response.message);
+        setOtpDialogOpen(false)
+      } else {
+        alert("Failed to update password. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error updating password:", error);
+      alert("An error occurred while updating the password.");
+    }
+};
+
 
   const toggleVisibility = (field) => {
     setPasswordData((prev) => ({
@@ -76,6 +125,16 @@ const ProfilePage = () => {
       [field]: !prev[field],
     }));
   };
+  useEffect(() => {
+    if (profileData) {
+      setUserData({
+        firstName: profileData.firstName || "",
+        lastName: profileData.lastName || "",
+        email: profileData.email || "",
+        address: profileData.address  || "",
+        Gender: profileData.Gender || "",
+      });
+}},[emptypasswordError]);
 
   return (
     <Box sx={styles.container}>
@@ -120,10 +179,8 @@ const ProfilePage = () => {
             <Box sx={styles.avatarContainer}>
               <Box sx={{ position: "relative" }}>
                 <Avatar
-                  src={
-                    photo ||
-                    "https://images.unsplash.com/photo-1614283267927-03e5f67656c2"
-                  }
+                  alt="User" 
+                  src={profileData?.avatar || ""} 
                   sx={styles.avatarImage}
                 />
                 <IconButton
@@ -281,25 +338,35 @@ const ProfilePage = () => {
                   margin="normal"
                   size="small"
                   sx={{ width: "100%" }}
+                  error={passwordError}
+                  helperText={passwordError ? "Passwords do not match" : ""}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
                         <IconButton
                           onClick={() => toggleVisibility("showConfirm")}
-                          edge="end">
-                          {passwordData.showConfirm ? (
-                            <VisibilityOff />
-                          ) : (
-                            <Visibility />
-                          )}
+                          edge="end"
+                        >
+                          {passwordData.showConfirm ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
                       </InputAdornment>
                     ),
                   }}
                 />
-                <Button variant="contained" sx={styles.changePasswordBtn}>
-                  Change Password
-                </Button>
+
+                  <Button
+                      variant="contained"
+                      sx={styles.changePasswordBtn}
+                      disabled={passwordError||emptypasswordError}
+                    onClick={handleUpdatePassword}
+                    >
+                    Change Password
+                  </Button>
+              <OTPDialog
+                      open={otpDialogOpen}
+                      handleClose={() => setOtpDialogOpen(false)}
+                      handleConfirm={handleConfirmOtp}
+                    />
               </Box>
             )}
           </Box>

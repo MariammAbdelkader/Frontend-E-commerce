@@ -48,6 +48,7 @@ const Navbar = () => {
     handleLinkClick,
     handleProceedToCheckout,
     removeItemFromCart,
+    profileData
   } = useNavbarContainer();
 
   return (
@@ -117,17 +118,26 @@ const Navbar = () => {
           transformOrigin={{ vertical: "top", horizontal: "right" }}
           PaperProps={{ sx: NavbarStyles.profileMenu }}>
           <Box sx={NavbarStyles.flexCenterGap2Padding}>
-            <Avatar
-              alt="User"
-              src="/avatar.png"
+             <Avatar 
+              alt="User" 
+              src={profileData?.avatar || ""} 
               sx={NavbarStyles.avatarStyle}
-            />
-            <Box>
-              <Typography fontWeight={600} fontSize={15}>
-                Mohamed Fareed
-              </Typography>
-              <Typography variant="body2" color="gray">
-                fareed@example.com
+            >
+              {profileData 
+                ? `${profileData.firstName.charAt(0)}${profileData.lastName.charAt(0)}` 
+                : "U"}
+            </Avatar>
+            <Box sx={{ minWidth: 0 }}>
+              <Typography sx={NavbarStyles.menuItem}>
+              {profileData ? `${profileData.firstName} ${profileData.lastName}` : "User"}
+            </Typography>
+              <Typography variant="body2" color="gray"       sx={{
+                      whiteSpace: 'normal',   
+                      wordBreak: 'break-word',
+                      overflowWrap: 'break-word',
+                    }}
+              >
+              {profileData ? `${profileData.email}`: "No email provided"}
               </Typography>
             </Box>
           </Box>

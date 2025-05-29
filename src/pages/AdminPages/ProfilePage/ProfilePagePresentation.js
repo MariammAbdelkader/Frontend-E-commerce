@@ -202,6 +202,7 @@ const ProfilePage = () => {
             variant="contained"
             onClick={handleUpdatePassword}
             sx={styles.updatePasswordButton}
+            disabled={passwordError}
           >
             Update Password
           </Button>

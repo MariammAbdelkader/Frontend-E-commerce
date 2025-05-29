@@ -13,9 +13,9 @@ import CartPage from "../pages/CustomerPages/CartPage/CartPage";
 import ViewHistory from "../pages/AdminPages/Customers/ViewHistory/ViewHistoryPage";
 import ViewProfile from "../pages/AdminPages/Customers/viewProfilePage";
 import OrderDetails from "../pages/AdminPages/OrdersPage/ViewOrders/ViewDetails";
-
 import Dashboard from "../pages/AdminPages/DashboardPage/DashboardPresentation";
 import Profile from "../pages/AdminPages/ProfilePage/ProfilePagePresentation";
+
 const AppRoutes = () => {
   return (
     <Router>
