@@ -61,7 +61,7 @@ const NavbarStyles = {
   profileMenu: {
     bgcolor: "#1e1e1e",
     color: "white",
-    width: 260,
+    width: 320,
     borderRadius: 3,
     p: 1.5,
     boxShadow: "0 4px 12px rgba(0,0,0,0.4)",
@@ -69,8 +69,9 @@ const NavbarStyles = {
 
   menuItem: {
     borderRadius: 2,
-    px: 2,
-    "&:hover": { bgcolor: "#2a2a2a" },
+    "&:hover": {
+      bgcolor: "#2a2a2a",
+    },
   },
 
   listItemIcon: {

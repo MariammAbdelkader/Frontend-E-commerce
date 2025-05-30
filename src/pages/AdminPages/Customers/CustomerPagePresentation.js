@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Card,
-  CardContent,
   Typography,
   Avatar,
   Box,
@@ -12,17 +11,23 @@ import {
   Select,
   MenuItem,
   FormControl,
-  InputLabel
+  InputLabel,
 } from "@mui/material";
 import styles from "./CustomerPageStyles";
 import useCustomerPageContainer from "./CustomerPageContainer";
 
 const CustomerList = () => {
-  const { customers, loading, error, searchTerm, SegmentTypes,segmentation,handleSearchChange ,handleSlecetSegmentation} =
-    useCustomerPageContainer();
+  const {
+    customers,
+    loading,
+    error,
+    searchTerm,
+    SegmentTypes,
+    segmentation,
+    handleSearchChange,
+    handleSlecetSegmentation,
+  } = useCustomerPageContainer();
   const navigate = useNavigate();
-  
-
 
   return (
     <Box sx={styles.customerListContainer}>
@@ -31,23 +36,19 @@ const CustomerList = () => {
           Our Customers
         </Typography>
 
-
-         <FormControl style={styles.formControl} size="small">
-            <InputLabel >Segmentation</InputLabel>
-            <Select
-              name="Segmentation"
-              value={segmentation}
-              onChange={handleSlecetSegmentation}
-              label="Segmentation"
-              required>
-                
-              {SegmentTypes.map((seg) => (
-                <MenuItem  value={seg}>
-                  {seg}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+        <FormControl style={styles.formControl} size="small">
+          <InputLabel>Segmentation</InputLabel>
+          <Select
+            name="Segmentation"
+            value={segmentation}
+            onChange={handleSlecetSegmentation}
+            label="Segmentation"
+            required>
+            {SegmentTypes.map((seg) => (
+              <MenuItem value={seg}>{seg}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
         <TextField
           variant="outlined"
           label="Search Customers"
@@ -70,12 +71,18 @@ const CustomerList = () => {
             <Box key={customer.id || customer.email} sx={styles.cardWrapper}>
               <Card sx={styles.cardStyle}>
                 {/* Fixed Top Section */}
-                <Box sx={styles.fixedHeader}
-
-                      onClick={() => navigate("/viewprofile", { state: { customer: customer } })}
-                      style={{ cursor: "pointer" }}
-                      >
-                  <Box sx={{...styles.boxStyle,cursor: "pointer","&:hover": {backgroundColor: "#1e00ad", },}}>
+                <Box
+                  sx={styles.fixedHeader}
+                  onClick={() =>
+                    navigate("/viewprofile", { state: { customer: customer } })
+                  }
+                  style={{ cursor: "pointer" }}>
+                  <Box
+                    sx={{
+                      ...styles.boxStyle,
+                      cursor: "pointer",
+                      "&:hover": { backgroundColor: "#1e00ad" },
+                    }}>
                     <Avatar
                       src={customer.avatar || ""}
                       alt={customer.firstName}

@@ -1,4 +1,4 @@
-import React, { useRef, useState,useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Box,
@@ -25,9 +25,8 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { styles } from "./ProfilePageStyles";
 import { useLocation } from "react-router-dom";
-import { use } from "react";
-import OTPDialog from "../../AdminPages/ProfilePage/OTPDialogWindow"
-import {changePassword,sendOtp} from "../../../Services/PasswordServices";
+import OTPDialog from "../../AdminPages/ProfilePage/OTPDialogWindow";
+import { changePassword, sendOtp } from "../../../Services/PasswordServices";
 
 const sidebarItems = ["Profile", "Password"];
 
@@ -40,10 +39,8 @@ const ProfilePage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const profileData = location.state?.profileData;
-  const [userData, setUserData] = useState({})
+  const [userData, setUserData] = useState({});
   const [otpDialogOpen, setOtpDialogOpen] = useState(false);
-  
-
 
   const [passwordData, setPasswordData] = useState({
     current: "",
@@ -55,7 +52,6 @@ const ProfilePage = () => {
   });
   const [passwordError, setPasswordError] = useState(false);
   const [emptypasswordError, setEmptypasswordError] = useState(true);
-
 
   const handleBgChange = (e) => {
     const file = e.target.files[0];
@@ -71,29 +67,38 @@ const ProfilePage = () => {
     setUserData((prev) => ({ ...prev, gender: e.target.value }));
   };
 
- const handlePasswordChange = (field) => (e) => {
-  const value = e.target.value;
+  const handlePasswordChange = (field) => (e) => {
+    const value = e.target.value;
 
-  setPasswordData((prev) => {
-    const updated = { ...prev, [field]: value };
-    console.log(updated)
+    setPasswordData((prev) => {
+      const updated = { ...prev, [field]: value };
+      console.log(updated);
 
-    if (field === "confirm" || field === "new") {
-      setPasswordError(updated.confirm !== updated.new);
-    }
+      if (field === "confirm" || field === "new") {
+        setPasswordError(updated.confirm !== updated.new);
+      }
 
-    setEmptypasswordError(!(updated.confirm.length>0 && updated.new.length>0 && updated.current.length>0))
-    console.log(emptypasswordError)
-  
-    return updated;
-  });
-};
+      setEmptypasswordError(
+        !(
+          updated.confirm.length > 0 &&
+          updated.new.length > 0 &&
+          updated.current.length > 0
+        )
+      );
+      console.log(emptypasswordError);
 
-const handleUpdatePassword = async () => {
+      return updated;
+    });
+  };
+
+  const handleUpdatePassword = async () => {
     try {
-      const response = await changePassword({ currentPassword:passwordData.current, newPassword:passwordData.new });
+      const response = await changePassword({
+        currentPassword: passwordData.current,
+        newPassword: passwordData.new,
+      });
       if (response.message) {
-            setOtpDialogOpen(true)
+        setOtpDialogOpen(true);
       } else {
         alert("Failed to update password. Please try again.");
       }
@@ -101,14 +106,14 @@ const handleUpdatePassword = async () => {
       console.error("Error updating password:", error);
       alert("An error occurred while updating the password.");
     }
-  } 
+  };
 
   const handleConfirmOtp = async (code) => {
-   try {
-      const response = await sendOtp({ otp:code });
+    try {
+      const response = await sendOtp({ otp: code });
       if (response.message) {
         alert(response.message);
-        setOtpDialogOpen(false)
+        setOtpDialogOpen(false);
       } else {
         alert("Failed to update password. Please try again.");
       }
@@ -116,8 +121,7 @@ const handleUpdatePassword = async () => {
       console.error("Error updating password:", error);
       alert("An error occurred while updating the password.");
     }
-};
-
+  };
 
   const toggleVisibility = (field) => {
     setPasswordData((prev) => ({
@@ -131,10 +135,11 @@ const handleUpdatePassword = async () => {
         firstName: profileData.firstName || "",
         lastName: profileData.lastName || "",
         email: profileData.email || "",
-        address: profileData.address  || "",
+        address: profileData.address || "",
         Gender: profileData.Gender || "",
       });
-}},[emptypasswordError]);
+    }
+  }, [profileData, emptypasswordError]);
 
   return (
     <Box sx={styles.container}>
@@ -179,8 +184,8 @@ const handleUpdatePassword = async () => {
             <Box sx={styles.avatarContainer}>
               <Box sx={{ position: "relative" }}>
                 <Avatar
-                  alt="User" 
-                  src={profileData?.avatar || ""} 
+                  alt="User"
+                  src={profileData?.avatar || ""}
                   sx={styles.avatarImage}
                 />
                 <IconButton
@@ -345,28 +350,30 @@ const handleUpdatePassword = async () => {
                       <InputAdornment position="end">
                         <IconButton
                           onClick={() => toggleVisibility("showConfirm")}
-                          edge="end"
-                        >
-                          {passwordData.showConfirm ? <VisibilityOff /> : <Visibility />}
+                          edge="end">
+                          {passwordData.showConfirm ? (
+                            <VisibilityOff />
+                          ) : (
+                            <Visibility />
+                          )}
                         </IconButton>
                       </InputAdornment>
                     ),
                   }}
                 />
 
-                  <Button
-                      variant="contained"
-                      sx={styles.changePasswordBtn}
-                      disabled={passwordError||emptypasswordError}
-                    onClick={handleUpdatePassword}
-                    >
-                    Change Password
-                  </Button>
-              <OTPDialog
-                      open={otpDialogOpen}
-                      handleClose={() => setOtpDialogOpen(false)}
-                      handleConfirm={handleConfirmOtp}
-                    />
+                <Button
+                  variant="contained"
+                  sx={styles.changePasswordBtn}
+                  disabled={passwordError || emptypasswordError}
+                  onClick={handleUpdatePassword}>
+                  Change Password
+                </Button>
+                <OTPDialog
+                  open={otpDialogOpen}
+                  handleClose={() => setOtpDialogOpen(false)}
+                  handleConfirm={handleConfirmOtp}
+                />
               </Box>
             )}
           </Box>

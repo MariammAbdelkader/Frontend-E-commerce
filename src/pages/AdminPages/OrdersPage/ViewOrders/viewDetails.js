@@ -7,11 +7,10 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Box,
   Dialog,
   DialogTitle,
   DialogContent,
-  IconButton
+  IconButton,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { styles } from "./viewDetailsStyles";
@@ -31,15 +30,14 @@ const OrderDetails = ({ open, onClose, order }) => {
             right: 8,
             top: 8,
             color: (theme) => theme.palette.grey[500],
-          }}
-        >
+          }}>
           <CloseIcon />
         </IconButton>
       </DialogTitle>
 
       <DialogContent dividers>
         <Typography sx={styles.pageTitle}>
-        Order Date: {order.orderDate}
+          Order Date: {order.orderDate}
         </Typography>
         <TableContainer>
           <Table>

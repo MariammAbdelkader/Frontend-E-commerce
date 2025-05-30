@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
 import { getAllOrder } from "../../../Services/OrderServices";
-import { Navigate } from "react-router-dom";
 const useOrdersPageContainer = () => {
   const [orders, setOrders] = useState([]);
   const [ordering, setOrdering] = useState("totalAmount");
@@ -11,10 +10,7 @@ const useOrdersPageContainer = () => {
     setLoading(true);
     setError(null);
 
-  
-
     try {
-
       const data = await getAllOrder(ordering);
       if (data) {
         setOrders(data);
@@ -35,10 +31,6 @@ const useOrdersPageContainer = () => {
   const handleFilterChange = (_, newFilter) => {
     if (newFilter !== null) setOrdering(newFilter);
   };
-
-
-
-
 
   return {
     orders,

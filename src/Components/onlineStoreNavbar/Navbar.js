@@ -48,7 +48,7 @@ const Navbar = () => {
     handleLinkClick,
     handleProceedToCheckout,
     removeItemFromCart,
-    profileData
+    profileData,
   } = useNavbarContainer();
 
   return (
@@ -82,7 +82,7 @@ const Navbar = () => {
         </Typography>
         <Typography
           sx={NavbarStyles.navLinks}
-          onClick={() => handleLinkClick("/chatbot")}>
+          onClick={() => handleLinkClick("/userChatbot")}>
           Chatbot
         </Typography>
         <Typography
@@ -118,26 +118,31 @@ const Navbar = () => {
           transformOrigin={{ vertical: "top", horizontal: "right" }}
           PaperProps={{ sx: NavbarStyles.profileMenu }}>
           <Box sx={NavbarStyles.flexCenterGap2Padding}>
-             <Avatar 
-              alt="User" 
-              src={profileData?.avatar || ""} 
-              sx={NavbarStyles.avatarStyle}
-            >
-              {profileData 
-                ? `${profileData.firstName.charAt(0)}${profileData.lastName.charAt(0)}` 
+            <Avatar
+              alt="User"
+              src={profileData?.avatar || ""}
+              sx={NavbarStyles.avatarStyle}>
+              {profileData
+                ? `${profileData.firstName.charAt(
+                    0
+                  )}${profileData.lastName.charAt(0)}`
                 : "U"}
             </Avatar>
-            <Box sx={{ minWidth: 0 }}>
+            <Box sx={{ minWidth: 800 }}>
               <Typography sx={NavbarStyles.menuItem}>
-              {profileData ? `${profileData.firstName} ${profileData.lastName}` : "User"}
-            </Typography>
-              <Typography variant="body2" color="gray"       sx={{
-                      whiteSpace: 'normal',   
-                      wordBreak: 'break-word',
-                      overflowWrap: 'break-word',
-                    }}
-              >
-              {profileData ? `${profileData.email}`: "No email provided"}
+                {profileData
+                  ? `${profileData.firstName} ${profileData.lastName}`
+                  : "User"}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="gray"
+                sx={{
+                  whiteSpace: "normal",
+                  wordBreak: "break-word",
+                  overflowWrap: "break-word",
+                }}>
+                {profileData ? `${profileData.email}` : "No email provided"}
               </Typography>
             </Box>
           </Box>

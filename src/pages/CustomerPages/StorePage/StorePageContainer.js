@@ -10,6 +10,7 @@ const StorePageContainer = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
+  const [isAddedToCart, setIsAddedToCart] = useState(false);
   const [error, setError] = useState("");
   const [filters, setFilters] = useState({
     categoryId: "",
@@ -23,12 +24,17 @@ const StorePageContainer = () => {
     const fetchCategories = async () => {
       try {
         const result = await getCategories();
-        setCategories(Array.isArray(result) ? result : []);
+        if (Array.isArray(result)) {
+          setCategories(result);
+        } else {
+          setCategories([]);
+        }
       } catch (err) {
         setError("Failed to fetch categories. Please try again later.");
         console.error(err);
       }
     };
+
     fetchCategories();
   }, []);
 
@@ -37,17 +43,24 @@ const StorePageContainer = () => {
     const fetchSubcategories = async () => {
       try {
         const result = await getSubcategories();
-        const filtered = filters.categoryId
-          ? result.filter(
+        if (Array.isArray(result)) {
+          if (filters.categoryId !== "") {
+            const filtered = result.filter(
               (sub) => String(sub.categoryId) === String(filters.categoryId)
-            )
-          : result;
-        setSubcategories(Array.isArray(filtered) ? filtered : []);
+            );
+            setSubcategories(filtered);
+          } else {
+            setSubcategories(result);
+          }
+        } else {
+          setSubcategories([]);
+        }
       } catch (err) {
         setError("Failed to fetch subcategories. Please try again later.");
         console.error(err);
       }
     };
+
     fetchSubcategories();
   }, [filters.categoryId]);
 
@@ -72,6 +85,7 @@ const StorePageContainer = () => {
         productId: product.productId,
         quantity,
       });
+      setIsAddedToCart(true);
 
       console.log("Cart updated:", response.message);
     } catch (error) {
@@ -89,8 +103,23 @@ const StorePageContainer = () => {
 
   const grouped = groupByCategory(products);
 
+  const handleCategoryChange = (event) => {
+    setFilters({
+      ...filters,
+      categoryId: Number(event.target.value),
+      subcategoryId: "",
+    });
+  };
+
+  const handleSubcategoryFilter = (event) => {
+    setFilters({ ...filters, subcategoryId: Number(event.target.value) });
+  };
+
   return {
     handleAddToCart,
+    handleCategoryChange,
+    handleSubcategoryFilter,
+    isAddedToCart,
     grouped,
     products,
     categories,

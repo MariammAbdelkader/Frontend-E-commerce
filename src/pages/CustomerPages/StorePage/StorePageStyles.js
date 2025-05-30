@@ -2,7 +2,7 @@ export const StorePageStyles = {
   container: {
     backgroundColor: "#121212",
     minHeight: "100vh",
-    p: 2,
+    p: 1,
   },
   globalStyles: {
     html: { margin: 0, padding: 0, height: "100%" },
@@ -23,6 +23,7 @@ export const StorePageStyles = {
     textAlign: "center",
   },
   headerTitle: {
+    height: "150px",
     fontWeight: "bold",
     marginBottom: "16px",
   },
@@ -36,5 +37,32 @@ export const StorePageStyles = {
     bgcolor: "#1e1e1e",
     color: "white",
     textAlign: "center",
+  },
+  filterSection: {
+    display: "flex",
+    justifyContent: "flex-end",
+    gap: 2,
+    my: 3,
+    pr: 2,
+  },
+
+  filterSelectStyles: {
+    minWidth: 200,
+    "& .MuiInputBase-root": {
+      color: "#FFF",
+      borderColor: "#FFF",
+    },
+    "& .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#FFF",
+    },
+    "&:hover .MuiOutlinedInput-notchedOutline": {
+      borderColor: "#FFF",
+    },
+    "& .MuiInputLabel-root": {
+      color: "#FFF",
+    },
+    "& .MuiSvgIcon-root": {
+      color: "#FFF",
+    },
   },
 };

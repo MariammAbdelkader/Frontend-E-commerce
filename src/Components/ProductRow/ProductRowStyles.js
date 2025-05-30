@@ -4,7 +4,7 @@ const ProductRowStyles = {
   },
   categoryTitle: {
     color: "#FF5722",
-    mt: 10,
+    mt: 8,
     mb: 3,
     textAlign: "center",
     display: "block",

@@ -1,14 +1,12 @@
-// src/pages/ChatbotPage/ChatbotContainer.js
-import React, { useState, useEffect, useRef } from "react";
-import ChatbotUIContent from "./ChatbotUIContent";
+import { useState, useEffect, useRef } from "react";
 import {
   startConversation,
   sendMessage,
   getConversationMessages,
   deleteConversation,
-} from "../../../Services/ChatbotServices"; // Corrected import
+} from "../../../Services/ChatbotServices";
 
-const ChatbotContainer = () => {
+export default function useChatbot() {
   const [messages, setMessages] = useState([
     {
       from: "bot",
@@ -19,11 +17,12 @@ const ChatbotContainer = () => {
   const [conversationId, setConversationId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [activeChat, setActiveChat] = useState(null);
   const messagesEndRef = useRef(null);
 
   const startAndFetch = async () => {
-    // Moved outside useEffect
     setLoading(true);
+    setError(null);
     const startResponse = await startConversation();
     if (startResponse.success) {
       setConversationId(startResponse.data.conversationId);
@@ -34,8 +33,11 @@ const ChatbotContainer = () => {
         messagesResponse.data &&
         messagesResponse.data.messages
       ) {
-        setMessages((prevMessages) => [
-          ...prevMessages,
+        setMessages([
+          {
+            from: "bot",
+            text: "Hi, I'm Kimmy, your AI assistant! How can I help you today?",
+          },
           ...messagesResponse.data.messages.map((msg) => ({
             from: msg.senderType,
             text: msg.messageContent,
@@ -50,14 +52,8 @@ const ChatbotContainer = () => {
     }
   };
 
-  useEffect(() => {
-    startAndFetch(); // Call it here
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const handleSendMessage = async () => {
     if (!input.trim() || !conversationId) return;
-    console.log(`body details:  ${input} , ${conversationId}`);
     const newMessage = { from: "user", text: input };
     setMessages((prevMessages) => [...prevMessages, newMessage]);
     setInput("");
@@ -71,8 +67,6 @@ const ChatbotContainer = () => {
       setMessages((prevMessages) => [...prevMessages, botReply]);
     } else {
       setError(response.error);
-      // Optionally, add the user's message back if sending failed
-      // setMessages((prevMessages) => prevMessages.slice(0, -1));
     }
   };
 
@@ -98,7 +92,7 @@ const ChatbotContainer = () => {
         },
       ]);
       setConversationId(null);
-      startAndFetch(); // Call it here
+      startAndFetch();
     } else {
       setError(response.error);
     }
@@ -108,19 +102,30 @@ const ChatbotContainer = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  return (
-    <ChatbotUIContent
-      messages={messages}
-      input={input}
-      onInputChange={handleInputChange}
-      onSendMessage={handleSendMessage}
-      onKeyPress={handleKeyPress}
-      messagesEndRef={messagesEndRef}
-      loading={loading}
-      error={error}
-      onEndConversation={handleEndConversation}
-    />
-  );
-};
+  useEffect(() => {
+    startAndFetch();
+  }, []);
 
-export default ChatbotContainer;
+  const handleSelectChat = (chatKey) => {
+    setActiveChat(chatKey);
+  };
+
+  return {
+    messages,
+    setMessages,
+    input,
+    setInput,
+    setConversationId,
+    loading,
+    error,
+    activeChat,
+    setActiveChat,
+    messagesEndRef,
+    startAndFetch,
+    handleSendMessage,
+    handleInputChange,
+    handleKeyPress,
+    handleEndConversation,
+    handleSelectChat,
+  };
+}

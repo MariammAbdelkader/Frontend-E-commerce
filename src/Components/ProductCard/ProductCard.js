@@ -27,7 +27,7 @@ const ProductCard = ({ product, onAddToCart }) => {
           {product.description}
         </Typography>
         <Typography variant="body2" sx={ProductCardStyles.category}>
-          Category: {product.category} | Subcategory: {product.subcategory}
+          Subcategory: {product.subcategory}
         </Typography>
 
         {product.discountprice ? (

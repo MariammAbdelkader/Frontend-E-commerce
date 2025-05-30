@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import {
   Avatar,
@@ -13,18 +13,14 @@ import { useNavigate } from "react-router-dom";
 
 const UserProfilePage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const customer = location.state?.customer;
 
-  const [profile, setProfile] = useState(null);
-
-    const location = useLocation();
-    const customer = location.state?.customer;
-
-
-useEffect(() => {
-  if (!customer) {
-    navigate("/notfound"); // Or redirect to another page
-  }
-}, [customer, navigate]);
+  useEffect(() => {
+    if (!customer) {
+      navigate("/notfound");
+    }
+  }, [customer, navigate]);
 
   return (
     <Box sx={{ p: { xs: 2, md: 5 }, bgcolor: "#f3f6f9", minHeight: "100vh" }}>
@@ -47,15 +43,15 @@ useEffect(() => {
             mb: 4,
           }}>
           <Avatar
-            src={customer?.avatar|| ""}
+            src={customer?.avatar || ""}
             sx={{ width: 96, height: 96, boxShadow: 2 }}
           />
           <Box>
             <Typography variant="h4" fontWeight={700}>
-            {customer.lastName}
+              {customer.lastName}
             </Typography>
             <Typography color="text.secondary" sx={{ fontSize: 16 }}>
-              @{customer.firstName} 
+              @{customer.firstName}
             </Typography>
           </Box>
         </Box>
@@ -77,8 +73,6 @@ useEffect(() => {
           <ProfileItem label="Gender" value={customer.Gender} />
           <ProfileItem label="Segmentation" value={customer.segmentation} />
         </Grid>
-
-       
       </Card>
     </Box>
   );

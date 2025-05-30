@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCart } from "../../Services/CartServices";
-import{logout} from "../../Services/LogoutServices";
-import{getCustomerProfile} from "../../Services/CustomerServices";
+import { logout } from "../../Services/LogoutServices";
+import { getCustomerProfile } from "../../Services/CustomerServices";
 
 const useNavbarContainer = () => {
   const navigate = useNavigate();
@@ -22,16 +22,15 @@ const useNavbarContainer = () => {
   const handleCartClose = () => setCartAnchorEl(null);
 
   const handleSignOut = async () => {
-    const res=await logout();
-          if (res.success) 
-            navigate("/login");
-  }
-  
-  const handleProfile = () =>{
-    navigate("/userprofile",{ state: { profileData: profileData } });
+    const res = await logout();
+    if (res.success) navigate("/login");
+  };
+
+  const handleProfile = () => {
+    navigate("/userprofile", { state: { profileData: profileData } });
     handleMenuClose();
-  }
-  
+  };
+
   const handleLinkClick = (path) => navigate(path);
   const handleProceedToCheckout = () => {
     navigate("/checkout");
@@ -46,25 +45,23 @@ const useNavbarContainer = () => {
   useEffect(() => {
     const fetchCart = async () => {
       try {
-        const { products, totalPrice } = await getCart();
+        const { products, totalPrice, totalQuantity } = await getCart();
+        console.log(products, totalPrice, totalQuantity);
         setCartItems(products || []);
         setTotalPrice(totalPrice || 0);
-        const totalQuantity =
-          products?.reduce((sum, item) => sum + item.quantity, 0) || 0;
         setCartCount(totalQuantity);
       } catch (err) {
         console.error(err?.message || "Failed to fetch cart");
       }
     };
     const fetchProfile = async () => {
-            const res = await getCustomerProfile();
-            if (!res.success) {
-              alert("Failed to fetch profile data");
-              return;
-            }
-          setProfileData(res.profile);
-      };
-    
+      const res = await getCustomerProfile();
+      if (!res.success) {
+        alert("Failed to fetch profile data");
+        return;
+      }
+      setProfileData(res.profile);
+    };
 
     fetchCart();
     fetchProfile();

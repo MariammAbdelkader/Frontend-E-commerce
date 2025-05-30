@@ -39,8 +39,9 @@ export const getCart = async () => {
     */
 
     return {
-      products: response.data.cart,
+      products: response.data.cart.products,
       totalPrice: response.data.totalPrice,
+      totalQuantity: response.data.cart.totalQuantity,
     };
   } catch (error) {
     return handleError(error);
@@ -54,13 +55,14 @@ export const addTocart = async ({ productId, quantity }) => {
       `${API_BASE_URL}/add`,
       { productId, quantity },
       {
-        withCredentials: true, // Ensures cookies are sent with the request
+        withCredentials: true,
       }
     );
 
     return {
       message: response.data.message,
       totalPrice: response.data.cart.totalPrice,
+      totalQuantity: response.data.cart.totalQuantity,
     };
   } catch (error) {
     return handleError(error);

@@ -1,4 +1,4 @@
-export const styles = {
+const styles = {
   pageContainer: {
     backgroundColor: "#f9fafb",
     minHeight: "100vh",
@@ -100,14 +100,16 @@ export const styles = {
       backgroundColor: "#059669",
     },
   },
-    labelText: {
-    fontSize: '1.3rem', 
-    fontWeight: 'bold',
-    color: '#333',
+  labelText: {
+    fontSize: "1.3rem",
+    fontWeight: "bold",
+    color: "#333",
     mb: 0.5,
   },
   valueText: {
-    color: '#416899', // baby blue shade
-    fontSize: '1rem',
+    color: "#416899", // baby blue shade
+    fontSize: "1rem",
   },
 };
+
+export default styles;
