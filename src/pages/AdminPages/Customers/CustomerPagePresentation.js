@@ -8,21 +8,46 @@ import {
   Box,
   TextField,
   CircularProgress,
+  Button,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel
 } from "@mui/material";
 import styles from "./CustomerPageStyles";
 import useCustomerPageContainer from "./CustomerPageContainer";
 
 const CustomerList = () => {
-  const { customers, loading, error, searchTerm, handleSearchChange } =
+  const { customers, loading, error, searchTerm, SegmentTypes,segmentation,handleSearchChange ,handleSlecetSegmentation} =
     useCustomerPageContainer();
   const navigate = useNavigate();
+  
+
 
   return (
     <Box sx={styles.customerListContainer}>
       <Box sx={styles.customerSearchBox}>
         <Typography variant="h4" sx={styles.headingStyle}>
-          My Customers
+          Our Customers
         </Typography>
+
+
+         <FormControl style={styles.formControl} size="small">
+            <InputLabel >Segmentation</InputLabel>
+            <Select
+              name="Segmentation"
+              value={segmentation}
+              onChange={handleSlecetSegmentation}
+              label="Segmentation"
+              required>
+                
+              {SegmentTypes.map((seg) => (
+                <MenuItem  value={seg}>
+                  {seg}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
         <TextField
           variant="outlined"
           label="Search Customers"
@@ -45,10 +70,14 @@ const CustomerList = () => {
             <Box key={customer.id || customer.email} sx={styles.cardWrapper}>
               <Card sx={styles.cardStyle}>
                 {/* Fixed Top Section */}
-                <Box sx={styles.fixedHeader}>
-                  <Box sx={styles.boxStyle}>
+                <Box sx={styles.fixedHeader}
+
+                      onClick={() => navigate("/viewprofile", { state: { customer: customer } })}
+                      style={{ cursor: "pointer" }}
+                      >
+                  <Box sx={{...styles.boxStyle,cursor: "pointer","&:hover": {backgroundColor: "#1e00ad", },}}>
                     <Avatar
-                      src={customer.image}
+                      src={customer.avatar || ""}
                       alt={customer.firstName}
                       sx={styles.avatarStyle}
                     />
@@ -66,7 +95,7 @@ const CustomerList = () => {
                 </Box>
 
                 {/* Scrollable Content */}
-                <CardContent sx={styles.scrollableCardContent}>
+                {/* <CardContent sx={styles.scrollableCardContent}>
                   <Typography sx={styles.cardContentStyle}>
                     <strong style={styles.strongText}>FirstName: </strong>
                     <span style={styles.textStyle}>{customer.firstName}</span>
@@ -95,22 +124,10 @@ const CustomerList = () => {
                       {customer.gender || "N/A"}
                     </span>
                   </Typography>
-                </CardContent>
+                </CardContent> */}
 
                 {/* Buttons */}
-                <Box
-                  component="button"
-                  onClick={() =>
-                    navigate("/viewprofile", {
-                      state: { userId: customer.userId },
-                    })
-                  }
-                  sx={styles.viewProfileButton}>
-                  View Profile
-                </Box>
-
-                <Box
-                  component="button"
+                <Button
                   onClick={() =>
                     navigate("/viewhistory", {
                       state: { userId: customer.userId },
@@ -118,7 +135,7 @@ const CustomerList = () => {
                   }
                   sx={styles.viewHistoryButton}>
                   View History
-                </Box>
+                </Button>
               </Card>
             </Box>
           ))}

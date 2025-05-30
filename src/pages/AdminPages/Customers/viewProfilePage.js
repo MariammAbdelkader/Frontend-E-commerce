@@ -9,50 +9,22 @@ import {
   Stack,
   Divider,
 } from "@mui/material";
-import { getCustomerProfile } from "../../../Services/CustomerServices";
+import { useNavigate } from "react-router-dom";
 
 const UserProfilePage = () => {
-  const { state } = useLocation();
-  const { userId } = state || {};
+  const navigate = useNavigate();
 
   const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      if (!userId) {
-        setError("User ID is missing.");
-        setLoading(false);
-        return;
-      }
+    const location = useLocation();
+    const customer = location.state?.customer;
 
-      try {
-        const data = await getCustomerProfile(userId);
-        if (data) {
-          setProfile({
-            userId: data.userId,
-            fullName: `${data.firstName} ${data.lastName}`,
-            phone: data.phoneNumber,
-            address: data.address,
-            gender: data.gender,
-            segmentation: data.segment?.SegmentType || "N/A",
-          });
-        } else {
-          setError(data.error);
-        }
-      } catch (err) {
-        setError("An error occurred while fetching the profile.");
-      } finally {
-        setLoading(false);
-      }
-    };
 
-    fetchProfile();
-  }, [userId]);
-
-  if (loading) return <Typography>Loading...</Typography>;
-  if (error) return <Typography color="error">{error}</Typography>;
+useEffect(() => {
+  if (!customer) {
+    navigate("/notfound"); // Or redirect to another page
+  }
+}, [customer, navigate]);
 
   return (
     <Box sx={{ p: { xs: 2, md: 5 }, bgcolor: "#f3f6f9", minHeight: "100vh" }}>
@@ -75,15 +47,15 @@ const UserProfilePage = () => {
             mb: 4,
           }}>
           <Avatar
-            src={profile.avatarUrl}
+            src={customer?.avatar|| ""}
             sx={{ width: 96, height: 96, boxShadow: 2 }}
           />
           <Box>
             <Typography variant="h4" fontWeight={700}>
-              {profile.fullName}
+            {customer.lastName}
             </Typography>
             <Typography color="text.secondary" sx={{ fontSize: 16 }}>
-              @{profile.username}
+              @{customer.firstName} 
             </Typography>
           </Box>
         </Box>
@@ -93,25 +65,20 @@ const UserProfilePage = () => {
         {/* Contact Information */}
         <SectionTitle title="Contact Information" />
         <Grid container spacing={2} mb={4}>
-          <ProfileItem label="Email" value={profile.email} />
-          <ProfileItem label="Phone Number" value={profile.phone} />
-          <ProfileItem label="Address" value={profile.address} />
+          <ProfileItem label="Email" value={customer.email} />
+          <ProfileItem label="Phone Number" value={customer.phoneNumber} />
+          <ProfileItem label="Address" value={customer.address} />
         </Grid>
 
         {/* Personal Details */}
         <SectionTitle title="Personal Details" />
         <Grid container spacing={2} mb={4}>
-          <ProfileItem label="User ID" value={profile.userId} />
-          <ProfileItem label="Gender" value={profile.gender} />
-          <ProfileItem label="Segmentation" value={profile.segmentation} />
+          <ProfileItem label="User ID" value={customer.userId} />
+          <ProfileItem label="Gender" value={customer.Gender} />
+          <ProfileItem label="Segmentation" value={customer.segmentation} />
         </Grid>
 
-        {/* Bio Section */}
-        <SectionTitle title="About" />
-        <Typography
-          sx={{ whiteSpace: "pre-line", color: "#444", fontSize: 15 }}>
-          {profile.bio}
-        </Typography>
+       
       </Card>
     </Box>
   );

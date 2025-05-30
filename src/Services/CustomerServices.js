@@ -3,10 +3,12 @@ import axios from "axios";
 import apiUrl from "../config/index";
 const API_BASE_URL = `${apiUrl}`;
 
-export const getAllCustomersInformation = async () => {
+export const getAllCustomersInformation = async ({type}) => {
+
+  console.log("Fetching customers with type:", type);
   try {
-    const response = await axios.get(
-      `${API_BASE_URL}/customermanagement/customer-info`,
+    const response = await axios.post(`${API_BASE_URL}/customermanagement/customer-info`,
+      {type},
       {
         withCredentials: true,
       }
@@ -29,7 +31,7 @@ export const getAllCustomersInformation = async () => {
 
 export const getCustomerHistory = async (userId) => {
   try {
-    const response = await axios.get(
+    const response = await axios.post(
       `${API_BASE_URL}/customermanagement/userhistory/${userId}`, // ✅ Append to path
       {
         withCredentials: true,

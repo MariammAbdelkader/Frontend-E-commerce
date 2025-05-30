@@ -13,7 +13,7 @@ const styles = {
     backgroundColor: "#1b0099",
     color: "white",
     width: "300px",
-    height: "230px",
+    height: "130px",
     borderTop: "5px solid #00AFFF",
     borderBottom: "5px solid #00AFFF",
   },
@@ -96,7 +96,7 @@ const styles = {
   },
   viewProfileButton: {
     position: "absolute",
-    bottom: 5,
+    // bottom: 5,
     left: 35,
     py: 1,
     px: 2,
@@ -114,7 +114,7 @@ const styles = {
   },
   viewHistoryButton: {
     position: "absolute",
-    bottom: 5,
+    // bottom: 5,
     right: 75,
     py: 1,
     px: 2,
@@ -138,6 +138,7 @@ const styles = {
   fixedHeader: {
     pt: "12px",
     pl: "16px",
+    mb: "10px",
   },
 
   scrollableCardContent: {
@@ -160,6 +161,9 @@ const styles = {
       background: "#f1f1f1",
       borderRadius: "4px",
     },
+  },
+   formControl: {
+    minWidth: 200,
   },
 };
 

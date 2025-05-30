@@ -6,12 +6,17 @@ const useCustomerPageContainer = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [segmentation, setSegmentation] = useState("");
+
+  const SegmentTypes =([
+    'VIP', 'Loyal Customer','New Customer','"Frequent Returner','Occasional Buyer',
+    'Cart Abandoner','Inactive','Highly Active','Impulse Buyer']);
 
   useEffect(() => {
     const fetchCustomers = async () => {
       setLoading(true);
 
-      const result = await getAllCustomersInformation();
+      const result = await getAllCustomersInformation({type: segmentation});
       if (result.success) {
         setCustomers(result.data);
       } else {
@@ -21,7 +26,11 @@ const useCustomerPageContainer = () => {
     };
 
     fetchCustomers();
-  }, []);
+  }, [segmentation]);
+
+ const  handleSlecetSegmentation=(event)=> {
+    setSegmentation(event.target.value);
+  }
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -52,7 +61,10 @@ const useCustomerPageContainer = () => {
     loading,
     error,
     searchTerm,
+    SegmentTypes,
+    segmentation,
     handleSearchChange,
+    handleSlecetSegmentation,
   };
 };
 
