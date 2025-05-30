@@ -22,9 +22,10 @@ const CartPage = () => {
   const {
     cartItems,
     coupon,
-    setCoupon,
-    updateQuantity,
     removeItem,
+    setCoupon,
+    handleAddOneMore,
+    handleRemoveOne,
     // subtotal,
     totalPrice,
     loading,
@@ -82,17 +83,17 @@ const CartPage = () => {
                       </Typography>
 
                       <Box sx={styles.cartItemActions}>
-                        <IconButton onClick={() => updateQuantity(index, -1)}>
+                        <IconButton onClick={() => handleRemoveOne(item)}>
                           <RemoveIcon fontSize="small" />
                         </IconButton>
                         <Typography>{item.quantity}</Typography>
-                        <IconButton onClick={() => updateQuantity(index, 1)}>
+                        <IconButton onClick={() => handleAddOneMore(item)}>
                           <AddIcon fontSize="small" />
                         </IconButton>
                         <Typography fontWeight="500" sx={{ mx: 2 }}>
                           ${(item.pricePerOneItem * item.quantity).toFixed(2)}
                         </Typography>
-                        <IconButton onClick={() => removeItem(index)}>
+                        <IconButton onClick={() => removeItem(item)}>
                           <DeleteIcon />
                         </IconButton>
                       </Box>

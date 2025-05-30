@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getCart } from "../../../Services/CartServices";
+import { getCart,removeFromCart,addTocart } from "../../../Services/CartServices";
 
 export const useCartPage = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -24,20 +24,46 @@ export const useCartPage = () => {
 
   useEffect(() => {
     fetchCart();
-  }, []);
+  },[] );
 
-  const updateQuantity = (index, amount) => {
-    const updatedCart = cartItems.map((item, i) =>
-      i === index
-        ? { ...item, quantity: Math.max(1, item.quantity + amount) }
-        : item
-    );
-    setCartItems(updatedCart);
+  const handleAddOneMore = async (item) => {
+    try {
+      const { products, totalPrice } = await addTocart({
+        productId: item.productId,
+        quantity: 1,
+      });
+      
+      setCartItems(products || []);
+      setTotalPrice(parseFloat(totalPrice) || 0);
+    } catch (error) {
+      setError("Failed to add product to cart. Please try again.");
+      console.error("Failed to add item to cart:", error);
+    }
+  }
+
+  const handleRemoveOne = async (item) => {
+    try {
+      const { products, totalPrice }= await removeFromCart({
+        productId: item.productId,
+        quantity:1,
+      });
+      setCartItems(products || []);
+      setTotalPrice(parseFloat(totalPrice) || 0);
+    } catch (error) {
+      setError("Failed to update product quantity. Please try again.");
+      console.error("Failed to update item quantity:", error);
+    }
   };
 
-  const removeItem = (index) => {
-    const updatedCart = cartItems.filter((_, i) => i !== index);
-    setCartItems(updatedCart);
+  const removeItem =async (item) => {
+    const {products,totalPrice} =await removeFromCart({
+      productId: item.productId,
+      quantity: item.quantity,
+    });
+
+      setCartItems(products || []);
+      setTotalPrice(parseFloat(totalPrice) || 0);
+ 
   };
 
   // const subtotal = Array.isArray(cartItems)
@@ -53,12 +79,14 @@ export const useCartPage = () => {
     setCartItems,
     coupon,
     setCoupon,
-    updateQuantity,
+    
     removeItem,
     // subtotal,
     totalPrice,
     loading,
     error,
+    handleAddOneMore,
+    handleRemoveOne,
     refetch: fetchCart,
   };
 };

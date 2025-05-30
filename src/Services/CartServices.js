@@ -40,7 +40,7 @@ export const getCart = async () => {
 
     return {
       products: response.data.cart.products,
-      totalPrice: response.data.totalPrice,
+      totalPrice: response.data.cart.totalPrice,
       totalQuantity: response.data.cart.totalQuantity,
     };
   } catch (error) {
@@ -59,8 +59,11 @@ export const addTocart = async ({ productId, quantity }) => {
       }
     );
 
+    const res= await getCart();
+
     return {
       message: response.data.message,
+      products: res.products,
       totalPrice: response.data.cart.totalPrice,
       totalQuantity: response.data.cart.totalQuantity,
     };
@@ -82,11 +85,11 @@ export const deletecart = async () => {
   }
 };
 
-export const removeFromCart = async ({ prodcutId, quantity }) => {
+export const removeFromCart = async ({ productId, quantity }) => {
   try {
     const response = await axios.patch(
       `${API_BASE_URL}/update`,
-      { prodcutId, quantity },
+      { productId, quantity },
       {
         withCredentials: true, // Ensures cookies are sent with the request
       }
@@ -121,8 +124,9 @@ export const removeFromCart = async ({ prodcutId, quantity }) => {
         */
 
     return {
-      products: response.data.cart,
-      totalPrice: response.data.totalPrice,
+      products: response.data.cart.products,
+      totalPrice: response.data.cart.totalPrice,
+      totalQuantity: response.data.cart.totalQuantity,
     };
   } catch (error) {
     return handleError(error);

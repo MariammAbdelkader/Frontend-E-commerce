@@ -1,17 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCart } from "../../Services/CartServices";
+import { getCart,removeFromCart } from "../../Services/CartServices";
 import { logout } from "../../Services/LogoutServices";
 import { getCustomerProfile } from "../../Services/CustomerServices";
 
 const useNavbarContainer = () => {
   const navigate = useNavigate();
-  const [cartItems, setCartItems] = useState([]);
   const [cartAnchorEl, setCartAnchorEl] = useState(null);
   const [profileAnchorEl, setProfileAnchorEl] = useState(null);
   const [profileData, setProfileData] = useState(null);
-  const [totalPrice, setTotalPrice] = useState(0);
-  const [cartCount, setCartCount] = useState(0);
 
   const isCartOpen = Boolean(cartAnchorEl);
   const isProfileMenuOpen = Boolean(profileAnchorEl);
@@ -37,23 +34,8 @@ const useNavbarContainer = () => {
     handleCartClose();
   };
 
-  const removeItemFromCart = (itemName) => {
-    const updatedCart = cartItems.filter((item) => item.name !== itemName);
-    setCartItems(updatedCart);
-  };
-
   useEffect(() => {
-    const fetchCart = async () => {
-      try {
-        const { products, totalPrice, totalQuantity } = await getCart();
-        console.log(products, totalPrice, totalQuantity);
-        setCartItems(products || []);
-        setTotalPrice(totalPrice || 0);
-        setCartCount(totalQuantity);
-      } catch (err) {
-        console.error(err?.message || "Failed to fetch cart");
-      }
-    };
+   
     const fetchProfile = async () => {
       const res = await getCustomerProfile();
       if (!res.success) {
@@ -62,19 +44,13 @@ const useNavbarContainer = () => {
       }
       setProfileData(res.profile);
     };
-
-    fetchCart();
+   
     fetchProfile();
-    const handleCartChange = () => fetchCart();
 
-    window.addEventListener("cartUpdated", handleCartChange);
-    return () => window.removeEventListener("cartUpdated", handleCartChange);
+    
   }, []);
 
   return {
-    cartItems,
-    cartCount,
-    totalPrice,
     isCartOpen,
     isProfileMenuOpen,
     cartAnchorEl,
@@ -88,7 +64,7 @@ const useNavbarContainer = () => {
     handleProfile,
     handleLinkClick,
     handleProceedToCheckout,
-    removeItemFromCart,
+    
   };
 };
 

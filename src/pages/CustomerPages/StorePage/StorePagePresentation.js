@@ -24,6 +24,9 @@ const StorePage = () => {
     handleAddToCart,
     handleCategoryChange,
     handleSubcategoryFilter,
+    cartItems,
+    cartCount,
+    totalPrice,
     grouped,
     categories,
     subcategories,
@@ -36,7 +39,8 @@ const StorePage = () => {
     <>
       <Box sx={StorePageStyles.container}>
         <GlobalStyles styles={StorePageStyles.globalStyles} />
-        <Navbar isAddedToCart={isAddedToCart} />
+     
+        <Navbar  cartItems={cartItems}totalPrice={totalPrice}  cartCount={cartCount}/>
 
         {error && (
           <Typography color="error" sx={{ mt: 2 }}>

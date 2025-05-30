@@ -30,11 +30,8 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import NavbarStyles from "./NavbarStyles";
 import useNavbarContainer from "./NavbarContainer";
 
-const Navbar = () => {
+const Navbar = ({cartItems ,totalPrice , cartCount}) => {
   const {
-    cartItems,
-    cartCount,
-    totalPrice,
     isCartOpen,
     isProfileMenuOpen,
     cartAnchorEl,
@@ -189,15 +186,10 @@ const Navbar = () => {
                       Qty: {item.quantity}
                     </Typography>
                     <Typography variant="caption" color="gray">
-                      Price: ${item.pricePerOneItem}
+                      Price: ${item.pricePerOneItem* item.quantity}
                     </Typography>
                   </Box>
                 </CardContent>
-                <IconButton
-                  sx={NavbarStyles.removeButton}
-                  onClick={() => removeItemFromCart(item.name)}>
-                  <DeleteIcon />
-                </IconButton>
               </Card>
             </ListItem>
           ))}

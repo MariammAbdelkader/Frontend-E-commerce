@@ -4,13 +4,16 @@ import {
   getSubcategories,
   getAllProducts,
 } from "../../../Services/ProductServices";
-import { addTocart } from "../../../Services/CartServices";
+import { addTocart,getCart } from "../../../Services/CartServices";
 
 const StorePageContainer = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
   const [isAddedToCart, setIsAddedToCart] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [cartCount, setCartCount] = useState(0);
   const [error, setError] = useState("");
   const [filters, setFilters] = useState({
     categoryId: "",
@@ -75,8 +78,34 @@ const StorePageContainer = () => {
         console.error(err);
       }
     };
+     const fetchCart = async () => {
+          try {
+            const { products, totalPrice, totalQuantity } = await getCart();
+            setCartItems(products || []);
+            setTotalPrice(totalPrice || 0);
+            setCartCount(totalQuantity);
+          } catch (err) {
+            console.error(err?.message || "Failed to fetch cart");
+          }
+        };
     fetchProducts();
+    fetchCart();
   }, [filters]);
+  
+  useEffect(() => {
+    const fetchCart = async () => {
+          try {
+            const { products, totalPrice, totalQuantity } = await getCart();
+            setCartItems(products || []);
+            setTotalPrice(totalPrice || 0);
+            setCartCount(totalQuantity);
+            setIsAddedToCart(false);
+          } catch (err) {
+            console.error(err?.message || "Failed to fetch cart");
+          }
+        };
+    fetchCart();
+  }, [isAddedToCart]);
 
   const handleAddToCart = async (product) => {
     try {
@@ -119,7 +148,9 @@ const StorePageContainer = () => {
     handleAddToCart,
     handleCategoryChange,
     handleSubcategoryFilter,
-    isAddedToCart,
+    cartItems,
+    cartCount,
+    totalPrice,
     grouped,
     products,
     categories,
