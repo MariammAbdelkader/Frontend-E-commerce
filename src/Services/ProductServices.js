@@ -313,7 +313,7 @@ export const addCategory = async (name) => {
       }
     );
 
-    return response.data.message;
+    return {success:true ,message:response.data.message};
   } catch (error) {
     return handleError(error);
   }
@@ -321,15 +321,16 @@ export const addCategory = async (name) => {
 
 export const editCategory = async (categoryId, name) => {
   try {
+
     const response = await axios.patch(
       `${API_BASE_URL_cat}/${categoryId}`,
-      name,
+      {name},
       {
         withCredentials: true,
       }
     );
 
-    return response.data.message;
+    return {success:true ,message:response.data.message};
   } catch (error) {
     return handleError(error);
   }
@@ -340,8 +341,7 @@ export const deleteCategory = async (categoryId) => {
       withCredentials: true,
     });
 
-    console.log(response.data.message);
-    return response.data;
+    return {success:true ,message:response.data.message};
   } catch (error) {
     return handleError(error);
   }
@@ -357,7 +357,7 @@ export const addSubCategory = async (data) => {
       withCredentials: true,
     });
 
-    return response.data.message;
+    return {success:true ,message:response.data.message};
   } catch (error) {
     return handleError(error);
   }
@@ -373,7 +373,7 @@ export const editSubCategory = async (subcategoryId, data) => {
       }
     );
 
-    return response.data.message;
+    return {success:true ,message:response.data.message};
   } catch (error) {
     return handleError(error);
   }
@@ -387,7 +387,7 @@ export const deleteSubCategory = async (subcategoryId) => {
       }
     );
 
-    return response.data.message;
+    return {success:true ,message:response.data.message};
   } catch (error) {
     return handleError(error);
   }
