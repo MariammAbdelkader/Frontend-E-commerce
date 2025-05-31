@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getCart,removeFromCart } from "../../Services/CartServices";
 import { logout } from "../../Services/LogoutServices";
 import { getCustomerProfile } from "../../Services/CustomerServices";
 
@@ -35,7 +34,6 @@ const useNavbarContainer = () => {
   };
 
   useEffect(() => {
-   
     const fetchProfile = async () => {
       const res = await getCustomerProfile();
       if (!res.success) {
@@ -44,10 +42,8 @@ const useNavbarContainer = () => {
       }
       setProfileData(res.profile);
     };
-   
-    fetchProfile();
 
-    
+    fetchProfile();
   }, []);
 
   return {
@@ -64,7 +60,6 @@ const useNavbarContainer = () => {
     handleProfile,
     handleLinkClick,
     handleProceedToCheckout,
-    
   };
 };
 

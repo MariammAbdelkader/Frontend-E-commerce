@@ -44,7 +44,7 @@ const AllCategoriesContainer = () => {
     fetchData();
   }, []);
 
-  const handleOpenDialog = (type, data = null) => {
+  const handleOpenDialog = (type, data) => {
     setDialog({ open: true, type, data });
 
     if (type === "editCategory" || type === "addCategory") {
@@ -83,11 +83,9 @@ const AllCategoriesContainer = () => {
   };
 
   const handleEditCategory = async () => {
-    const result = await editCategory(
-      formData.categoryId,{
-        name: formData.categoryName
-      }
-    );
+    const result = await editCategory(formData.categoryId, {
+      name: formData.categoryName,
+    });
     if (result.success) {
       fetchData();
     }

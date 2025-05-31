@@ -1,22 +1,29 @@
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
-  Typography,
-  Grid,
-  IconButton,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Button,
+  Collapse,
+  Typography,
+  Paper,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
   TextField,
 } from "@mui/material";
-import { Delete, Edit } from "@mui/icons-material";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+
 import styles from "./AllCategoriesStyles";
 import useAllCategoriesContainer from "./AllCategoriesContainer";
 
-
-const CategoryManager = () => {
+const CategoryTable = () => {
   const {
     categories,
     dialog,
@@ -32,110 +39,190 @@ const CategoryManager = () => {
     handleDeleteSubcategory,
   } = useAllCategoriesContainer();
 
+  const [openIndex, setOpenIndex] = useState(null);
+  const [selectedSubIndex, setSelectedSubIndex] = useState({
+    parentIndex: null,
+    subIndex: null,
+  });
+
+  const popupRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setSelectedSubIndex({ parentIndex: null, subIndex: null });
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+  const handleToggle = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
+    setSelectedSubIndex({ parentIndex: null, subIndex: null });
+  };
+
   return (
-    <Box sx={styles.bigBox}>
-      <Typography variant="h5" fontWeight="bold" sx={styles.stickyHeader}>
+    <Box sx={styles.container}>
+      <Typography variant="h5" sx={styles.title}>
         All Categories
       </Typography>
 
-      <Box sx={styles.headerBox}>
-        <Grid container>
-          <Grid item xs={4}>
-            <Typography fontWeight="bold">CategoryId</Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <Typography fontWeight="bold">CategoryName</Typography>
-          </Grid>
-          <Grid item xs={4}>
-            <Typography fontWeight="bold">SubCategories</Typography>
-          </Grid>
-        </Grid>
-      </Box>
+      <Paper sx={styles.paper}>
+        <TableContainer>
+          <Table>
+            <TableHead sx={styles.tableHead}>
+              <TableRow>
+                <TableCell sx={styles.tableHeadCell}>Category Id</TableCell>
+                <TableCell sx={styles.tableHeadCell}>Category Name</TableCell>
+                <TableCell sx={styles.tableHeadCell} align="right">
+                  Actions
+                </TableCell>
+              </TableRow>
+            </TableHead>
 
-      <Box sx={styles.scrollableContainer}>
-        {categories.map((cat) => (
-          <Box key={cat.categoryId} sx={styles.categoryBox}>
-            <Grid container alignItems="center">
-              <Grid item xs={4}>
-                <Typography sx={styles.categoryTypography}>
-                  #{cat.categoryId}
-                </Typography>
-              </Grid>
-              <Grid item xs={4} sx={{ display: "flex", gap: 1 }}>
-                <Typography sx={styles.categoryTypography}>
-                  {cat.name}
-                </Typography>
-                <IconButton
-                  onClick={() => handleOpenDialog("editCategory", cat)}
-                  sx={styles.iconButton}>
-                  <Edit />
-                </IconButton>
-                <IconButton
-                  onClick={() => handleOpenDialog("deleteCategory", cat)}
-                  sx={styles.deleteIconButton}>
-                  <Delete />
-                </IconButton>
-              </Grid>
-              <Grid item xs={4}>
-                <Box sx={styles.subcategoryBox}>
-                  {cat.subcategories.map((sub) => (
-                    <Box key={sub.id} sx={{ display: "flex", gap: 1 }}>
-                      <Typography sx={styles.subcategoryTypography}>
-                        {sub.name}
-                      </Typography>
-                      <IconButton
-                        onClick={() =>
-                          handleOpenDialog("editSubcategory", {
-                            ...sub,
-                            categoryId: cat.categoryId,
-                          })
+            <TableBody>
+              {categories.map((cat, index) => (
+                <React.Fragment key={cat.categoryId || index}>
+                  <TableRow>
+                    <TableCell sx={styles.categoryCell}>
+                      #{cat.categoryId}
+                    </TableCell>
+                    <TableCell sx={styles.categoryCell}>{cat.name}</TableCell>
+                    <TableCell align="right">
+                      <Button
+                        endIcon={
+                          openIndex === index ? (
+                            <KeyboardArrowUpIcon />
+                          ) : (
+                            <KeyboardArrowDownIcon />
+                          )
                         }
-                        sx={styles.iconButton}>
-                        <Edit />
-                      </IconButton>
-                      <IconButton
-                        onClick={() =>
-                          handleOpenDialog("deleteSubcategory", {
-                            ...sub,
-                            categoryId: cat.categoryId,
-                          })
-                        }
-                        sx={styles.deleteIconButton}>
-                        <Delete />
-                      </IconButton>
-                    </Box>
-                  ))}
-                </Box>
-              </Grid>
-            </Grid>
-            <Box>
-              <Button
-                variant="outlined"
-                sx={styles.addSubcategoryButton}
-                onClick={() =>
-                  handleOpenDialog("addSubcategory", {
-                    categoryId: cat.categoryId,
-                  })
-                }>
-                + add new Subcategory
-              </Button>
-            </Box>
-          </Box>
-        ))}
-      </Box>
+                        onClick={() => handleToggle(index)}
+                        sx={styles.viewMoreButton}>
+                        View More
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+
+                  <TableRow>
+                    <TableCell
+                      sx={{ paddingBottom: 0, paddingTop: 0 }}
+                      colSpan={3}>
+                      <Collapse
+                        in={openIndex === index}
+                        timeout="auto"
+                        unmountOnExit>
+                        <Box sx={{ mt: 1, ml: 2 }}>
+                          <Box sx={styles.subcategoryHeaderBox}>
+                            <Typography
+                              variant="subtitle1"
+                              sx={styles.subcategoryHeaderText}>
+                              SubCategories
+                            </Typography>
+                            <Button
+                              variant="outlined"
+                              size="small"
+                              sx={styles.addSubCategoryButton}
+                              onClick={() =>
+                                handleOpenDialog("addSubcategory", {
+                                  parentCategoryId: cat.categoryId,
+                                  categoryId: cat.categoryId,
+                                })
+                              }>
+                              + Add a new SubCategory
+                            </Button>
+                          </Box>
+
+                          <Box component="ul" sx={styles.subcategoryList}>
+                            {cat.subcategories.map((sub, i) => (
+                              <Box
+                                key={sub.id || i}
+                                component="li"
+                                sx={styles.subcategoryItem}>
+                                <Box
+                                  component="span"
+                                  sx={styles.subcategoryName}
+                                  onClick={() =>
+                                    setSelectedSubIndex({
+                                      parentIndex: index,
+                                      subIndex: i,
+                                    })
+                                  }>
+                                  {sub.name}
+                                </Box>
+
+                                {selectedSubIndex.parentIndex === index &&
+                                  selectedSubIndex.subIndex === i && (
+                                    <Box ref={popupRef} sx={styles.popupBox}>
+                                      <Typography
+                                        variant="subtitle2"
+                                        sx={styles.popupTitle}>
+                                        Choose an action
+                                      </Typography>
+                                      <Box sx={styles.popupButtonsBox}>
+                                        <Button
+                                          sx={styles.editButton}
+                                          onClick={() =>
+                                            handleOpenDialog(
+                                              "editSubcategory",
+                                              {
+                                                ...sub,
+                                                categoryId: cat.categoryId,
+                                              }
+                                            )
+                                          }>
+                                          Edit
+                                        </Button>
+
+                                        <Button
+                                          variant="contained"
+                                          size="small"
+                                          sx={styles.deleteButton}
+                                          onClick={() =>
+                                            handleOpenDialog(
+                                              "deleteSubcategory",
+                                              {
+                                                ...sub,
+                                                categoryId: cat.categoryId,
+                                              }
+                                            )
+                                          }>
+                                          Delete
+                                        </Button>
+                                      </Box>
+                                    </Box>
+                                  )}
+                              </Box>
+                            ))}
+                          </Box>
+                        </Box>
+                      </Collapse>
+                    </TableCell>
+                  </TableRow>
+                </React.Fragment>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </Paper>
 
       <Box sx={styles.footerBox}>
-        <Typography sx={styles.footerTypography}>
+        <Typography variant="body2" sx={styles.footerText}>
           If you want to add a new Category just press the button here!
         </Typography>
         <Button
           variant="outlined"
           sx={styles.addCategoryButton}
           onClick={() => handleOpenDialog("addCategory")}>
-          + add new Category
+          + Add a new category
         </Button>
       </Box>
 
+      {/* Add/Edit Category Dialog */}
       <Dialog
         open={
           dialog.open && ["addCategory", "editCategory"].includes(dialog.type)
@@ -164,6 +251,7 @@ const CategoryManager = () => {
               setFormData({ ...formData, categoryId: e.target.value })
             }
             sx={styles.dialogTextField}
+            disabled={dialog.type === "editCategory"}
           />
         </DialogContent>
         <DialogActions sx={styles.dialogActions}>
@@ -182,6 +270,7 @@ const CategoryManager = () => {
         </DialogActions>
       </Dialog>
 
+      {/* Add/Edit Subcategory Dialog */}
       <Dialog
         open={
           dialog.open &&
@@ -221,6 +310,7 @@ const CategoryManager = () => {
         </DialogActions>
       </Dialog>
 
+      {/* Delete Confirmation Dialog */}
       <Dialog
         open={dialog.open && dialog.type.startsWith("delete")}
         onClose={handleCloseDialog}>
@@ -251,4 +341,4 @@ const CategoryManager = () => {
   );
 };
 
-export default CategoryManager;
+export default CategoryTable;

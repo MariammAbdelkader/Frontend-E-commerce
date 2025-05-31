@@ -1,100 +1,162 @@
+// CategoryTableStyles.js
+
 const styles = {
-  bigBox: {
-    display: "flex",
-    flexDirection: "column",
-    minHeight: "82vh",
-    p: 0,
+  container: {
+    p: 4,
+    backgroundColor: "#f5f5f5",
+    maxHeight: "100vh",
   },
-  stickyHeader: {
-    position: "sticky",
-    top: 0,
-    padding: "10px",
-    zIndex: 1,
-    color: "#1b0099",
+
+  title: {
+    fontWeight: "bold",
+    color: "#150088",
+    mb: 2,
   },
-  headerBox: {
-    backgroundColor: "#1600c9",
-    color: "#fff",
-    borderRadius: 2,
-    p: 2,
-  },
-  categoryBox: {
-    backgroundColor: "#1600c9",
-    color: "#fff",
-    borderRadius: 2,
-    p: 2,
-    mb: 1,
-  },
-  subcategoryBox: {
-    maxHeight: "110px",
+
+  paper: {
+    ml: 2,
+    maxHeight: "63vh",
     overflowY: "auto",
-    pr: 1,
-    scrollbarColor: "#fff transparent",
+    borderRadius: 2,
     "&::-webkit-scrollbar": {
       width: "8px",
     },
-    "&::-webkit-scrollbar-thumb": {
-      backgroundColor: "#3b0dab",
+    "&::-webkit-scrollbar-track": {
+      backgroundColor: "#e0e0e0",
       borderRadius: "4px",
     },
-  },
-  scrollableContainer: {
-    maxHeight: "400px",
-    overflowY: "auto",
-    scrollbarColor: "#3b0dab transparent",
-    "&::-webkit-scrollbar": {
-      width: "8px",
-    },
     "&::-webkit-scrollbar-thumb": {
-      backgroundColor: "#3b0dab",
+      backgroundColor: "#150088",
       borderRadius: "4px",
     },
-    mt: 2,
+    "&::-webkit-scrollbar-thumb:hover": {
+      backgroundColor: "#0f0060",
+    },
   },
-  addSubcategoryButton: {
-    borderColor: "#fff",
+
+  tableHead: {
+    backgroundColor: "#150088",
+  },
+
+  tableHeadCell: {
     color: "#fff",
+    fontWeight: "bold",
+  },
+
+  categoryCell: {
+    color: "#150088",
+    fontWeight: "bold",
+  },
+
+  viewMoreButton: {
+    color: "#150088",
+    fontWeight: "bold",
     textTransform: "none",
-    borderStyle: "dashed",
   },
-  categoryTypography: {
-    fontWeight: "bold",
-    mt: 1,
-  },
-  subcategoryTypography: {
-    fontWeight: "bold",
-    color: "textSecondary",
-    mt: 1,
-  },
-  iconButton: {
-    size: "small",
-    color: "yellow",
-  },
-  deleteIconButton: {
-    size: "small",
-    color: "red",
-  },
-  footerBox: {
-    backgroundColor: "#1600c9",
-    color: "#fff",
-    borderRadius: 2,
-    p: 2,
-    mt: 2,
+
+  subcategoryHeaderBox: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    marginTop: "auto",
-    zIndex: 1,
+    m: 3,
   },
-  footerTypography: {
+
+  subcategoryHeaderText: {
     fontWeight: "bold",
+    color: "#150088",
   },
-  addCategoryButton: {
-    borderColor: "#fff",
+
+  addSubCategoryButton: {
+    borderColor: "#150088",
+    color: "#150088",
+    textTransform: "none",
+    fontWeight: "bold",
+    "&:hover": { backgroundColor: "#eee" },
+  },
+
+  subcategoryList: {
+    pl: 3,
+    pr: 0,
+    m: 0,
+    listStyleType: "disc",
+  },
+
+  subcategoryItem: {
+    mb: 2,
+    color: "#150088",
+    fontWeight: 500,
+    position: "relative",
+    listStylePosition: "inside",
+  },
+
+  subcategoryName: {
+    cursor: "pointer",
+    display: "inline",
+  },
+
+  popupBox: {
+    position: "absolute",
+    top: "100%",
+    textAlign: "center",
+    left: 0,
+    mt: "4px",
+    zIndex: 10,
+    backgroundColor: "#fff",
+    border: "1px solid #ccc",
+    p: 2,
+    borderRadius: "6px",
+    boxShadow: 3,
+    minWidth: "200px",
+  },
+
+  popupTitle: {
+    fontWeight: "bold",
+    color: "#150088",
+    mb: 1,
+  },
+
+  popupButtonsBox: {
+    display: "flex",
+    gap: 2,
+    justifyContent: "center",
+  },
+
+  editButton: {
+    backgroundColor: "#150088",
     color: "#fff",
     textTransform: "none",
-    ml: 2,
-    borderStyle: "dashed",
+    "&:hover": {
+      backgroundColor: "#110066",
+    },
+  },
+
+  deleteButton: {
+    backgroundColor: "#ff3b3b",
+    color: "#fff",
+    textTransform: "none",
+    "&:hover": {
+      backgroundColor: "#cc0000",
+    },
+  },
+
+  footerBox: {
+    mt: 3,
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+
+  footerText: {
+    fontWeight: "bold",
+    color: "#150088",
+  },
+
+  addCategoryButton: {
+    borderColor: "#150088",
+    color: "#150088",
+    textTransform: "none",
+    fontWeight: "bold",
+    "&:hover": { backgroundColor: "#eee" },
   },
   dialogTitle: {
     fontWeight: "bold",

@@ -25,12 +25,11 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 import NavbarStyles from "./NavbarStyles";
 import useNavbarContainer from "./NavbarContainer";
 
-const Navbar = ({cartItems ,totalPrice , cartCount}) => {
+const Navbar = ({ cartItems, totalPrice, cartCount }) => {
   const {
     isCartOpen,
     isProfileMenuOpen,
@@ -44,7 +43,6 @@ const Navbar = ({cartItems ,totalPrice , cartCount}) => {
     handleProfile,
     handleLinkClick,
     handleProceedToCheckout,
-    removeItemFromCart,
     profileData,
   } = useNavbarContainer();
 
@@ -186,7 +184,7 @@ const Navbar = ({cartItems ,totalPrice , cartCount}) => {
                       Qty: {item.quantity}
                     </Typography>
                     <Typography variant="caption" color="gray">
-                      Price: ${item.pricePerOneItem* item.quantity}
+                      Price: ${item.pricePerOneItem * item.quantity}
                     </Typography>
                   </Box>
                 </CardContent>
