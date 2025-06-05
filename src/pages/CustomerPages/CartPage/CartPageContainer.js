@@ -8,6 +8,8 @@ export const useCartPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+
+
   const fetchCart = async () => {
     try {
       setLoading(true);
@@ -88,5 +90,6 @@ export const useCartPage = () => {
     handleAddOneMore,
     handleRemoveOne,
     refetch: fetchCart,
+    
   };
 };
