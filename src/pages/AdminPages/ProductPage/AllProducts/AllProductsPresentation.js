@@ -142,12 +142,6 @@ const ProductList = () => {
           />
         </div>
 
-        {/* <Box style={styles.titleBox}>
-          <Typography variant="h6" style={styles.titleText}>
-            Our products
-          </Typography>
-        </Box> */}
-
         <Box sx={styles.productContainer}>
           <Grid container spacing={3}>
             {products.length > 0 ? (
@@ -172,42 +166,45 @@ const ProductList = () => {
                       alt={product.name}
                       sx={styles.cardMedia}
                     />
-                    <CardContent>
-                      <Typography variant="h6" fontWeight="bold">
-                        {product.name}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {product.category} → {product.subcategory}
-                      </Typography>
-                      <Typography
-                        variant="body2"
-                        color="text.secondary"
-                        mt={1}
-                        gutterBottom>
-                        {product.description}
-                      </Typography>
-                      <Box
-                        display="flex"
-                        justifyContent="space-between"
-                        alignItems="center">
+                    <CardContent sx={styles.cardcontent}>
+                      {/* Name */}
+                      <Box pb={1}>
+                        <Typography variant="h6" fontWeight="bold">
+                          {product.name}
+                        </Typography>
+                      </Box>
+
+                      {/* Category/Subcategory */}
+                      <Box sx={{ minHeight: "40px" }}>
+                        <Typography variant="body2" color="text.secondary">
+                          {product.category} → {product.subcategory}
+                        </Typography>
+                      </Box>
+
+                      {/* Description */}
+                      <Box sx={styles.cardDiscription}>
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          gutterBottom>
+                          {product.description}
+                        </Typography>
+                      </Box>
+
+                      {/* Price and Rating */}
+                      <Box sx={styles.cardPriceBox}>
                         {product.discountprice ? (
                           <Typography>
-                            <span
-                              style={{
-                                textDecoration: "line-through",
-                                color: "gray",
-                                marginRight: 8,
-                              }}>
+                            <span style={styles.cardPrice}>
                               ${product.price}
                             </span>
-                            <span
-                              style={{ color: "#d32f2f", fontWeight: "bold" }}>
+                            <span style={styles.cardDiscountPrice}>
                               ${product.discountprice}
                             </span>
                           </Typography>
                         ) : (
                           <Typography variant="body1" fontWeight="bold">
-                            {product.price} $
+                            ${product.price}
                           </Typography>
                         )}
                         {product.rate > 0 ? (
@@ -218,11 +215,14 @@ const ProductList = () => {
                             size="small"
                           />
                         ) : (
-                          ""
+                          <Box />
                         )}
                       </Box>
-                      {renderStatus(product.status)}
                     </CardContent>
+                    {/* Stock Status */}
+                    <Box px={2} pb={2}>
+                      {renderStatus(product.status)}
+                    </Box>
                     <Box px={2} pb={2}>
                       <Stack
                         direction="row"
