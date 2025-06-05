@@ -8,6 +8,7 @@ import {
   Divider,
   Grid,
   TextField,
+
 } from "@mui/material";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
@@ -16,6 +17,9 @@ import ChevronLeft from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 import { styles } from "./CartPageStyles";
 import { useCartPage } from "./CartPageContainer";
+import { useState,useEffect } from "react";
+import ConfirmOrderWindow from "./ConfirmOrderWindow";
+
 
 const CartPage = () => {
   const navigate = useNavigate();
@@ -30,7 +34,14 @@ const CartPage = () => {
     totalPrice,
     loading,
     error,
+    refetch
+
   } = useCartPage();
+
+  const [open, setOpen] = useState(false);
+
+  
+
 
   return (
     <Box sx={styles.cartContainer}>
@@ -148,9 +159,30 @@ const CartPage = () => {
               </Typography>
             </Box>
 
-            <Button variant="contained" fullWidth sx={styles.checkoutButton}>
-              PROCEED TO CHECKOUT
+             {/* <FormControl fullWidth variant="outlined" sx={{ maxWidth: 400, marginTop: 2 }}>
+              <InputLabel id="payment-method-label">Payment Method</InputLabel>
+              <Select
+                labelId="payment-method-label"
+                id="payment-method"
+                value={paymentMethod}
+                onChange={handlePaymentMethod}
+                label="Payment Method"
+              >
+                <MenuItem value="online">Online</MenuItem>
+                <MenuItem value="cash">In Shipping</MenuItem>
+              </Select>
+            </FormControl> */}
+
+            <Button
+                  variant="contained"
+                  fullWidth
+                  sx={styles.checkoutButton}
+                  onClick={() => setOpen(true)} // Open modal instead of navigate
+                >
+                  PROCEED TO CHECKOUT
             </Button>
+
+            <ConfirmOrderWindow open={open} handleClose={()=>setOpen(false)} refetch={refetch} />
             <Button
               fullWidth
               startIcon={<ChevronLeft />}

@@ -4,11 +4,11 @@ import { handleError } from "../utilities/Errorhandling";
 import apiUrl from "../config/index";
 const API_BASE_URL = `${apiUrl}/order`;
 
-export const checkOut = async ({ shippingAddress, billingAddress }) => {
+export const ConfirmOrder = async ({ shippingAddress,phoneNumber}) => {
   try {
     const response = await axios.post(
       `${API_BASE_URL}`,
-      { shippingAddress, billingAddress },
+      { shippingAddress,phoneNumber},
       {
         withCredentials: true, // Ensures cookies are sent with the request
       }
@@ -33,7 +33,7 @@ export const checkOut = async ({ shippingAddress, billingAddress }) => {
     }
 }
         */
-    return { message: response.data.message, order: response.data.response };
+    return { success:response.data.status ,message: response.data.message, order: response.data.response };
   } catch (error) {
     return handleError(error);
   }
