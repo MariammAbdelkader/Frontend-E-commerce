@@ -23,7 +23,6 @@ const AllCategoriesContainer = () => {
   const fetchData = async () => {
     const fetchedCategories = await getCategories();
     const fetchedSubcategories = await getSubcategories();
-
     if (
       Array.isArray(fetchedCategories) &&
       Array.isArray(fetchedSubcategories)
@@ -48,8 +47,9 @@ const AllCategoriesContainer = () => {
     setDialog({ open: true, type, data });
 
     if (type === "editCategory" || type === "addCategory") {
+      console.log("Opening dialog for type:", type, "with data:", data);
       setFormData({
-        categoryName: data?.categoryName || "",
+        categoryName: data?.name || "",
         categoryId: data?.categoryId || "",
         subcategoryName: "",
         subcategoryId: "",
@@ -83,17 +83,16 @@ const AllCategoriesContainer = () => {
   };
 
   const handleEditCategory = async () => {
-    const result = await editCategory(formData.categoryId, {
-      name: formData.categoryName,
-    });
+
+    const result = await editCategory(formData.categoryId, formData.categoryName);
     if (result.success) {
       fetchData();
     }
     handleCloseDialog();
   };
 
-  const handleDeleteCategory = async () => {
-    const result = await deleteCategory(dialog.data.categoryId);
+  const handleDeleteCategory = async (categoryId) => {
+    const result = await deleteCategory(categoryId);
     if (result.success) {
       fetchData();
     }

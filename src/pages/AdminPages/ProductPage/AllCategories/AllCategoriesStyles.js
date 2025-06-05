@@ -1,5 +1,7 @@
 // CategoryTableStyles.js
 
+import { hover } from "framer-motion";
+
 const styles = {
   container: {
     p: 4,
@@ -92,6 +94,10 @@ const styles = {
   subcategoryName: {
     cursor: "pointer",
     display: "inline",
+   "&:hover": {
+    textDecoration: "underline",
+    backgroundColor: "#9aadd3",
+  },
   },
 
   popupBox: {

@@ -16,9 +16,13 @@ import {
   DialogContent,
   DialogActions,
   TextField,
+  IconButton
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 import styles from "./AllCategoriesStyles";
 import useAllCategoriesContainer from "./AllCategoriesContainer";
@@ -78,20 +82,36 @@ const CategoryTable = () => {
               <TableRow>
                 <TableCell sx={styles.tableHeadCell}>Category Id</TableCell>
                 <TableCell sx={styles.tableHeadCell}>Category Name</TableCell>
+                <TableCell sx={styles.tableHeadCell}>Actions</TableCell>
+
                 <TableCell sx={styles.tableHeadCell} align="right">
-                  Actions
+                  SubCategories
                 </TableCell>
+      
+                
               </TableRow>
             </TableHead>
 
             <TableBody>
               {categories.map((cat, index) => (
                 <React.Fragment key={cat.categoryId || index}>
-                  <TableRow>
+                  <TableRow     sx={{"&:hover": { backgroundColor: "#eee" }}} onClick={() => handleToggle(index)}>
                     <TableCell sx={styles.categoryCell}>
                       #{cat.categoryId}
                     </TableCell>
-                    <TableCell sx={styles.categoryCell}>{cat.name}</TableCell>
+                    <TableCell sx={styles.categoryCell}>{cat.name}</TableCell> 
+                   <TableCell sx={styles.categoryCell}>
+                                <Box sx={{ display: 'flex', gap: 2 }}>
+                                  <IconButton onClick={() => handleDeleteCategory(cat.categoryId)}>
+                                    <DeleteIcon sx={{ color: 'red' }} />
+                                  </IconButton>
+                                  <IconButton onClick={() => handleOpenDialog("editCategory", cat )}>
+                                    <EditIcon sx={{ color: 'blue' }} />
+                                  </IconButton>
+                                </Box>
+                  </TableCell>
+
+ 
                     <TableCell align="right">
                       <Button
                         endIcon={
@@ -242,17 +262,7 @@ const CategoryTable = () => {
             }
             sx={styles.dialogTextField}
           />
-          <TextField
-            label="Category ID"
-            fullWidth
-            margin="dense"
-            value={formData.categoryId}
-            onChange={(e) =>
-              setFormData({ ...formData, categoryId: e.target.value })
-            }
-            sx={styles.dialogTextField}
-            disabled={dialog.type === "editCategory"}
-          />
+          
         </DialogContent>
         <DialogActions sx={styles.dialogActions}>
           <Button onClick={handleCloseDialog} sx={styles.dialogCancelButton}>
