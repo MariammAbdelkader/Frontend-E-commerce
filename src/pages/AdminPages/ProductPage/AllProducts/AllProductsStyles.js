@@ -1,4 +1,5 @@
 const styles = {
+  // Main layout containers
   productcontainer: {
     display: "flex",
     justifyContent: "center",
@@ -8,6 +9,8 @@ const styles = {
     maxWidth: "1100px",
     paddingTop: "20px",
   },
+
+  // Filters & inputs section
   filterWrapper: {
     marginBottom: "25px",
     display: "flex",
@@ -23,6 +26,8 @@ const styles = {
     marginTop: "12px",
     marginBottom: "12px",
   },
+
+  // Title section
   titleBox: {
     marginBottom: "20px",
     borderBottom: "2px solid #1b0099",
@@ -35,6 +40,8 @@ const styles = {
     fontWeight: "bold",
     fontSize: "25px",
   },
+
+  // Scroll container for products grid
   productContainer: {
     width: "1130px",
     maxHeight: "72vh",
@@ -54,16 +61,50 @@ const styles = {
     },
   },
 
+  // Individual product card
   card: {
     borderRadius: 2,
     position: "relative",
+    minHeight: "410px",
+    display: "flex",
+    flexDirection: "column",
+    height: "100%",
     mr: 1,
     transition: "transform 0.3s, box-shadow 0.3s",
     "&:hover": {
-      transform: "scale(1.01)",
+      transform: "scale(1.001)",
       boxShadow: 6,
     },
   },
+  cardMedia: {
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+  },
+  cardcontent: {
+    flexGrow: 1,
+    display: "flex",
+    flexDirection: "column",
+  },
+  cardDiscription: {
+    minHeight: 48,
+    mt: 1,
+  },
+  cardPriceBox: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  cardPrice: {
+    textDecoration: "line-through",
+    color: "gray",
+    marginRight: 8,
+  },
+  cardDiscountPrice: {
+    color: "#d32f2f",
+    fontWeight: "bold",
+  },
+
+  // Discount badges
   discountBadgeProduct: {
     position: "absolute",
     top: 12,
@@ -90,10 +131,8 @@ const styles = {
     boxShadow: 2,
     zIndex: 1,
   },
-  cardMedia: {
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
-  },
+
+  // Buttons on cards
   buttonEdit: {
     backgroundColor: "#43a047",
     color: "#fff",
@@ -108,8 +147,7 @@ const styles = {
     fontWeight: "bold",
     padding: "0px 20px",
     "&:hover": {
-      backgroundColor: "#ffebee",
-      // color: "#c62828",
+      backgroundColor: "#c62828",
     },
   },
   buttonReview: {
@@ -120,6 +158,8 @@ const styles = {
       backgroundColor: "#0f009c",
     },
   },
+
+  // Dialog related styles
   dialogFileInput: {
     width: "100%",
     marginBottom: "12px",
@@ -146,7 +186,12 @@ const styles = {
     fontWeight: "bold",
     textAlign: "center",
   },
-  dialogPaperProps: { borderRadius: 4, p: 2 },
+  dialogPaperProps: {
+    borderRadius: 4,
+    p: 2,
+  },
+
+  // Loading & empty states
   loadingBox: {
     display: "flex",
     justifyContent: "center",
@@ -155,6 +200,8 @@ const styles = {
   noReviewsText: {
     textAlign: "center",
   },
+
+  // Reviews section
   reviewContainer: {
     display: "flex",
     justifyContent: "space-between",
