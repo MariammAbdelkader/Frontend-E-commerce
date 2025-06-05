@@ -1,5 +1,5 @@
 const styles = {
-  // Main layout containers
+  // === Main Layout Containers ===
   productcontainer: {
     display: "flex",
     justifyContent: "center",
@@ -10,7 +10,21 @@ const styles = {
     paddingTop: "20px",
   },
 
-  // Filters & inputs section
+  // === Title Section ===
+  titleBox: {
+    marginBottom: "20px",
+    borderBottom: "2px solid #1b0099",
+    paddingBottom: "10px",
+    display: "flex",
+    justifyContent: "center",
+  },
+  titleText: {
+    color: "#1b0099",
+    fontWeight: "bold",
+    fontSize: "25px",
+  },
+
+  // === Filters & Inputs Section ===
   filterWrapper: {
     marginBottom: "25px",
     display: "flex",
@@ -27,41 +41,31 @@ const styles = {
     marginBottom: "12px",
   },
 
-  // Title section
-  titleBox: {
-    marginBottom: "20px",
-    borderBottom: "2px solid #1b0099",
-    paddingBottom: "10px",
-    display: "flex",
-    justifyContent: "center",
-  },
-  titleText: {
-    color: "#1b0099",
-    fontWeight: "bold",
-    fontSize: "25px",
-  },
+  // === Scroll Container for Products Grid ===
 
-  // Scroll container for products grid
   productContainer: {
     width: "1130px",
     maxHeight: "72vh",
     overflowY: "auto",
     scrollbarWidth: "thin",
+    scrollbarColor: "#150088 #fff",
     mb: 4,
     "&::-webkit-scrollbar": {
       width: "8px",
     },
-    "&::-webkit-scrollbar-thumb": {
-      backgroundColor: "#1b0099",
+    "&::-webkit-scrollbar-track": {
       borderRadius: "4px",
     },
-    "&::-webkit-scrollbar-track": {
-      background: "#f1f1f1",
+    "&::-webkit-scrollbar-thumb": {
+      backgroundColor: "#150088",
       borderRadius: "4px",
+    },
+    "&::-webkit-scrollbar-thumb:hover": {
+      backgroundColor: "#0f0060",
     },
   },
 
-  // Individual product card
+  // === Individual Product Card ===
   card: {
     borderRadius: 2,
     position: "relative",
@@ -104,7 +108,7 @@ const styles = {
     fontWeight: "bold",
   },
 
-  // Discount badges
+  // === Discount Badges on Cards ===
   discountBadgeProduct: {
     position: "absolute",
     top: 12,
@@ -132,7 +136,7 @@ const styles = {
     zIndex: 1,
   },
 
-  // Buttons on cards
+  // === Buttons on Cards ===
   buttonEdit: {
     backgroundColor: "#43a047",
     color: "#fff",
@@ -159,7 +163,39 @@ const styles = {
     },
   },
 
-  // Dialog related styles
+  // === Dialog Styles (including Delete Confirmation) ===
+  dialogPaper: {
+    padding: 2,
+    minWidth: 300,
+  },
+  dialogTitle: {
+    fontWeight: "bold",
+    fontSize: "1.25rem",
+    color: "#150088",
+  },
+  dialogContent: {
+    fontSize: "1rem",
+    color: "#333",
+  },
+  dialogActions: {
+    justifyContent: "space-between",
+    padding: "8px 24px",
+  },
+  cancelButton: {
+    color: "#150088",
+    textTransform: "none",
+    fontWeight: "bold",
+  },
+  deleteButton: {
+    color: "#fff",
+    backgroundColor: "#d32f2f",
+    textTransform: "none",
+    fontWeight: "bold",
+    "&:hover": {
+      backgroundColor: "#b71c1c",
+    },
+  },
+
   dialogFileInput: {
     width: "100%",
     marginBottom: "12px",
@@ -177,21 +213,12 @@ const styles = {
     backgroundColor: "#1b0099",
     color: "#fff",
   },
-  dialogPaper: {
-    backgroundColor: "#1b0099",
-    borderRadius: "16px",
-  },
-  dialogTitle: {
-    color: "#fff",
-    fontWeight: "bold",
-    textAlign: "center",
-  },
   dialogPaperProps: {
     borderRadius: 4,
     p: 2,
   },
 
-  // Loading & empty states
+  // === Loading & Empty States ===
   loadingBox: {
     display: "flex",
     justifyContent: "center",
@@ -201,7 +228,7 @@ const styles = {
     textAlign: "center",
   },
 
-  // Reviews section
+  // === Reviews Section ===
   reviewContainer: {
     display: "flex",
     justifyContent: "space-between",

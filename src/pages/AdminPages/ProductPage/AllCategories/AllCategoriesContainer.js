@@ -75,56 +75,106 @@ const AllCategoriesContainer = () => {
   };
 
   const handleAddCategory = async () => {
-    const result = await addCategory(formData.categoryName);
-    if (result.success) {
-      fetchData();
+    try {
+      const result = await addCategory(formData.categoryName);
+      if (result) {
+        alert("Category added successfully!");
+        fetchData();
+      } else {
+        alert("Failed to add category.");
+      }
+    } catch (error) {
+      alert("Error adding category.");
+      console.error(error);
     }
     handleCloseDialog();
   };
 
   const handleEditCategory = async () => {
-
-    const result = await editCategory(formData.categoryId, formData.categoryName);
-    if (result.success) {
-      fetchData();
+    try {
+      const result = await editCategory(
+        formData.categoryId,
+        formData.categoryName
+      );
+      if (result) {
+        alert("Category updated successfully!");
+        fetchData();
+      } else {
+        alert("Failed to update category.");
+      }
+    } catch (error) {
+      alert("Error updating category.");
+      console.error(error);
     }
     handleCloseDialog();
   };
 
   const handleDeleteCategory = async (categoryId) => {
-    const result = await deleteCategory(categoryId);
-    if (result.success) {
-      fetchData();
+    try {
+      const result = await deleteCategory(categoryId);
+      if (result) {
+        alert("Category deleted successfully!");
+        fetchData();
+      } else {
+        alert("Failed to delete category.");
+      }
+    } catch (error) {
+      alert("Error deleting category.");
+      console.error(error);
     }
     handleCloseDialog();
   };
 
   const handleAddSubcategory = async () => {
-    const result = await addSubCategory({
-      name: formData.subcategoryName,
-      categoryId: formData.categoryId,
-    });
-    if (result.success) {
-      fetchData();
+    try {
+      const result = await addSubCategory({
+        name: formData.subcategoryName,
+        categoryId: formData.categoryId,
+      });
+      if (result.success) {
+        alert("Subcategory added successfully!");
+        fetchData();
+      } else {
+        alert("Failed to add subcategory.");
+      }
+    } catch (error) {
+      alert("Error adding subcategory.");
+      console.error(error);
     }
     handleCloseDialog();
   };
 
   const handleEditSubcategory = async () => {
-    const result = await editSubCategory(formData.subcategoryId, {
-      name: formData.subcategoryName,
-      categoryId: formData.categoryId,
-    });
-    if (result.success) {
-      fetchData();
+    try {
+      const result = await editSubCategory(formData.subcategoryId, {
+        name: formData.subcategoryName,
+        categoryId: formData.categoryId,
+      });
+      if (result.success) {
+        alert("Subcategory updated successfully!");
+        fetchData();
+      } else {
+        alert("Failed to update subcategory.");
+      }
+    } catch (error) {
+      alert("Error updating subcategory.");
+      console.error(error);
     }
     handleCloseDialog();
   };
 
   const handleDeleteSubcategory = async () => {
-    const result = await deleteSubCategory(dialog.data.subcategoryId);
-    if (result.success) {
-      fetchData();
+    try {
+      const result = await deleteSubCategory(dialog.data.subcategoryId);
+      if (result.success) {
+        alert("Subcategory deleted successfully!");
+        fetchData();
+      } else {
+        alert("Failed to delete subcategory.");
+      }
+    } catch (error) {
+      alert("Error deleting subcategory.");
+      console.error(error);
     }
     handleCloseDialog();
   };

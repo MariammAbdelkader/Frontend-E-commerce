@@ -1,4 +1,4 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   getAllProducts,
   editProduct,
@@ -38,6 +38,7 @@ const useProductContainer = () => {
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [refreshToggle, setRefreshToggle] = useState(false);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -98,7 +99,7 @@ const useProductContainer = () => {
     };
 
     fetchProducts();
-  }, [filters]);
+  }, [filters, refreshToggle]);
 
   const handleSearch = (event) => {
     setFilters({ ...filters, searchTerm: event.target.value });
@@ -111,7 +112,6 @@ const useProductContainer = () => {
       subcategoryId: "",
     });
   };
-
 
   const handleSubcategoryFilter = (event) => {
     setFilters({ ...filters, subcategoryId: Number(event.target.value) });
@@ -213,6 +213,7 @@ const useProductContainer = () => {
       if (response) {
         alert("Product edited successfully!");
         handleClose();
+        setRefreshToggle((prev) => !prev);
       } else {
         alert("Failed to edit product.");
       }
@@ -239,16 +240,22 @@ const useProductContainer = () => {
       try {
         const result = await deleteProduct(productToDelete.productId);
         if (result) {
+          alert("Product deleted successfully!");
           setOpenDeleteDialog(false);
           setProductToDelete(null);
+          setRefreshToggle((prev) => !prev);
           setProducts((prevProducts) =>
             prevProducts.filter((product) => product.id !== productToDelete.id)
           );
+        } else {
+          alert("Failed to delete product.");
+          setOpenDeleteDialog(false);
         }
       } catch (err) {
-        setError(
+        alert(
           "An error occurred while deleting the product. Please try again."
         );
+        setOpenDeleteDialog(false);
         console.error(err);
       }
     }
@@ -289,7 +296,7 @@ const useProductContainer = () => {
       setCurrentIndex((prev) => prev - 1);
     }
   };
-  
+
   const handleNext = () => {
     if (currentIndex < reviews.length - 1) {
       setCurrentIndex((prev) => prev + 1);
@@ -331,7 +338,6 @@ const useProductContainer = () => {
     reviews,
     handleOpenReviewDialog,
     handleCloseReviewDialog,
-    
   };
 };
 

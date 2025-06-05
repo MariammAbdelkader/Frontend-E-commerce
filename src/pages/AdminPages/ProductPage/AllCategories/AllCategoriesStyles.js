@@ -1,20 +1,10 @@
-// CategoryTableStyles.js
-
-import { hover } from "framer-motion";
-
 const styles = {
+  // Container and Layout
   container: {
     p: 4,
     backgroundColor: "#f5f5f5",
     maxHeight: "100vh",
   },
-
-  title: {
-    fontWeight: "bold",
-    color: "#150088",
-    mb: 2,
-  },
-
   paper: {
     ml: 2,
     maxHeight: "63vh",
@@ -36,53 +26,58 @@ const styles = {
     },
   },
 
+  // Titles and Text
+  title: {
+    fontWeight: "bold",
+    color: "#150088",
+    mb: 2,
+  },
   tableHead: {
     backgroundColor: "#150088",
   },
-
   tableHeadCell: {
     color: "#fff",
     fontWeight: "bold",
   },
-
   categoryCell: {
     color: "#150088",
     fontWeight: "bold",
   },
-
-  viewMoreButton: {
-    color: "#150088",
-    fontWeight: "bold",
-    textTransform: "none",
-  },
-
-  subcategoryHeaderBox: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    m: 3,
-  },
-
   subcategoryHeaderText: {
     fontWeight: "bold",
     color: "#150088",
   },
-
-  addSubCategoryButton: {
-    borderColor: "#150088",
-    color: "#150088",
-    textTransform: "none",
+  footerText: {
     fontWeight: "bold",
-    "&:hover": { backgroundColor: "#eee" },
+    color: "#150088",
+  },
+  popupTitle: {
+    fontWeight: "bold",
+    color: "#150088",
+    mb: 1,
   },
 
+  // Header and Footer Boxes
+  subcategoryHeaderBox: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    m: 2,
+  },
+  footerBox: {
+    mt: 3,
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+
+  // Lists
   subcategoryList: {
     pl: 3,
     pr: 0,
     m: 0,
     listStyleType: "disc",
   },
-
   subcategoryItem: {
     mb: 2,
     color: "#150088",
@@ -90,16 +85,16 @@ const styles = {
     position: "relative",
     listStylePosition: "inside",
   },
-
   subcategoryName: {
     cursor: "pointer",
     display: "inline",
-   "&:hover": {
-    textDecoration: "underline",
-    backgroundColor: "#9aadd3",
-  },
+    "&:hover": {
+      textDecoration: "underline",
+      backgroundColor: "#9aadd3",
+    },
   },
 
+  // Popup Box
   popupBox: {
     position: "absolute",
     top: "100%",
@@ -114,19 +109,32 @@ const styles = {
     boxShadow: 3,
     minWidth: "200px",
   },
-
-  popupTitle: {
-    fontWeight: "bold",
-    color: "#150088",
-    mb: 1,
-  },
-
   popupButtonsBox: {
     display: "flex",
     gap: 2,
     justifyContent: "center",
   },
 
+  // Buttons
+  viewMoreButton: {
+    color: "#150088",
+    fontWeight: "bold",
+    textTransform: "none",
+  },
+  addSubCategoryButton: {
+    borderColor: "#150088",
+    color: "#150088",
+    textTransform: "none",
+    fontWeight: "bold",
+    "&:hover": { backgroundColor: "#eee" },
+  },
+  addCategoryButton: {
+    borderColor: "#150088",
+    color: "#150088",
+    textTransform: "none",
+    fontWeight: "bold",
+    "&:hover": { backgroundColor: "#eee" },
+  },
   editButton: {
     backgroundColor: "#150088",
     color: "#fff",
@@ -135,7 +143,6 @@ const styles = {
       backgroundColor: "#110066",
     },
   },
-
   deleteButton: {
     backgroundColor: "#ff3b3b",
     color: "#fff",
@@ -145,25 +152,7 @@ const styles = {
     },
   },
 
-  footerBox: {
-    mt: 3,
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-
-  footerText: {
-    fontWeight: "bold",
-    color: "#150088",
-  },
-
-  addCategoryButton: {
-    borderColor: "#150088",
-    color: "#150088",
-    textTransform: "none",
-    fontWeight: "bold",
-    "&:hover": { backgroundColor: "#eee" },
-  },
+  // Dialogs
   dialogTitle: {
     fontWeight: "bold",
   },
@@ -173,16 +162,17 @@ const styles = {
   },
   dialogActions: {
     display: "flex",
+    width: "500px",
   },
   dialogCancelButton: {
-    background: "#999",
-    color: "black",
+    background: "#ff3b3b",
+    color: "white",
     borderRadius: "8px",
     padding: "10px 18px",
     fontWeight: "bold",
     textTransform: "none",
     mb: 2,
-    "&:hover": { background: "#b3b3b3" },
+    "&:hover": { background: "#cc0000" },
   },
   dialogSaveButton: {
     background: "#1B0099",
@@ -192,6 +182,7 @@ const styles = {
     fontWeight: "bold",
     textTransform: "none",
     mb: 2,
+    mr: 2,
     "&:hover": { background: "#140077" },
   },
 };

@@ -263,18 +263,21 @@ const ProductList = () => {
         </Box>
 
         {/* Delete Confirmation Dialog */}
-        <Dialog open={openDeleteDialog} onClose={handleDeleteCancel}>
-          <DialogTitle>Confirm Deletion</DialogTitle>
-          <DialogContent>
+        <Dialog
+          open={openDeleteDialog}
+          onClose={handleDeleteCancel}
+          PaperProps={{ sx: styles.dialogPaper }}>
+          <DialogTitle sx={styles.dialogTitle}>Confirm Deletion</DialogTitle>
+          <DialogContent sx={styles.dialogContent}>
             <Typography>
               Are you sure you want to delete this product?
             </Typography>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={handleDeleteCancel} color="primary">
+          <DialogActions sx={styles.dialogActions}>
+            <Button onClick={handleDeleteCancel} sx={styles.cancelButton}>
               Cancel
             </Button>
-            <Button onClick={handleDeleteConfirm} color="secondary">
+            <Button onClick={handleDeleteConfirm} sx={styles.deleteButton}>
               Delete
             </Button>
           </DialogActions>
