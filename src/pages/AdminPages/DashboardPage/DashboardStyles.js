@@ -13,7 +13,6 @@ const styles = {
     justifyContent: "space-between",
     boxShadow: 1,
   }),
-
   statCardValue: (color) => ({
     fontWeight: "bold",
     color,

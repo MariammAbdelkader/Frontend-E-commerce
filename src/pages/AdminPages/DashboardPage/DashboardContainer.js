@@ -99,7 +99,6 @@ const DashboardContainer = () => {
       isBarChart: true,
     },
   ];
-
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % charts.length);
