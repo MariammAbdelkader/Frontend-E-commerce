@@ -1,13 +1,15 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   getCategories,
   getSubcategories,
   getAllProducts,
 } from "../../../Services/ProductServices";
-import { addTocart,getCart } from "../../../Services/CartServices";
+import { addTocart, getCart } from "../../../Services/CartServices";
 
 const StorePageContainer = () => {
   const [products, setProducts] = useState([]);
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
   const [cartItems, setCartItems] = useState([]);
@@ -21,6 +23,7 @@ const StorePageContainer = () => {
     search: "",
     price: "",
   });
+  const navigate = useNavigate();
 
   // Fetch Categories
   useEffect(() => {
@@ -78,32 +81,32 @@ const StorePageContainer = () => {
         console.error(err);
       }
     };
-     const fetchCart = async () => {
-          try {
-            const { products, totalPrice, totalQuantity } = await getCart();
-            setCartItems(products || []);
-            setTotalPrice(totalPrice || 0);
-            setCartCount(totalQuantity);
-          } catch (err) {
-            console.error(err?.message || "Failed to fetch cart");
-          }
-        };
+    const fetchCart = async () => {
+      try {
+        const { products, totalPrice, totalQuantity } = await getCart();
+        setCartItems(products || []);
+        setTotalPrice(totalPrice || 0);
+        setCartCount(totalQuantity);
+      } catch (err) {
+        console.error(err?.message || "Failed to fetch cart");
+      }
+    };
     fetchProducts();
     fetchCart();
   }, [filters]);
-  
+
   useEffect(() => {
     const fetchCart = async () => {
-          try {
-            const { products, totalPrice, totalQuantity } = await getCart();
-            setCartItems(products || []);
-            setTotalPrice(totalPrice || 0);
-            setCartCount(totalQuantity);
-            setIsAddedToCart(false);
-          } catch (err) {
-            console.error(err?.message || "Failed to fetch cart");
-          }
-        };
+      try {
+        const { products, totalPrice, totalQuantity } = await getCart();
+        setCartItems(products || []);
+        setTotalPrice(totalPrice || 0);
+        setCartCount(totalQuantity);
+        setIsAddedToCart(false);
+      } catch (err) {
+        console.error(err?.message || "Failed to fetch cart");
+      }
+    };
     fetchCart();
   }, [isAddedToCart]);
 
@@ -144,6 +147,11 @@ const StorePageContainer = () => {
     setFilters({ ...filters, subcategoryId: Number(event.target.value) });
   };
 
+  const goToProductDetail = (product) => {
+    setSelectedProduct(product);
+    navigate(`/product/${product.id}`, { state: { product } });
+  };
+
   return {
     handleAddToCart,
     handleCategoryChange,
@@ -157,6 +165,8 @@ const StorePageContainer = () => {
     subcategories,
     filters,
     setFilters,
+    goToProductDetail,
+    selectedProduct,
     error,
   };
 };

@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import ProductCardStyles from "./ProductCardStyles";
 
-const ProductCard = ({ product, onAddToCart }) => {
+const ProductCard = ({ product, onAddToCart, goToProductDetail }) => {
   if (!product) return null;
   return (
     <Card sx={ProductCardStyles.card}>
@@ -62,13 +62,20 @@ const ProductCard = ({ product, onAddToCart }) => {
           </Box>
         )}
 
-        <Button
-          fullWidth
-          variant="contained"
-          sx={ProductCardStyles.addButton}
-          onClick={() => onAddToCart(product)}>
-          Add to Cart
-        </Button>
+        <Box display="flex" gap={1}>
+          <Button
+            variant="contained"
+            sx={{ ...ProductCardStyles.addButton, flex: 1 }}
+            onClick={() => onAddToCart(product)}>
+            Add to Cart
+          </Button>
+          <Button
+            variant="contained"
+            sx={{ ...ProductCardStyles.addButton, flex: 1 }}
+            onClick={() => goToProductDetail(product)}>
+            View Details
+          </Button>
+        </Box>
       </CardContent>
     </Card>
   );

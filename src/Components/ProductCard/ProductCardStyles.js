@@ -45,6 +45,10 @@ const ProductCardStyles = {
     mt: 1,
   },
   addButton: {
+    flex: 1,
+    whiteSpace: "nowrap",
+    minWidth: 0,
+    height: "40px",
     mt: 2,
     background: "linear-gradient(45deg, #FF5722, #FF9800)",
     color: "white",

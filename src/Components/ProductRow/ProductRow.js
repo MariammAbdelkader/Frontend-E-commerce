@@ -4,7 +4,13 @@ import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import ProductCard from "../ProductCard/ProductCard";
 import ProductRowStyles from "./ProductRowStyles";
 
-const ProductRow = ({ category, products, onAddToCart }) => {
+const ProductRow = ({
+  category,
+  products,
+  onAddToCart,
+  goToProductDetail,
+  selectedProduct,
+}) => {
   const scrollRef = useRef();
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -49,8 +55,12 @@ const ProductRow = ({ category, products, onAddToCart }) => {
         <Box ref={scrollRef} sx={ProductRowStyles.scrollContainer}>
           {products && products.length > 0 ? (
             products.map((item) => (
-              <Box key={item.name} sx={ProductRowStyles.cardWrapper}>
-                <ProductCard product={item} onAddToCart={onAddToCart} />
+              <Box key={item.id} sx={ProductRowStyles.cardWrapper}>
+                <ProductCard
+                  product={item}
+                  onAddToCart={onAddToCart}
+                  goToProductDetail={goToProductDetail}
+                />
               </Box>
             ))
           ) : (
