@@ -11,14 +11,18 @@ import ProductCardStyles from "./ProductCardStyles";
 
 const ProductCard = ({ product, onAddToCart, goToProductDetail }) => {
   if (!product) return null;
+  
+  const imageUrl= product.images && product.images.length > 0 ? product.images[0].url : null;
+
   return (
     <Card sx={ProductCardStyles.card}>
       <CardMedia
         component="img"
         sx={ProductCardStyles.cardMedia}
-        image={product.imgUrl}
+        image={imageUrl}
         alt={product.name}
       />
+
       <CardContent sx={ProductCardStyles.cardContent}>
         <Typography variant="h6" sx={ProductCardStyles.title}>
           {product.name}
