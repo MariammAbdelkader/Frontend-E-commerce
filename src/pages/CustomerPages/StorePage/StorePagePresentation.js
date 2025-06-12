@@ -31,6 +31,8 @@ const StorePage = () => {
     categories,
     subcategories,
     filters,
+    goToProductDetail,
+    selectedProduct,
     error,
   } = StorePageContainer();
 
@@ -103,6 +105,8 @@ const StorePage = () => {
               category={category}
               products={items}
               onAddToCart={handleAddToCart}
+              goToProductDetail={goToProductDetail}
+              selectedProduct={selectedProduct}
             />
           ))}
         </Box>

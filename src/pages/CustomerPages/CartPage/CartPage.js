@@ -8,7 +8,6 @@ import {
   Divider,
   Grid,
   TextField,
-
 } from "@mui/material";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
@@ -17,9 +16,8 @@ import ChevronLeft from "@mui/icons-material/ArrowBack";
 import { useNavigate } from "react-router-dom";
 import { styles } from "./CartPageStyles";
 import { useCartPage } from "./CartPageContainer";
-import { useState,useEffect } from "react";
+import { useState } from "react";
 import ConfirmOrderWindow from "./ConfirmOrderWindow";
-
 
 const CartPage = () => {
   const navigate = useNavigate();
@@ -34,14 +32,10 @@ const CartPage = () => {
     totalPrice,
     loading,
     error,
-    refetch
-
+    refetch,
   } = useCartPage();
 
   const [open, setOpen] = useState(false);
-
-  
-
 
   return (
     <Box sx={styles.cartContainer}>
@@ -159,7 +153,7 @@ const CartPage = () => {
               </Typography>
             </Box>
 
-             {/* <FormControl fullWidth variant="outlined" sx={{ maxWidth: 400, marginTop: 2 }}>
+            {/* <FormControl fullWidth variant="outlined" sx={{ maxWidth: 400, marginTop: 2 }}>
               <InputLabel id="payment-method-label">Payment Method</InputLabel>
               <Select
                 labelId="payment-method-label"
@@ -174,15 +168,18 @@ const CartPage = () => {
             </FormControl> */}
 
             <Button
-                  variant="contained"
-                  fullWidth
-                  sx={styles.checkoutButton}
-                  onClick={() => setOpen(true)} // Open modal instead of navigate
-                >
-                  PROCEED TO CHECKOUT
+              variant="contained"
+              fullWidth
+              sx={styles.checkoutButton}
+              onClick={() => setOpen(true)}>
+              PROCEED TO CHECKOUT
             </Button>
 
-            <ConfirmOrderWindow open={open} handleClose={()=>setOpen(false)} refetch={refetch} />
+            <ConfirmOrderWindow
+              open={open}
+              handleClose={() => setOpen(false)}
+              refetch={refetch}
+            />
             <Button
               fullWidth
               startIcon={<ChevronLeft />}
