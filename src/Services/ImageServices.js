@@ -1,6 +1,7 @@
 
 import axios from "axios";
-const API_BASE_URL=`http://localhost:3000/image` 
+import apiUrl from "../config/index"
+const API_BASE_URL = `${apiUrl}/image`; 
 
 export const uploadProductImage = async (imageFile, productId) => {
     try {

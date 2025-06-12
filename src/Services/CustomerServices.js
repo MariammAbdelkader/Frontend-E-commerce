@@ -31,7 +31,7 @@ export const getAllCustomersInformation = async ({type}) => {
 
 export const getCustomerHistory = async (userId) => {
   try {
-    const response = await axios.post(
+    const response = await axios.get(
       `${API_BASE_URL}/customermanagement/userhistory/${userId}`, // ✅ Append to path
       {
         withCredentials: true,
