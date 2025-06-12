@@ -162,18 +162,36 @@ export const uploadCSV = async (file) => {
 
 export const editProduct = async (productId, productData) => {
   try {
-    console.log("productId: ", productId);
-    console.log("productData: ", productData);
+    console.log("edit productData:", productData);
 
-    await axios.patch(`${API_BASE_URL}/${productId}`, productData, {
+     const { image, ...rest } = productData;
+      
+     const data = {
+      name: rest.name,
+      price: rest.price,
+      description: rest.description,
+      categoryId: rest.category,
+      subcategoryId: rest.subcategory,
+      quantity: rest.quantity,
+      status: rest.status,
+    };
+        console.log("rest productData:", data);
+
+
+    await axios.patch(`${API_BASE_URL}/${productId}`, data, {
       withCredentials: true,
       headers: {
         "Content-Type": "application/json",
       },
     });
 
+    if (image) {
+      await uploadProductImage(image, productId);
+    }
+
     return { success: true, message: "Product updated successfully." };
   } catch (error) {
+    console.error("Error editing product:", error);
     return handleError(error);
   }
 };
