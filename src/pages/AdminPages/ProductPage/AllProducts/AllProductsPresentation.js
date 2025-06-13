@@ -341,6 +341,16 @@ const ProductList = () => {
               onChange={handleFormChange}
             />
             <TextField
+                fullWidth
+                label="Quantity"
+                name="quantity"
+                type="number"
+                value={formData.quantity || ""}
+                onChange={handleFormChange}
+                sx={styles.inputField}
+                required
+              />
+            <TextField
               label="Status"
               variant="outlined"
               fullWidth
@@ -362,7 +372,7 @@ const ProductList = () => {
               fullWidth
               type="file"
               name="image"
-              onChange={handleImageChange}
+              onChange={handleFormChange}
               sx={styles.dialogFileInput}
             />
           </DialogContent>

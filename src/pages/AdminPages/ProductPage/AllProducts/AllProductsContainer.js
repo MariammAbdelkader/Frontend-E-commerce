@@ -29,8 +29,9 @@ const useProductContainer = () => {
     subcategory: "",
     price: "",
     status: "",
+    quantity: null,
     description: "",
-    image: "",
+    image: null,
   });
   const [error, setError] = useState(null);
   const [selectedReviewProduct, setSelectedReviewProduct] = useState(null);
@@ -125,12 +126,34 @@ const useProductContainer = () => {
       setFilters({ ...filters, price_lt: Number(value) });
     }
   };
+const handleEdit =async  (product) => {
+  setSelectedProduct(product);
 
-  const handleEdit = (product) => {
-    setSelectedProduct(product);
-    setFormData({ ...product });
-    setOpenDialog(true);
-  };
+    const fetchedCategories = await getCategories();
+    const fetchedSubCategories = await getSubcategories();
+  // Find category by name
+  const selectedCategory = fetchedCategories.find(
+    (cat) => cat.name === product.category
+  );
+  const categoryId = selectedCategory?.categoryId;
+
+  // Find subcategory by name inside the selected category
+  const selectedSubcategory = fetchedSubCategories.find(
+    (sub) => sub.name === product.subcategory
+  );
+  const subcategoryId = selectedSubcategory?.subcategoryId;
+
+  // Set form data with updated category & subcategory IDs
+  setFormData({
+    ...product,
+    category: String(categoryId || ""),
+    subcategory: String(subcategoryId || ""),
+  });
+
+  setOpenDialog(true);
+};
+
+
 
   const handleFormChange = (e) => {
     const { name, value, files } = e.target;
@@ -185,6 +208,7 @@ const useProductContainer = () => {
       subcategory: "",
       price: "",
       status: "",
+      quantity: "",
       description: "",
       image: null,
     });
@@ -201,8 +225,8 @@ const useProductContainer = () => {
 
       const productDataToSend = {
         ...formData,
-        category: categoryObj?.name || formData.category,
-        subcategory: subcategoryObj?.name || formData.subcategory,
+        category: categoryObj?.categoryId || formData.category,
+        subcategory: subcategoryObj?.subcategoryId || formData.subcategory,
       };
 
       const response = await editProduct(
