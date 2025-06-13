@@ -9,7 +9,7 @@ const BarChartContainer = ({Profitdata,Revenuedata}) => {
     const [options, setOptions] = useState({});
     
 useEffect(() => {
-    const handleChartData = (growthData) => {
+    const handleChartData =  (growthData) => {
             try {           
                 const googleChartData = [
                     ['Year', 'Quarter Year', 'Half Year', 'Full Year']
@@ -37,7 +37,7 @@ useEffect(() => {
                 chartData = handleChartData(Revenuedata);
             }
 
-            setChartData(chartData);
+             setChartData(chartData);
 
             const options = {
                 chart: {
@@ -51,7 +51,10 @@ useEffect(() => {
         };
         
         BarChartData();
-    }, [selectedMetric]);
+    }, [selectedMetric, Profitdata, Revenuedata]);
+
+
+    
 
     const handleMetricChange = (metric) => {
         setSelectedMetric(metric);

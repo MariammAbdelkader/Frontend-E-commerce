@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { Box, FormControl, InputLabel, Select, MenuItem,CardContent,Card } from "@mui/material";
 import { Chart } from "react-google-charts";
 
 const BarChartPresentation = ({
@@ -9,19 +9,23 @@ const BarChartPresentation = ({
   onMetricChange,
 }) => {
   return (
-    <Box>
-      {/* Selector */}
-      <FormControl sx={{ minWidth: 150, mb: 2 }} size="small">
-        <InputLabel id="metric-select-label">Metric</InputLabel>
-        <Select
-          labelId="metric-select-label"
-          value={selectedMetric}
-          label="Metric"
-          onChange={(e) => onMetricChange(e.target.value)}>
-          <MenuItem value="Profit">Profit</MenuItem>
-          <MenuItem value="Revenue">Revenue</MenuItem>
-        </Select>
-      </FormControl>
+    <Card sx={{ p: 2, borderRadius: '16px', width: "100%",height:"100%", mb: 3 }}>
+      <CardContent>
+        <Box>
+              <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+                    {/* Selector */}
+                    <FormControl  size="small">
+                      <InputLabel id="metric-select-label">Metric</InputLabel>
+                      <Select
+                        labelId="metric-select-label"
+                        value={selectedMetric}
+                        label="Metric"
+                        onChange={(e) => onMetricChange(e.target.value)}>
+                        <MenuItem value="Profit">Profit</MenuItem>
+                        <MenuItem value="Revenue">Revenue</MenuItem>
+                      </Select>
+                    </FormControl>
+              </Box>
 
       {/* Chart */}
       <Chart
@@ -32,6 +36,8 @@ const BarChartPresentation = ({
         height="400px"
       />
     </Box>
+       </CardContent>
+    </Card>
   );
 };
 

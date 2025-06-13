@@ -120,6 +120,18 @@ export const getGrowthRateRevenue=async ()=>{
 }
 
 
+export const getMonthlyAnalytics=async (month)=>{
+    try {
+        const response = await axios.get(`${API_BASE_URL}/monthly/${month}`,{
+            withCredentials: true,
+        });
+        console.log(response.data.monthlyAnalytics)
+        return response.data.monthlyAnalytics;
+    } catch (error) {
+        return handleError(error);
+    }
+}
+
 const getTotalRevenueAnalytics = async ({ year, quarter }) => {
     try {
       const response = await axios.get(`${API_BASE_URL}/Revenue/sum/${year}`, {
