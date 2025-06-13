@@ -18,6 +18,7 @@ export const useProductDetailContainer = (
   const [quantity, setQuantity] = useState(productParam?.quantity || 1);
   const images = [product?.image, ...(product?.images || [])].filter(Boolean);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedColor, setSelectedColor] = useState(null);
 
   const fetchCartData = async () => {
     try {
@@ -27,10 +28,9 @@ export const useProductDetailContainer = (
 
       if (product) {
         const cartProduct = (products || []).find(
-          (item) =>
-            item.productId === product.productId || item.id === product.id
+          (item) => item.productId === product.productId
         );
-        setQuantity(cartProduct?.quantity ?? 1); // if in cart, use its quantity; else default to 1
+        setQuantity(cartProduct?.quantity ?? 0);
       }
       setError(null);
     } catch (err) {
@@ -54,6 +54,16 @@ export const useProductDetailContainer = (
   useEffect(() => {
     setCurrentIndex(0);
   }, [product]);
+
+  useEffect(() => {
+    if (product?.colors?.length > 0) {
+      setSelectedColor(product.colors[0]);
+    }
+  }, [product]);
+
+  const handleSelectColor = (color) => {
+    setSelectedColor(color);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -110,7 +120,8 @@ export const useProductDetailContainer = (
     try {
       await addTocart({
         productId: product.productId,
-        quantity: 1,
+        quantity: product.quantity,
+        color: selectedColor?.name,
       });
       setIsAddedToCart(true);
       alert("Product Added Successfully");
@@ -145,5 +156,7 @@ export const useProductDetailContainer = (
     handleRemoveOne,
     handleAddToCart,
     handleBuyNow,
+    selectedColor,
+    handleSelectColor,
   };
 };

@@ -18,6 +18,12 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useProductDetailContainer } from "./ProductDetailContainer";
 import styles from "./ProductDetailStyles";
 
+const colors = [
+  { name: "Red", hex: "#ff0000" },
+  { name: "Green", hex: "#00ff00" },
+  { name: "Blue", hex: "#0000ff" },
+];
+
 const ProductDetailPage = () => {
   const { id } = useParams();
   const location = useLocation();
@@ -35,6 +41,8 @@ const ProductDetailPage = () => {
     handleRemoveOne,
     handleAddToCart,
     handleBuyNow,
+    selectedColor,
+    handleSelectColor,
   } = useProductDetailContainer(location.state?.product, id, navigate);
 
   if (!product) {
@@ -111,18 +119,48 @@ const ProductDetailPage = () => {
             </Typography>
           </Box>
 
+          <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
+            {colors.map((color) => (
+              <div
+                key={color.name}
+                onClick={() => handleSelectColor(color)}
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  borderRadius: "50%",
+                  backgroundColor: color.hex,
+                  border:
+                    selectedColor?.name === color.name
+                      ? "3px solid black"
+                      : "1px solid gray",
+                  cursor: "pointer",
+                }}
+              />
+            ))}
+          </div>
+
+          {selectedColor && (
+            <Typography variant="body2" mt={1} mb={2}>
+              Selected color: {selectedColor.name}
+            </Typography>
+          )}
+
           <Typography variant="body1" color="text.secondary" mb={3}>
             {product.description}
           </Typography>
 
           <Grid container spacing={2} mb={3}>
             <Grid item>
-              <Typography fontWeight="bold">HEIGHT</Typography>
-              <Typography color="gray">{product.height || "N/A"}</Typography>
+              <Typography fontWeight="bold">Discount for Product</Typography>
+              <Typography color="gray">
+                {product.productDiscountPercentage || "N/A"}
+              </Typography>
             </Grid>
             <Grid item>
-              <Typography fontWeight="bold">WIDTH</Typography>
-              <Typography color="gray">{product.width || "N/A"}</Typography>
+              <Typography fontWeight="bold">Discount for Category</Typography>
+              <Typography color="gray">
+                {product.categoryDiscountPercentage || "N/A"}
+              </Typography>
             </Grid>
           </Grid>
 
@@ -135,7 +173,7 @@ const ProductDetailPage = () => {
               <RemoveIcon fontSize="small" />
             </IconButton>
             <Typography mx={2} fontSize="1.2rem">
-              {quantity}
+              {product.quantity ? product.quantity : quantity}
             </Typography>
             <IconButton onClick={() => handleAddOneMore(product)}>
               <AddIcon fontSize="small" />
