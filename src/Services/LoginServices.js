@@ -21,18 +21,28 @@ export const loginUser = async (credentials) => {
   }
 };
 
-export const loginWithGoogle = async (googleToken) => {
-  try {
-    const response = await axios.post(`${API_BASE_URL}/google-login`, { token: googleToken }, {
-      headers: { "Content-Type": "application/json" },
-      withCredentials: true,
-    });
+// export const loginWithGoogle = async (googleToken) => {
+//   try {
+//     const response = await axios.post(`${API_BASE_URL}/auth/google`, { token: googleToken }, {
+//       headers: { "Content-Type": "application/json" },
+//       withCredentials: true,
+//     });
 
-    return { success: true, data: response.data };
-  } catch (error) {
-    return {
-      success: false,
-      error: error.response?.data?.message || "Google login failed. Please try again.",
-    };
-  }
+//     return { success: true, data: response.data };
+//   } catch (error) {
+//     return {
+//       success: false,
+//       error: error.response?.data?.message || "Google login failed. Please try again.",
+//     };
+//   }
+// };
+
+export const loginWithGoogle = async (token) => {
+  const res = await axios.post(`${API_BASE_URL}/auth/google`, { token });
+  const { user, token: authToken } = res.data;
+
+  localStorage.setItem("token", authToken);
+  localStorage.setItem("user", JSON.stringify(user));
+
+  return res.data; // this means return = { token, user }
 };

@@ -8,7 +8,7 @@ const AnalyticsChartView = ({ title, chartData, details, selectedQuarter, onChan
 
 
   return (
-    <Card sx={{ p: 2, borderRadius: '16px', width: "60%", mb: 3 }}>
+    <Card sx={{ p: 2, borderRadius: '16px', width: "100%",height:"95%", mb: 3 }}>
       <CardContent>
 
         {/* Title and Quarter Selector */}

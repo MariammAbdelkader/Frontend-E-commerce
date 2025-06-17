@@ -16,7 +16,7 @@ import {
 import { Email, Lock, Visibility, VisibilityOff } from "@mui/icons-material";
 import LoginContainer from "./LoginContainer";
 
-const GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID";
+ const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;;
 
 const LoginPresentation = () => {
   const {
@@ -31,9 +31,20 @@ const LoginPresentation = () => {
     errors,
   } = LoginContainer();
 
-  const handleGoogleLogin = async (credentialResponse) => {
-    await loginWithGoogle(credentialResponse.credential);
-  };
+const handleGoogleLogin = async (credentialResponse) => {
+  try {
+    const res = await loginWithGoogle(credentialResponse.credential);
+
+    // Optional: you can re-save token/user, but it's already done in the service
+    localStorage.setItem("token", res.token);
+    console.log("tokeeeen ",res.token)
+    localStorage.setItem("user", JSON.stringify(res.user));
+    // ✅ Redirect the user
+    window.location.href = "/store"; 
+  } catch (err) {
+    console.error("Google login failed", err);
+  }
+};
 
   return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>

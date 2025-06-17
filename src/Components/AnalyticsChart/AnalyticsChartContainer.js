@@ -17,7 +17,7 @@ const AnalyticsChart = ({ data, title, year, dataKey }) => {
 
   const monthsInYear = Array.from({ length: 12 }, (_, i) => ({
     month: i + 1,
-    date: `${monthNames[i]}-${year}`,
+    date: `${monthNames[i]}`,
   }));
 
   const formattedData = monthsInYear.map(monthItem => {
@@ -29,7 +29,7 @@ const AnalyticsChart = ({ data, title, year, dataKey }) => {
   });
 
   const fallbackData = monthNames.map((month) => ({
-    date: `${month}-${year}`,
+    date: `${month}`,
     value: 0,
   }));
 
