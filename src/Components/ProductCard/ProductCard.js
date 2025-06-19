@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import ProductCardStyles from "./ProductCardStyles";
 
-const ProductCard = ({ product, onAddToCart, goToProductDetail }) => {
+const ProductCard = ({ product, onAddToCart }) => {
   if (!product) return null;
   
   const imageUrl= product.images && product.images.length > 0 ? product.images[0].url : null;
@@ -72,12 +72,6 @@ const ProductCard = ({ product, onAddToCart, goToProductDetail }) => {
             sx={{ ...ProductCardStyles.addButton, flex: 1 }}
             onClick={() => onAddToCart(product)}>
             Add to Cart
-          </Button>
-          <Button
-            variant="contained"
-            sx={{ ...ProductCardStyles.addButton, flex: 1 }}
-            onClick={() => goToProductDetail(product)}>
-            View Details
           </Button>
         </Box>
       </CardContent>

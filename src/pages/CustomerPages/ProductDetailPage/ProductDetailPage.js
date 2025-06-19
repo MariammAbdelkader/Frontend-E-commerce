@@ -39,10 +39,10 @@ const ProductDetailPage = () => {
     handleThumbClick,
     handleAddOneMore,
     handleRemoveOne,
-    handleAddToCart,
     handleBuyNow,
     selectedColor,
     handleSelectColor,
+    
   } = useProductDetailContainer(location.state?.product, id, navigate);
 
   if (!product) {
@@ -75,7 +75,7 @@ const ProductDetailPage = () => {
 
           <Box
             component="img"
-            src={images[currentIndex]}
+            src={images[currentIndex]?.url}
             alt={`Product image ${currentIndex + 1}`}
             sx={styles.mainImage}
           />
@@ -88,7 +88,7 @@ const ProductDetailPage = () => {
                 sx={styles.thumbPaper(i === currentIndex)}
                 onClick={() => handleThumbClick(i)}>
                 <img
-                  src={img}
+                  src={img?.url}
                   alt={`thumb-${i}`}
                   style={{ width: "100%", height: "100%", objectFit: "cover" }}
                 />
@@ -103,7 +103,7 @@ const ProductDetailPage = () => {
             variant="overline"
             color="text.secondary"
             sx={styles.overline}>
-            {product.category?.toUpperCase()}
+            {`${product.category?.toUpperCase()} / ${product.subcategory?.toUpperCase()}`}
           </Typography>
           <Typography variant="h4" fontWeight={600} gutterBottom>
             {product.name}
@@ -112,9 +112,9 @@ const ProductDetailPage = () => {
           <Box display="flex" alignItems="center" mb={2}>
             <StarIcon sx={styles.ratingIcon} />
             <Typography variant="body1">
-              {product.rating || "8/10"} ·{" "}
+              {product.rate || "--"} ·{" "}
               <span style={{ color: "gray" }}>
-                {product.reviewCount || "15"} Reviews
+                {product.reviewCount || "0"} Reviews
               </span>
             </Typography>
           </Box>
@@ -165,7 +165,7 @@ const ProductDetailPage = () => {
           </Grid>
 
           <Typography variant="h5" sx={styles.priceStyle}>
-            ${(product.price * quantity).toFixed(2)}
+            ${((product.discountprice?product.discountprice:product.price) * quantity).toFixed(2)}
           </Typography>
 
           <Box sx={styles.quantityWrapper}>
@@ -187,12 +187,7 @@ const ProductDetailPage = () => {
               sx={styles.buyNowButton}>
               BUY NOW
             </Button>
-            <Button
-              variant="outlined"
-              onClick={() => handleAddToCart(product)}
-              sx={styles.addToCartButton}>
-              ADD TO CART
-            </Button>
+            
           </Box>
         </Box>
       </Box>

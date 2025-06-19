@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, IconButton, Typography,Card } from "@mui/material";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import ProductCard from "../ProductCard/ProductCard";
 import ProductRowStyles from "./ProductRowStyles";
@@ -55,12 +55,15 @@ const ProductRow = ({
         <Box ref={scrollRef} sx={ProductRowStyles.scrollContainer}>
           {products && products.length > 0 ? (
             products.map((item) => (
-              <Box key={item.id} sx={ProductRowStyles.cardWrapper}>
-                <ProductCard
+              <Box key={item.id} sx={ProductRowStyles.cardWrapper}
+              onClick={() => goToProductDetail(item)}>
+               
+                 <ProductCard
                   product={item}
                   onAddToCart={onAddToCart}
-                  goToProductDetail={goToProductDetail}
                 />
+          
+               
               </Box>
             ))
           ) : (

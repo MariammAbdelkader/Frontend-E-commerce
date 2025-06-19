@@ -149,7 +149,7 @@ const StorePageContainer = () => {
 
   const goToProductDetail = (product) => {
     setSelectedProduct(product);
-    navigate(`/product/${product.id}`, { state: { product } });
+    navigate(`/product/${product.productId}`, { state: { product } });
   };
 
   return {

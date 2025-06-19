@@ -29,6 +29,7 @@ const ProductRowStyles = {
     flex: "0 0 auto",
     minWidth: 250,
     mr: 2,
+  cursor: 'pointer',
   },
   arrowButton: {
     color: "white",

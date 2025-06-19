@@ -16,9 +16,10 @@ export const useProductDetailContainer = (
   const [error, setError] = useState(null);
   const [isAddedToCart, setIsAddedToCart] = useState(false);
   const [quantity, setQuantity] = useState(productParam?.quantity || 1);
-  const images = [product?.image, ...(product?.images || [])].filter(Boolean);
+  const images = product?.images || [];
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState(null);
+  const [ProductPrice, setProductPrice]= useState(null)
 
   const fetchCartData = async () => {
     try {
@@ -29,8 +30,10 @@ export const useProductDetailContainer = (
       if (product) {
         const cartProduct = (products || []).find(
           (item) => item.productId === product.productId
+          
         );
         setQuantity(cartProduct?.quantity ?? 0);
+         
       }
       setError(null);
     } catch (err) {
@@ -42,14 +45,14 @@ export const useProductDetailContainer = (
     fetchCartData();
   }, [product]);
 
-  useEffect(() => {
-    if (!product) {
-      fetch(`/api/products/${productId}`)
-        .then((res) => res.json())
-        .then((data) => setProduct(data))
-        .catch(() => setProduct(null));
-    }
-  }, [productId, product]);
+  // useEffect(() => {
+  //   if (!product) {
+  //     fetch(`/api/products/${productId}`)
+  //       .then((res) => res.json())
+  //       .then((data) => setProduct(data))
+  //       .catch(() => setProduct(null));
+  //   }
+  // }, [productId, product]);
 
   useEffect(() => {
     setCurrentIndex(0);
@@ -86,12 +89,7 @@ export const useProductDetailContainer = (
 
   const handleAddOneMore = async (item) => {
     try {
-      const { products, totalPrice } = await addTocart({
-        productId: item.productId || item.id,
-        quantity: 1,
-      });
-      setCartItems(products || []);
-      setTotalPrice(parseFloat(totalPrice) || 0);
+     
       setQuantity((prev) => prev + 1);
     } catch (error) {
       setError("Failed to add product to cart. Please try again.");
@@ -100,41 +98,25 @@ export const useProductDetailContainer = (
   };
 
   const handleRemoveOne = async (item) => {
-    if (quantity <= 1) return;
+    if (quantity < 1) return;
 
     try {
-      const { products, totalPrice } = await removeFromCart({
-        productId: item.productId || item.id,
-        quantity: 1,
-      });
-      setCartItems(products || []);
-      setTotalPrice(parseFloat(totalPrice) || 0);
-      setQuantity((prev) => Math.max(1, prev - 1));
+      
+      setQuantity((prev) => Math.max(0, prev - 1));
     } catch (error) {
       setError("Failed to update product quantity. Please try again.");
       console.error("Failed to update item quantity:", error);
     }
   };
 
-  const handleAddToCart = async (product) => {
-    try {
-      await addTocart({
-        productId: product.productId,
-        quantity: product.quantity,
-        color: selectedColor?.name,
-      });
-      setIsAddedToCart(true);
-      alert("Product Added Successfully");
-    } catch (error) {
-      console.error("Failed to add item to cart:", error);
-      setError("Failed to add product to cart. Please try again.");
-    }
-  };
 
   const handleBuyNow = async () => {
     try {
+      if(quantity>0){
       await addTocart({ productId: product.productId, quantity });
       navigate("/checkout");
+      }
+
     } catch (error) {
       setError("Failed to proceed to checkout.");
     }
@@ -154,9 +136,9 @@ export const useProductDetailContainer = (
     handleThumbClick,
     handleAddOneMore,
     handleRemoveOne,
-    handleAddToCart,
     handleBuyNow,
     selectedColor,
     handleSelectColor,
+    ProductPrice
   };
 };
