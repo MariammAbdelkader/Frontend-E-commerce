@@ -15,6 +15,7 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import { styles } from "./viewDetailsStyles";
 
+
 const OrderDetails = ({ open, onClose, order }) => {
   if (!order) return null;
 

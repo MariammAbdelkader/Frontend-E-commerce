@@ -17,7 +17,7 @@ import UserProfilePage from "../pages/CustomerPages/ProfilePage/ProfilePage";
 import CartPage from "../pages/CustomerPages/CartPage/CartPage";
 import ViewHistory from "../pages/AdminPages/Customers/ViewHistory/ViewHistoryPage";
 import ViewProfile from "../pages/AdminPages/Customers/viewProfilePage";
-import OrderDetails from "../pages/AdminPages/OrdersPage/ViewOrders/ViewDetails";
+import OrderDetails from "../pages/AdminPages/OrdersPage/ViewOrders/viewDetails";
 import Dashboard from "../pages/AdminPages/DashboardPage/DashboardPresentation";
 import ProductDetailPage from "../pages/CustomerPages/ProductDetailPage/ProductDetailPage";
 import ReturnProductPage from "../pages/CustomerPages/ReturnPage/Return"
