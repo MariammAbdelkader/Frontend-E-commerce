@@ -37,7 +37,7 @@ const AppRoutes = () => {
     <Router>
       <Routes>
         {/* Public routes */}
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
 
         {/* Protected routes */}
