@@ -19,7 +19,7 @@ import {
 import styles from "./OrdersPageStyles";
 import useOrdersPageContainer from "./OrdersPageContainer";
 
-import OrderDetails from "./ViewOrders/ViewDetails"; 
+import OrderDetails from "./ViewOrders/viewDetails"; 
 
 
 const OrderDetailsPage = () => {
