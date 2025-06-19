@@ -27,6 +27,10 @@ const useNavbarContainer = () => {
     handleMenuClose();
   };
 
+    const handleReturn = () => {
+    navigate("/request-return");
+    handleMenuClose();
+  };
   const handleLinkClick = (path) => navigate(path);
   const handleProceedToCheckout = () => {
     navigate("/checkout");
@@ -60,6 +64,7 @@ const useNavbarContainer = () => {
     handleProfile,
     handleLinkClick,
     handleProceedToCheckout,
+    handleReturn
   };
 };
 

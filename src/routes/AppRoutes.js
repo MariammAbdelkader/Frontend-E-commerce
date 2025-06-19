@@ -17,6 +17,7 @@ import OrderDetails from "../pages/AdminPages/OrdersPage/ViewOrders/ViewDetails"
 import Dashboard from "../pages/AdminPages/DashboardPage/DashboardPresentation";
 import Profile from "../pages/AdminPages/ProfilePage/ProfilePagePresentation";
 import ProductDetailPage from "../pages/CustomerPages/ProductDetailPage/ProductDetailPage";
+import ReturnProductPage from "../pages/CustomerPages/ReturnPage/Return"
 
 const AppRoutes = () => {
   return (
@@ -39,6 +40,7 @@ const AppRoutes = () => {
         <Route path="/viewdetails" element={<OrderDetails />} />
         <Route path="/product/:id" element={<ProductDetailPage />} />
         <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/request-return" element={<ReturnProductPage />} />
       </Routes>
     </Router>
   );

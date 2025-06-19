@@ -25,6 +25,8 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+
 
 import NavbarStyles from "./NavbarStyles";
 import useNavbarContainer from "./NavbarContainer";
@@ -44,6 +46,7 @@ const Navbar = ({ cartItems, totalPrice, cartCount }) => {
     handleLinkClick,
     handleProceedToCheckout,
     profileData,
+    handleReturn
   } = useNavbarContainer();
 
   return (
@@ -148,12 +151,19 @@ const Navbar = ({ cartItems, totalPrice, cartCount }) => {
             </ListItemIcon>
             <ListItemText primary="View Profile" />
           </MenuItem>
+            <MenuItem onClick={handleReturn}sx={NavbarStyles.menuItem}>
+            <ListItemIcon sx={NavbarStyles.listItemIcon}>
+              <KeyboardReturnIcon fontSize="small" />
+            </ListItemIcon>
+            <ListItemText primary="request a return" />
+          </MenuItem>
           <MenuItem onClick={handleSignOut} sx={NavbarStyles.menuItem}>
             <ListItemIcon sx={NavbarStyles.listItemIcon}>
               <LogoutIcon fontSize="small" />
             </ListItemIcon>
             <ListItemText primary="Sign Out" />
           </MenuItem>
+        
         </Menu>
       </Box>
 

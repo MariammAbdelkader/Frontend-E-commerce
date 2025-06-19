@@ -32,7 +32,10 @@ const [phoneNumber, setphoneNumber] = useState('');
               const res= await paymob({orderId:response.order.orderId})
                   if (res.success && res.paymentUrl) {
                       console.log('Payment URL:', res.paymentUrl);
-                          window.location.href = res.paymentUrl;
+                          window.open(res.paymentUrl, '_blank');
+                          alert('Order placed successfully. You will now be redirected to the payment page.');
+                          navigate('/store')
+
                   } else {
                           alert('Order confirmed but online payment not available. Thank you!');
                   }
