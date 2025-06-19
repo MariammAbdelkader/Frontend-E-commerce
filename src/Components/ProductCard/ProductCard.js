@@ -70,7 +70,10 @@ const ProductCard = ({ product, onAddToCart }) => {
           <Button
             variant="contained"
             sx={{ ...ProductCardStyles.addButton, flex: 1 }}
-            onClick={() => onAddToCart(product)}>
+            onClick={(e) => {
+                e.stopPropagation();
+                onAddToCart(product);
+              }}>
             Add to Cart
           </Button>
         </Box>

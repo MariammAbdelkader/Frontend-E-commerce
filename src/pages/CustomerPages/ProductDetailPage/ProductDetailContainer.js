@@ -20,7 +20,14 @@ export const useProductDetailContainer = (
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState(null);
   const [ProductPrice, setProductPrice]= useState(null)
+  const [open,setOpen]=useState(false)
 
+  const handleOpen=async()=>{
+    setOpen(true);
+  }
+  const handleClose=async()=>{
+    setOpen(false);
+  }
   const fetchCartData = async () => {
     try {
       const { products, totalPrice } = await getCart();
@@ -137,8 +144,10 @@ export const useProductDetailContainer = (
     handleAddOneMore,
     handleRemoveOne,
     handleBuyNow,
+    handleOpen,
+    handleClose,
     selectedColor,
     handleSelectColor,
-    ProductPrice
+  
   };
 };

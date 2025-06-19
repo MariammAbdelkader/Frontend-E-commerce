@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Typography,
@@ -17,6 +17,8 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { useProductDetailContainer } from "./ProductDetailContainer";
 import styles from "./ProductDetailStyles";
+import ReviewDialog from './RatingDialoage'
+import ReviewsDialog from './ReviewsDialoage'
 
 const colors = [
   { name: "Red", hex: "#ff0000" },
@@ -42,8 +44,12 @@ const ProductDetailPage = () => {
     handleBuyNow,
     selectedColor,
     handleSelectColor,
-    
+    handleOpen,
+    handleClose,    
   } = useProductDetailContainer(location.state?.product, id, navigate);
+
+  const [openReviews, setOpenReviews] = useState(false);
+
 
   if (!product) {
     return <Typography p={4}>Product not found</Typography>;
@@ -113,11 +119,20 @@ const ProductDetailPage = () => {
             <StarIcon sx={styles.ratingIcon} />
             <Typography variant="body1">
               {product.rate || "--"} ·{" "}
-              <span style={{ color: "gray" }}>
+              <span
+                style={{ color: "gray", cursor: "pointer", textDecoration: "underline" }}
+                onClick={() => setOpenReviews(true)}
+              >
                 {product.reviewCount || "0"} Reviews
               </span>
             </Typography>
-          </Box>
+             <ReviewsDialog
+              open={openReviews}
+              onClose={() => setOpenReviews(false)}
+              reviews={product.review}
+            />
+            </Box>
+
 
           <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
             {colors.map((color) => (
@@ -188,6 +203,8 @@ const ProductDetailPage = () => {
               BUY NOW
             </Button>
             
+          <ReviewDialog  productId={product.productId}/>
+         
           </Box>
         </Box>
       </Box>
