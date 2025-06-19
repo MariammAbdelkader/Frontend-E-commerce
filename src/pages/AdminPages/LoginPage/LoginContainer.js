@@ -38,16 +38,15 @@ const LoginContainer = () => {
     const response = await loginUser({ email, password });
 
     if (response.success) {
-      if(response.data.role==="Customer")
-          navigate("/store");
-      else if(response.data.role==="Admin")
-          navigate("/main");
-
+      localStorage.setItem("token", "some-token");
+      if (response.data.role === "Customer") navigate("/store");
+      else if (response.data.role === "Admin") navigate("/main");
     } else {
       setErrors((prev) => ({
         ...prev,
         apiError: response.data?.message || response.error,
       }));
+      window.location.reload();
     }
 
     setLoading(false);
