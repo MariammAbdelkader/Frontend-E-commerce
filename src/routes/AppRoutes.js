@@ -39,23 +39,6 @@ const AppRoutes = () => {
         {/* Public routes */}
         <Route path="/" element={<LoginPage />} />
         <Route path="/signup" element={<SignUpPage />} />
-<<<<<<< HEAD
-        <Route path="/home" element={<Dashboard />} />
-        <Route path="/adminChatbot" element={<AdminChatbotPage />} />
-        <Route path="/userChatbot" element={<UserChatbotPage />} />
-        <Route path="/store" element={<StorePage />} />
-        <Route path="/product" element={<ProductPage />} />
-        <Route path="/adminprofile" element={<AdminProfilePage />} />
-        <Route path="/userprofile" element={<UserProfilePage />} />
-        <Route path="/checkout" element={<CartPage />} />
-        <Route path="/viewhistory" element={<ViewHistory />} />
-        <Route path="/viewprofile" element={<ViewProfile />} />
-        <Route path="/adminprofile" element={<Profile />} />
-        <Route path="/viewdetails" element={<OrderDetails />} />
-        <Route path="/product/:id" element={<ProductDetailPage />} />
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/request-return" element={<ReturnProductPage />} />
-=======
 
         {/* Protected routes */}
         <Route path="/home" element={<Navigate to="/home" replace />} />
@@ -163,10 +146,17 @@ const AppRoutes = () => {
             </PrivateRoute>
           }
         />
+        <Route
+          path="/request-return"
+          element={
+            <PrivateRoute>
+              <ReturnProductPage />
+            </PrivateRoute>
+          }
+        />
 
         {/* Catch-all route for 404 */}
         <Route path="*" element={<NotFound />} />
->>>>>>> 4201ba7540a86a46b3310250b55a3f37ebd2cfc3
       </Routes>
     </Router>
   );
