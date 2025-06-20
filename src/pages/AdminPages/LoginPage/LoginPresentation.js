@@ -41,16 +41,23 @@ const [otpDialogOpen, setOtpDialogOpen] = useState(false);
   
 const handleGoogleLogin = async (credentialResponse) => {
   try {
-    const res = await loginWithGoogle(credentialResponse.credential);
+    const response = await loginWithGoogle(credentialResponse.credential);
 
-    // Optional: you can re-save token/user, but it's already done in the service
-    localStorage.setItem("token", res.token);
-    console.log("tokeeeen ",res.token)
-    localStorage.setItem("user", JSON.stringify(res.user));
-    // ✅ Redirect the user
-    window.location.href = "/store"; 
+    if (response.success) {
+      localStorage.setItem("token", "some-value"); // You can use response.data.token
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+
+      const role = response.data.user?.role;
+      if (role === "Admin") {
+        window.location.href = "/main";
+      } else {
+        window.location.href = "/store";
+      }
+    } else {
+      console.error("Google login failed:", response.error);
+    }
   } catch (err) {
-    console.error("Google login failed", err);
+    console.error("Unexpected Google login error:", err.message);
   }
 };
 
