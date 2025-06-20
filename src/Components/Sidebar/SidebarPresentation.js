@@ -58,13 +58,7 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
           </ListItem>
         ))}
       </List>
-      <Divider sx={styles.divider} />
-      <ListItem button sx={styles.settingsItem}>
-        <ListItemIcon sx={{ minWidth: "unset", color: "inherit" }}>
-          <Settings sx={{ fontSize: 22 }} />
-        </ListItemIcon>
-        <ListItemText primary="Settings" sx={styles.listItemText} />
-      </ListItem>
+    
     </Box>
   );
 };

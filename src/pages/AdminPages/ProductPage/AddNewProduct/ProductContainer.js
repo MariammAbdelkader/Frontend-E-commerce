@@ -101,6 +101,18 @@ const useProductContainer = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
+  //   if (
+  //   !productData.name ||
+  //   !productData.category ||
+  //   !productData.subCategory ||
+  //   productData.price === "" ||
+  //   productData.quantity === "" ||
+  //   !productData.status
+  // ) {
+  //   alert("Please fill required fields.");
+  //   setLoading(false);
+  //   return;
+  // }
     try {
       const categoryObj = categories.find(
         (c) => c.categoryId.toString() === productData.category
@@ -120,7 +132,7 @@ const useProductContainer = () => {
 
       const response = await addProduct(productDataToSend);
 
-      if (response) {
+      if (response.success) {
         alert("Product added successfully!");
         handleClose();
       } else {

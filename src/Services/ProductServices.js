@@ -126,15 +126,10 @@ export const addProduct = async (productData) => {
       },
     });
 
-    const productId = response.data?.newProduct?.productId;
-
-    if (!productId) {
-      throw new Error("Product ID not returned from create endpoint");
+    if (response.data.success&&image){
+      await uploadProductImage(image, response.data.newProduct.productId);
     }
-    if (image) {
-      await uploadProductImage(image, productId);
-    }
-    return response.data.success;
+    return response.data;
   } catch (error) {
     return handleError(error);
   }

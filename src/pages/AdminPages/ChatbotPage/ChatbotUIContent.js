@@ -1,5 +1,5 @@
 // src/pages/ChatbotPage/ChatbotUIContent.js
-import React, { useEffect, useRef } from "react";
+import React, { useEffect,useState, useRef } from "react";
 import {
     Box,
     TextField,
@@ -17,6 +17,9 @@ import SendIcon from "@mui/icons-material/Send";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ChatbotStyles from "./ChatbotStyles";
 
+import { getCustomerProfile} from "../../../Services/CustomerServices";
+
+
 const ChatbotUIContent = ({
     messages,
     input,
@@ -28,9 +31,24 @@ const ChatbotUIContent = ({
     error,
     onEndConversation,
 }) => {
+
+
+    const [profiledata,setProfileData] =useState("");
+
     useEffect(() => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages, messagesEndRef]);
+
+    
+    useEffect(()=>{
+        const fetchProfile= async()=>{
+            const data= await getCustomerProfile();
+            setProfileData(data.profile)
+        }
+        fetchProfile();
+    }
+    ,[])
+
 
     return (
         <Box sx={ChatbotStyles.wrapper}>
@@ -66,7 +84,7 @@ const ChatbotUIContent = ({
             {/* LEFT SECTION - Chat Interface */}
             <Box sx={ChatbotStyles.chatArea}>
                 <Typography variant="h6" sx={ChatbotStyles.title}>
-                    Hello Mohamed 👋!
+                    Hello  {profiledata.firstName}👋!
                 </Typography>
 
                 <Box sx={ChatbotStyles.scrollArea}>
