@@ -44,9 +44,7 @@ const handleGoogleLogin = async (credentialResponse) => {
     const response = await loginWithGoogle(credentialResponse.credential);
 
     if (response.success) {
-      localStorage.setItem("token", "some-value"); // You can use response.data.token
-      localStorage.setItem("user", JSON.stringify(response.data.user));
-
+      localStorage.setItem("token", "some-value");
       const role = response.data.user?.role;
       if (role === "Admin") {
         window.location.href = "/main";
