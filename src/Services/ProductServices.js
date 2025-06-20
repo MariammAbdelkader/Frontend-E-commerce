@@ -141,7 +141,7 @@ export const uploadCSV = async (file) => {
     formData.append("file", file);
 
     const response = await axios.post(
-      `http://localhost:3000/upload/csv`,
+      `${API_BASE_URL}/upload/csv`,
       formData,
       {
         headers: { "Content-Type": "multipart/form-data" },
