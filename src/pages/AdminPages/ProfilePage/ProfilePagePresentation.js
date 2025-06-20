@@ -24,6 +24,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { changePassword, sendOtp } from "../../../Services/PasswordServices";
 import OTPDialog from "./OTPDialogWindow";
 import Styles from "./ProfilePageStyles";
+import EditProfileDialog from './EditProfileDialoage'
+import { updateCustomerProfile } from "../../../Services/CustomerServices";
 
 const ProfilePage = () => {
   const [tabValue, setTabValue] = useState(0);
@@ -36,6 +38,8 @@ const ProfilePage = () => {
   const [showCurrentPwd, setShowCurrentPwd] = useState(false);
   const [showNewPwd, setShowNewPwd] = useState(false);
   const [showConfirmPwd, setShowConfirmPwd] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+
   const isUpdateDisabled =
     !currentPassword || !newPassword || !confirmNewPassword || passwordError;
   const location = useLocation();
@@ -78,6 +82,29 @@ const ProfilePage = () => {
       alert("An error occurred while verifying OTP.");
     }
   };
+
+const handleSave=async (updatedValues)=>{
+
+  const data={
+    firstName:updatedValues.firstName,
+    lastName:updatedValues.lastName,
+    email:updatedValues.email,
+    address:updatedValues.address,
+    Gender:updatedValues.Gender,
+    phoneNumber:updatedValues.phoneNumber,
+
+
+  }
+    const result = await updateCustomerProfile(data);
+    if (result.success) {
+      alert("Profile updated successfully!");
+      setEditDialogOpen(false);
+    } else {
+      alert(result.error);
+    }
+}
+
+
 
   return (
     <Fade in={showPage} timeout={800}>
@@ -196,6 +223,7 @@ const ProfilePage = () => {
 
                   <Grid item xs={12} textAlign="right">
                     <Button
+                      onClick={() => setEditDialogOpen(true)}
                       sx={{
                         borderRadius: "8px",
                         borderWidth: 2,
@@ -212,6 +240,14 @@ const ProfilePage = () => {
                       }}>
                       Edit Profile
                     </Button>
+
+                    <EditProfileDialog
+                      open={editDialogOpen}
+                      handleClose={() => setEditDialogOpen(false)}
+                      userData={profileData}
+                     handleSave={handleSave}
+
+                    />
                   </Grid>
                 </Grid>
               )}
