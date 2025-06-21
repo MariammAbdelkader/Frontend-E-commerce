@@ -1,4 +1,6 @@
 import React from "react";
+import { useState } from "react";
+
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { loginWithGoogle } from "../../../Services/LoginServices";
 import { loginStyles } from "./LoginStyles";
@@ -15,8 +17,12 @@ import {
 } from "@mui/material";
 import { Email, Lock, Visibility, VisibilityOff } from "@mui/icons-material";
 import LoginContainer from "./LoginContainer";
+import { forgotPassword, sendOtpForgotPassword } from "../../../Services/PasswordServices";
+import OTPDialog from "./OTPDialogWindow";
 
- const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;;
+ const GOOGLE_CLIENT_ID = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+
+ 
 
 const LoginPresentation = () => {
   const {
@@ -31,20 +37,57 @@ const LoginPresentation = () => {
     errors,
   } = LoginContainer();
 
+const [otpDialogOpen, setOtpDialogOpen] = useState(false);
+  
 const handleGoogleLogin = async (credentialResponse) => {
   try {
-    const res = await loginWithGoogle(credentialResponse.credential);
+    const response = await loginWithGoogle(credentialResponse.credential);
 
-    // Optional: you can re-save token/user, but it's already done in the service
-    localStorage.setItem("token", res.token);
-    console.log("tokeeeen ",res.token)
-    localStorage.setItem("user", JSON.stringify(res.user));
-    // ✅ Redirect the user
-    window.location.href = "/store"; 
+    if (response.success) {
+      localStorage.setItem("token", "some-value");
+      const role = response.data.user?.role;
+      if (role === "Admin") {
+        window.location.href = "/main";
+      } else {
+        window.location.href = "/store";
+      }
+    } else {
+      console.error("Google login failed:", response.error);
+    }
   } catch (err) {
-    console.error("Google login failed", err);
+    console.error("Unexpected Google login error:", err.message);
   }
 };
+
+
+  const handleForgotPassword = async () => {
+    try {
+      const response = await forgotPassword({email});
+      if (response.message) {
+        setOtpDialogOpen(true);
+      } else {
+        alert("Failed to update password. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error updating password:", error);
+      alert("An error occurred while updating the password.");
+    }
+  };
+
+  const handleConfirmOtp = async (code,newPassword) => {
+      try {
+        const response = await sendOtpForgotPassword({  email, otp: code, newPassword });
+        if (response.message) {
+          alert(response.message);
+          setOtpDialogOpen(false);
+        } else {
+          alert("Failed to update password. Please try again.");
+        }
+      } catch (error) {
+        console.error("Error verifying OTP:", error);
+        alert("An error occurred while verifying OTP.");
+      }
+    };
 
   return (
     <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
@@ -121,9 +164,20 @@ const handleGoogleLogin = async (credentialResponse) => {
               required
             />
 
-            <Typography variant="body2" sx={loginStyles.forgotPassword}>
-              Forgot Your Password?
-            </Typography>
+            <Typography
+            variant="body2"
+            sx={{ ...loginStyles.forgotPassword, cursor: 'pointer', textDecoration: 'underline' }}
+            onClick={()=>handleForgotPassword()}
+          >
+            Forgot Your Password?
+          </Typography>
+
+           <OTPDialog
+                    open={otpDialogOpen}
+                    handleClose={() => setOtpDialogOpen(false)}
+                    handleConfirm={handleConfirmOtp}
+                  />
+
 
             {/* Sign In Button */}
             <Button

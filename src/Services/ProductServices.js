@@ -94,9 +94,10 @@ export const deleteProduct = async (productId) => {
     if (typeof productId !== "number") {
       throw new Error("Invalid productId.");
     }
-    await axios.delete(`${API_BASE_URL}/${productId}`, {
+    const response= await axios.delete(`${API_BASE_URL}/${productId}`, {
       withCredentials: true, // Ensures cookies are sent with the request
     });
+    return {success:response.data.success, message:response.data.message}
   } catch (error) {
     return handleError(error);
   }
@@ -126,15 +127,10 @@ export const addProduct = async (productData) => {
       },
     });
 
-    const productId = response.data?.newProduct?.productId;
-
-    if (!productId) {
-      throw new Error("Product ID not returned from create endpoint");
+    if (response.data.success&&image){
+      await uploadProductImage(image, response.data.newProduct.productId);
     }
-    if (image) {
-      await uploadProductImage(image, productId);
-    }
-    return response.data.success;
+    return response.data;
   } catch (error) {
     return handleError(error);
   }
@@ -146,7 +142,7 @@ export const uploadCSV = async (file) => {
     formData.append("file", file);
 
     const response = await axios.post(
-      `http://localhost:3000/upload/csv`,
+      `${API_BASE_URL}/upload/csv`,
       formData,
       {
         headers: { "Content-Type": "multipart/form-data" },

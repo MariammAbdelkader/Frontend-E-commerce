@@ -133,7 +133,25 @@ const StorePageContainer = () => {
       return acc;
     }, {});
 
-  const grouped = groupByCategory(products);
+  useEffect(() => {
+    const handleSearch = (e) => {
+      setFilters((prev) => ({
+        ...prev,
+        search: e.detail || "",
+      }));
+    };
+
+    window.addEventListener("searchProducts", handleSearch);
+    return () => window.removeEventListener("searchProducts", handleSearch);
+  }, []);
+
+  const filteredProducts = filters.search
+    ? products.filter((product) =>
+        product.name.toLowerCase().includes(filters.search.toLowerCase())
+      )
+    : products;
+
+  const grouped = groupByCategory(filteredProducts);
 
   const handleCategoryChange = (event) => {
     setFilters({

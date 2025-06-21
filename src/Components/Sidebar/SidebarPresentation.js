@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Box,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  Divider,
-} from "@mui/material";
+import { Box, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import {
   Home,
   ShoppingCart,
@@ -14,7 +7,6 @@ import {
   People,
   LocalOffer,
   Chat,
-  Settings,
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../images/Logo.png";
@@ -58,13 +50,6 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
           </ListItem>
         ))}
       </List>
-      <Divider sx={styles.divider} />
-      <ListItem button sx={styles.settingsItem}>
-        <ListItemIcon sx={{ minWidth: "unset", color: "inherit" }}>
-          <Settings sx={{ fontSize: 22 }} />
-        </ListItemIcon>
-        <ListItemText primary="Settings" sx={styles.listItemText} />
-      </ListItem>
     </Box>
   );
 };

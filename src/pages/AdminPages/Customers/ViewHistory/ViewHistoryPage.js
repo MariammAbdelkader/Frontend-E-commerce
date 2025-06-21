@@ -148,6 +148,7 @@ const CustomerHistoryPage = () => {
                   <TableCell sx={styles.tableHeadCell}>Activity Date</TableCell>
                   <TableCell sx={styles.tableHeadCell}>Activity Time</TableCell>
                   <TableCell sx={styles.tableHeadCell}>Activity Type</TableCell>
+                  <TableCell sx={styles.tableHeadCell}>Product</TableCell>
                   <TableCell sx={styles.tableHeadCell}>Description</TableCell>
                 </TableRow>
               </TableHead>
@@ -161,7 +162,9 @@ const CustomerHistoryPage = () => {
                           {formatTime(activity.ActivityDate)}
                         </TableCell>
                         <TableCell>{activity.ActivityType}</TableCell>
-                        <TableCell>{activity.Description}</TableCell>
+                        <TableCell>{activity.product?.name|| ""}</TableCell>
+
+                        <TableCell>{activity.description}</TableCell>
                       </TableRow>
                     ))
                 )}

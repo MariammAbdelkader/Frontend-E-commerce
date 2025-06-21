@@ -8,7 +8,7 @@ const useNavbarContainer = () => {
   const [cartAnchorEl, setCartAnchorEl] = useState(null);
   const [profileAnchorEl, setProfileAnchorEl] = useState(null);
   const [profileData, setProfileData] = useState(null);
-
+  const [searchTerm, setSearchTerm] = useState("");
   const isCartOpen = Boolean(cartAnchorEl);
   const isProfileMenuOpen = Boolean(profileAnchorEl);
 
@@ -16,6 +16,38 @@ const useNavbarContainer = () => {
   const handleProfileClick = (event) => setProfileAnchorEl(event.currentTarget);
   const handleCartClick = (event) => setCartAnchorEl(event.currentTarget);
   const handleCartClose = () => setCartAnchorEl(null);
+
+  const handleSearchInputChange = (e) => {
+    const newSearchTerm = e.target.value;
+    setSearchTerm(newSearchTerm);
+
+    const searchEvent = new CustomEvent("searchProducts", {
+      detail: newSearchTerm.trim(),
+    });
+    window.dispatchEvent(searchEvent);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      const searchEvent = new CustomEvent("searchProducts", {
+        detail: searchTerm.trim(),
+      });
+      window.dispatchEvent(searchEvent);
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      if (searchTerm.trim()) {
+        const searchEvent = new CustomEvent("searchProducts", {
+          detail: searchTerm.trim(),
+        });
+        window.dispatchEvent(searchEvent);
+      }
+    }
+  };
 
   const handleSignOut = async () => {
     const res = await logout();
@@ -27,7 +59,7 @@ const useNavbarContainer = () => {
     handleMenuClose();
   };
 
-    const handleReturn = () => {
+  const handleReturn = () => {
     navigate("/request-return");
     handleMenuClose();
   };
@@ -64,7 +96,11 @@ const useNavbarContainer = () => {
     handleProfile,
     handleLinkClick,
     handleProceedToCheckout,
-    handleReturn
+    handleReturn,
+    searchTerm,
+    handleSearchInputChange,
+    handleSearchSubmit,
+    handleKeyDown,
   };
 };
 

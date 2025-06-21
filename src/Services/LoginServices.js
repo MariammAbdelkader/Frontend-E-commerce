@@ -21,28 +21,36 @@ export const loginUser = async (credentials) => {
   }
 };
 
-// export const loginWithGoogle = async (googleToken) => {
-//   try {
-//     const response = await axios.post(`${API_BASE_URL}/auth/google`, { token: googleToken }, {
+
+// export const loginWithGoogle = async (token) => {
+//   const res = await axios.post(
+//     `${API_BASE_URL}/auth/google`,
+//     { token },
+//     {
 //       headers: { "Content-Type": "application/json" },
 //       withCredentials: true,
-//     });
+//     }
+//   );
 
-//     return { success: true, data: response.data };
-//   } catch (error) {
-//     return {
-//       success: false,
-//       error: error.response?.data?.message || "Google login failed. Please try again.",
-//     };
-//   }
+//   return res.data;
 // };
 
 export const loginWithGoogle = async (token) => {
-  const res = await axios.post(`${API_BASE_URL}/auth/google`, { token });
-  const { user, token: authToken } = res.data;
+  try {
+    const res = await axios.post(
+      `${API_BASE_URL}/auth/google`,
+      { token },
+      {
+        headers: { "Content-Type": "application/json" },
+        withCredentials: true,
+      }
+    );
 
-  localStorage.setItem("token", authToken);
-  localStorage.setItem("user", JSON.stringify(user));
-
-  return res.data; // this means return = { token, user }
+    return { success: true, data: res.data };
+  } catch (error) {
+    return {
+      success: false,
+      error: error.response?.data?.message || "Google login failed. Please try again.",
+    };
+  }
 };

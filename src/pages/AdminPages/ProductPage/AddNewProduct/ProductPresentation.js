@@ -136,6 +136,7 @@ const ProductPresentation = ({ activeSubItem }) => {
                       {scat.name}
                     </MenuItem>
                   ))}
+                  
                 </Select>
               </FormControl>
 

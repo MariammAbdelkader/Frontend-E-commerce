@@ -98,7 +98,7 @@ const useDiscount = () => {
           handleCloseCategoryDialog();
         }, 2000); // 2 seconds delay to show the confirmation message
       } else {
-        setErrorMessage("Unknown error occurred. Please try again.");
+        setErrorMessage("There is already a valid discount");
       }
     } catch (error) {
       setLoading(false);
@@ -142,7 +142,7 @@ const useDiscount = () => {
           handleCloseProductDialog();
         }, 2000); // 2 seconds delay to show the confirmation message
       } else {
-        setErrorMessage("Unknown error occurred. Please try again.");
+        setErrorMessage("There is already a valid discount");
       }
     } catch (error) {
       setLoading(false);

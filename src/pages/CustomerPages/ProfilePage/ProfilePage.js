@@ -27,7 +27,7 @@ import { styles } from "./ProfilePageStyles";
 import { useLocation } from "react-router-dom";
 import OTPDialog from "../../AdminPages/ProfilePage/OTPDialogWindow";
 import { changePassword, sendOtp } from "../../../Services/PasswordServices";
-
+import { updateCustomerProfile } from "../../../Services/CustomerServices";
 const sidebarItems = ["Profile", "Password"];
 
 const ProfilePage = () => {
@@ -64,7 +64,7 @@ const ProfilePage = () => {
   };
 
   const handleGenderChange = (e) => {
-    setUserData((prev) => ({ ...prev, gender: e.target.value }));
+    setUserData((prev) => ({ ...prev, Gender: e.target.value }));
   };
 
   const handlePasswordChange = (field) => (e) => {
@@ -108,6 +108,11 @@ const ProfilePage = () => {
     }
   };
 
+  const handleChange = (field) => (e) => {
+  setUserData({ ...userData, [field]: e.target.value });
+};
+
+
   const handleConfirmOtp = async (code) => {
     try {
       const response = await sendOtp({ otp: code });
@@ -122,6 +127,13 @@ const ProfilePage = () => {
       alert("An error occurred while updating the password.");
     }
   };
+  const handleupdateInformation=async()=>{
+    const data=userData;
+    const res=await updateCustomerProfile(data);
+    if(res.success){
+      alert("DONE the information are updated successfully")
+    } 
+   }
 
   const toggleVisibility = (field) => {
     setPasswordData((prev) => ({
@@ -136,6 +148,7 @@ const ProfilePage = () => {
         lastName: profileData.lastName || "",
         email: profileData.email || "",
         address: profileData.address || "",
+        phoneNumber: profileData.phoneNumber|| "",
         Gender: profileData.Gender || "",
       });
     }
@@ -218,7 +231,7 @@ const ProfilePage = () => {
                 <Button variant="outlined" sx={styles.cancelBtn}>
                   Cancel
                 </Button>
-                <Button variant="contained" sx={styles.saveBtn}>
+                <Button onClick ={handleupdateInformation} variant="contained" sx={styles.saveBtn}>
                   Save
                 </Button>
               </Stack>
@@ -234,6 +247,7 @@ const ProfilePage = () => {
                   <TextField
                     label="First Name"
                     value={userData.firstName}
+                    onChange={handleChange("firstName")}
                     margin="normal"
                     size="small"
                     sx={{ flex: 1 }}
@@ -241,6 +255,15 @@ const ProfilePage = () => {
                   <TextField
                     label="Last Name"
                     value={userData.lastName}
+                     onChange={handleChange("lastName")}
+                    margin="normal"
+                    size="small"
+                    sx={{ flex: 1 }}
+                  />
+                   <TextField
+                    label="Phone Number"
+                    value={userData.phoneNumber}
+                     onChange={handleChange("phoneNumber")}
                     margin="normal"
                     size="small"
                     sx={{ flex: 1 }}
@@ -248,7 +271,7 @@ const ProfilePage = () => {
                   <FormControl size="small" sx={{ flex: 1, marginTop: "16px" }}>
                     <InputLabel>Gender</InputLabel>
                     <Select
-                      value={userData.gender}
+                      value={userData.Gender}
                       onChange={handleGenderChange}
                       input={<OutlinedInput label="Gender" />}>
                       <MenuItem value="Male">Male</MenuItem>
@@ -262,6 +285,7 @@ const ProfilePage = () => {
                   <TextField
                     label="Email"
                     value={userData.email}
+                     onChange={handleChange("email")}
                     margin="normal"
                     size="small"
                     sx={{ flex: 1 }}
@@ -269,6 +293,7 @@ const ProfilePage = () => {
                   <TextField
                     label="Address"
                     value={userData.address}
+                     onChange={handleChange("address")}
                     margin="normal"
                     size="small"
                     sx={{ flex: 1 }}

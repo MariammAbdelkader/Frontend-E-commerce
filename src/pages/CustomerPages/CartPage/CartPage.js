@@ -20,7 +20,6 @@ import { useState } from "react";
 import ConfirmOrderWindow from "./ConfirmOrderWindow";
 
 const CartPage = () => {
-  const navigate = useNavigate();
   const {
     cartItems,
     coupon,
@@ -28,7 +27,6 @@ const CartPage = () => {
     setCoupon,
     handleAddOneMore,
     handleRemoveOne,
-    // subtotal,
     totalPrice,
     loading,
     error,
@@ -36,6 +34,7 @@ const CartPage = () => {
   } = useCartPage();
 
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <Box sx={styles.cartContainer}>

@@ -67,3 +67,22 @@ export const getCustomerProfile = async () => {
     };
   }
 };
+
+export const updateCustomerProfile = async (data) => {
+  try {
+    console.log(data)
+    const response = await axios.patch(`${API_BASE_URL}/profile/update`,data ,{
+      withCredentials: true,
+    });
+
+    return {success:true,profile :response.data.data};
+  } catch (error) {
+    return {
+      success: false,
+      error:
+        error.response?.data?.message || // Backend error message
+        error.message || // Axios error message
+        "Server error. Please try again.", // Fallback message
+    };
+  }
+};

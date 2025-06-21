@@ -3,6 +3,7 @@ import {
   Box,
   Typography,
   IconButton,
+  Tooltip,
   Badge,
   Menu,
   MenuItem,
@@ -12,7 +13,6 @@ import {
   Avatar,
   ListItemIcon,
   ListItemText,
-  Select,
   CardContent,
   CardMedia,
   Card,
@@ -25,9 +25,9 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import PersonIcon from "@mui/icons-material/Person";
 import LogoutIcon from "@mui/icons-material/Logout";
-import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
-
-
+import ReplayIcon from "@mui/icons-material/Replay";
+import returnIcon from "../../images/returnicon.png";
+import { SmartToy } from "@mui/icons-material";
 import NavbarStyles from "./NavbarStyles";
 import useNavbarContainer from "./NavbarContainer";
 
@@ -46,56 +46,51 @@ const Navbar = ({ cartItems, totalPrice, cartCount }) => {
     handleLinkClick,
     handleProceedToCheckout,
     profileData,
-    handleReturn
+    handleReturn,
+    searchTerm,
+    handleSearchInputChange,
+    handleSearchSubmit,
+    handleKeyDown,
   } = useNavbarContainer();
 
   return (
     <Box sx={NavbarStyles.container}>
       <Box display="flex" alignItems="center" gap={1}>
-        <Paper component="form" sx={NavbarStyles.searchBar}>
+        <Paper
+          component="form"
+          onSubmit={handleSearchSubmit}
+          sx={NavbarStyles.searchBar}>
           <InputBase
             placeholder="Search for a product"
             sx={NavbarStyles.inputBase}
             inputProps={{ "aria-label": "search products" }}
+            value={searchTerm}
+            onChange={handleSearchInputChange}
+            onKeyDown={handleKeyDown}
           />
           <IconButton type="submit" sx={NavbarStyles.iconButton}>
             <SearchIcon />
           </IconButton>
         </Paper>
-        <Select
-          defaultValue="popular"
-          variant="outlined"
-          size="small"
-          sx={NavbarStyles.selectDropdown}>
-          <MenuItem value="popular">Popular</MenuItem>
-          <MenuItem value="newest">Newest</MenuItem>
-        </Select>
-      </Box>
-
-      <Box sx={NavbarStyles.flexCenterGap10}>
-        <Typography
-          sx={NavbarStyles.navLinks}
-          onClick={() => handleLinkClick("/store")}>
-          Store
-        </Typography>
-        <Typography
-          sx={NavbarStyles.navLinks}
-          onClick={() => handleLinkClick("/userChatbot")}>
-          Chatbot
-        </Typography>
-        <Typography
-          sx={NavbarStyles.navLinks}
-          onClick={() => handleLinkClick("/about")}>
-          About
-        </Typography>
-        <Typography
-          sx={NavbarStyles.navLinks}
-          onClick={() => handleLinkClick("/faq")}>
-          FAQ
-        </Typography>
       </Box>
 
       <Box sx={NavbarStyles.flexCenterGap3}>
+        <Tooltip title="Return a product">
+          <IconButton onClick={handleReturn} sx={{ width: 40, height: 40 }}>
+            <img
+              src={returnIcon}
+              alt="Return Product"
+              style={{ width: 35, height: 35 }}
+            />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="Chatbot">
+          <IconButton
+            sx={NavbarStyles.navLinks}
+            onClick={() => handleLinkClick("/userChatbot")}>
+            <SmartToy />
+          </IconButton>
+        </Tooltip>
         <IconButton
           sx={NavbarStyles.iconButtonProfile}
           onClick={handleProfileClick}>
@@ -151,19 +146,13 @@ const Navbar = ({ cartItems, totalPrice, cartCount }) => {
             </ListItemIcon>
             <ListItemText primary="View Profile" />
           </MenuItem>
-            <MenuItem onClick={handleReturn}sx={NavbarStyles.menuItem}>
-            <ListItemIcon sx={NavbarStyles.listItemIcon}>
-              <KeyboardReturnIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText primary="request a return" />
-          </MenuItem>
+
           <MenuItem onClick={handleSignOut} sx={NavbarStyles.menuItem}>
             <ListItemIcon sx={NavbarStyles.listItemIcon}>
               <LogoutIcon fontSize="small" />
             </ListItemIcon>
             <ListItemText primary="Sign Out" />
           </MenuItem>
-        
         </Menu>
       </Box>
 
