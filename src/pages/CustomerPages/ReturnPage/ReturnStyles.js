@@ -1,15 +1,17 @@
 export const styles = {
   cartContainer: {
-    bgcolor: "#f7f7f7",
+    bgcolor: "transparent",
     maxHeight: "100vh",
-    p: 4,
+    maxWidth: "600px",
+    margin: "auto",
+    mt: 6,
   },
   backButton: {
     color: "black",
     border: "1px solid black",
     backgroundColor: "transparent",
     padding: "2px",
-    mr: 1,
+    m: 2,
     "&:hover": {
       backgroundColor: "black",
       color: "white",
@@ -21,8 +23,6 @@ export const styles = {
   },
   cartTitle: {
     fontWeight: "500",
-    mb: 2,
-    ml: 4,
     fontSize: "2rem",
   },
   cartItemsContainer: {
