@@ -94,9 +94,10 @@ export const deleteProduct = async (productId) => {
     if (typeof productId !== "number") {
       throw new Error("Invalid productId.");
     }
-    await axios.delete(`${API_BASE_URL}/${productId}`, {
+    const response= await axios.delete(`${API_BASE_URL}/${productId}`, {
       withCredentials: true, // Ensures cookies are sent with the request
     });
+    return {success:response.data.success, message:response.data.message}
   } catch (error) {
     return handleError(error);
   }

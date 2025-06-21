@@ -263,8 +263,8 @@ const handleEdit =async  (product) => {
     if (productToDelete) {
       try {
         const result = await deleteProduct(productToDelete.productId);
-        if (result) {
-          alert("Product deleted successfully!");
+        if (result.success) {
+          alert(result.message);
           setOpenDeleteDialog(false);
           setProductToDelete(null);
           setRefreshToggle((prev) => !prev);
