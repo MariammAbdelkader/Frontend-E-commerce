@@ -46,7 +46,6 @@ const LoginContainer = () => {
         ...prev,
         apiError: response.data?.message || response.error,
       }));
-      window.location.reload();
     }
 
     setLoading(false);

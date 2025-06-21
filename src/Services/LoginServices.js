@@ -1,4 +1,5 @@
 import axios from "axios";
+import { handleError } from "../utilities/Errorhandling";
 
 
 import apiUrl from "../config/index"
@@ -14,10 +15,8 @@ export const loginUser = async (credentials) => {
 
     return { success: true, data: response.data };
   } catch (error) {
-    return {
-      success: false,
-      error: error.response?.data?.message || "Server error. Please try again.",
-    };
+    return handleError(error)
+    
   }
 };
 

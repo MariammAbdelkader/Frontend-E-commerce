@@ -272,7 +272,7 @@ const handleEdit =async  (product) => {
             prevProducts.filter((product) => product.id !== productToDelete.id)
           );
         } else {
-          alert("Failed to delete product.");
+          alert(result.error);
           setOpenDeleteDialog(false);
         }
       } catch (err) {
