@@ -1,9 +1,5 @@
 import { useState, useEffect } from "react";
-import {
-  getCart,
-  removeFromCart,
-  addTocart,
-} from "../../../Services/CartServices";
+import { getCart, addTocart } from "../../../Services/CartServices";
 
 export const useProductDetailContainer = (
   productParam,
@@ -14,20 +10,11 @@ export const useProductDetailContainer = (
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [error, setError] = useState(null);
-  const [isAddedToCart, setIsAddedToCart] = useState(false);
   const [quantity, setQuantity] = useState(productParam?.quantity || 1);
   const images = product?.images || [];
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState(null);
-  const [ProductPrice, setProductPrice]= useState(null)
-  const [open,setOpen]=useState(false)
 
-  const handleOpen=async()=>{
-    setOpen(true);
-  }
-  const handleClose=async()=>{
-    setOpen(false);
-  }
   const fetchCartData = async () => {
     try {
       const { products, totalPrice } = await getCart();
@@ -37,10 +24,8 @@ export const useProductDetailContainer = (
       if (product) {
         const cartProduct = (products || []).find(
           (item) => item.productId === product.productId
-          
         );
         setQuantity(cartProduct?.quantity ?? 0);
-         
       }
       setError(null);
     } catch (err) {
@@ -96,7 +81,6 @@ export const useProductDetailContainer = (
 
   const handleAddOneMore = async (item) => {
     try {
-     
       setQuantity((prev) => prev + 1);
     } catch (error) {
       setError("Failed to add product to cart. Please try again.");
@@ -108,7 +92,6 @@ export const useProductDetailContainer = (
     if (quantity < 1) return;
 
     try {
-      
       setQuantity((prev) => Math.max(0, prev - 1));
     } catch (error) {
       setError("Failed to update product quantity. Please try again.");
@@ -116,14 +99,12 @@ export const useProductDetailContainer = (
     }
   };
 
-
   const handleBuyNow = async () => {
     try {
-      if(quantity>0){
-      await addTocart({ productId: product.productId, quantity });
-      navigate("/checkout");
+      if (quantity > 0) {
+        await addTocart({ productId: product.productId, quantity });
+        navigate("/checkout");
       }
-
     } catch (error) {
       setError("Failed to proceed to checkout.");
     }
@@ -135,7 +116,6 @@ export const useProductDetailContainer = (
     currentIndex,
     quantity,
     error,
-    isAddedToCart,
     totalPrice,
     cartItems,
     handlePrev,
@@ -144,10 +124,7 @@ export const useProductDetailContainer = (
     handleAddOneMore,
     handleRemoveOne,
     handleBuyNow,
-    handleOpen,
-    handleClose,
     selectedColor,
     handleSelectColor,
-  
   };
 };

@@ -17,8 +17,8 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 import { useProductDetailContainer } from "./ProductDetailContainer";
 import styles from "./ProductDetailStyles";
-import ReviewDialog from './RatingDialoage'
-import ReviewsDialog from './ReviewsDialoage'
+import ReviewDialog from "./RatingDialoage";
+import ReviewsDialog from "./ReviewsDialoage";
 
 const colors = [
   { name: "Red", hex: "#ff0000" },
@@ -44,12 +44,9 @@ const ProductDetailPage = () => {
     handleBuyNow,
     selectedColor,
     handleSelectColor,
-    handleOpen,
-    handleClose,    
   } = useProductDetailContainer(location.state?.product, id, navigate);
 
   const [openReviews, setOpenReviews] = useState(false);
-
 
   if (!product) {
     return <Typography p={4}>Product not found</Typography>;
@@ -120,19 +117,21 @@ const ProductDetailPage = () => {
             <Typography variant="body1">
               {product.rate || "--"} ·{" "}
               <span
-                style={{ color: "gray", cursor: "pointer", textDecoration: "underline" }}
-                onClick={() => setOpenReviews(true)}
-              >
+                style={{
+                  color: "gray",
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                }}
+                onClick={() => setOpenReviews(true)}>
                 {product.reviewCount || "0"} Reviews
               </span>
             </Typography>
-             <ReviewsDialog
+            <ReviewsDialog
               open={openReviews}
               onClose={() => setOpenReviews(false)}
               reviews={product.review}
             />
-            </Box>
-
+          </Box>
 
           <div style={{ display: "flex", gap: "0.5rem", marginBottom: "1rem" }}>
             {colors.map((color) => (
@@ -180,7 +179,11 @@ const ProductDetailPage = () => {
           </Grid>
 
           <Typography variant="h5" sx={styles.priceStyle}>
-            ${((product.discountprice?product.discountprice:product.price) * quantity).toFixed(2)}
+            $
+            {(
+              (product.discountprice ? product.discountprice : product.price) *
+              quantity
+            ).toFixed(2)}
           </Typography>
 
           <Box sx={styles.quantityWrapper}>
@@ -202,9 +205,8 @@ const ProductDetailPage = () => {
               sx={styles.buyNowButton}>
               BUY NOW
             </Button>
-            
-          <ReviewDialog  productId={product.productId}/>
-         
+
+            <ReviewDialog productId={product.productId} />
           </Box>
         </Box>
       </Box>
