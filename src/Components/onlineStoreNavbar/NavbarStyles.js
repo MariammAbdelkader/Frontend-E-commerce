@@ -15,7 +15,7 @@ const NavbarStyles = {
   searchBar: {
     display: "flex",
     alignItems: "center",
-    width: 250,
+    width: 400,
     height: 40,
     pl: 1,
     bgcolor: "#1e1e1e",
@@ -143,12 +143,6 @@ const NavbarStyles = {
     },
     borderRadius: 1,
     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.2)",
-  },
-
-  flexCenterGap10: {
-    display: "flex",
-    alignItems: "center",
-    gap: 10,
   },
 
   flexCenterGap3: {

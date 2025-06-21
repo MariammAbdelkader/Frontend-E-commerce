@@ -4,25 +4,12 @@ import {
   Toolbar,
   Typography,
   Box,
-  Paper,
-  InputBase,
   Avatar,
   Menu,
   MenuItem,
   Divider,
-  IconButton,
-  Badge,
 } from "@mui/material";
-import {
-  Search,
-  ArrowDropDown,
-  Logout,
-  Settings,
-  HelpOutline,
-  AccessibilityNew,
-  Notifications,
-  Mail,
-} from "@mui/icons-material";
+import { ArrowDropDown, Logout } from "@mui/icons-material";
 import styles from "./NavbarStyles";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../Services/LogoutServices";
@@ -30,38 +17,8 @@ import { getCustomerProfile } from "../../Services/CustomerServices";
 
 const Navbar = () => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [notifAnchorEl, setNotifAnchorEl] = useState(null);
-  const [messageAnchorEl, setMessageAnchorEl] = useState(null);
   const [profileData, setProfileData] = useState(null);
   const navigate = useNavigate();
-
-  const notifications = [
-    { id: 1, title: "New order received", time: "2 mins ago" },
-    { id: 2, title: "Product out of stock", time: "10 mins ago" },
-    { id: 3, title: "Customer left a review", time: "1 hour ago" },
-    { id: 4, title: "Weekly sales report", time: "Yesterday" },
-  ];
-
-  const messages = [
-    {
-      id: 1,
-      sender: "John Doe",
-      text: "Hey! Are you available for a quick call?",
-      initials: "JD",
-    },
-    {
-      id: 2,
-      sender: "Alice Smith",
-      text: "The meeting is scheduled at 3PM.",
-      initials: "AS",
-    },
-    {
-      id: 3,
-      sender: "Bob Williams",
-      text: "Thanks for the update!",
-      initials: "BW",
-    },
-  ];
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -89,12 +46,6 @@ const Navbar = () => {
     if (res.success) navigate("/login");
   };
 
-  const handleNotifOpen = (event) => setNotifAnchorEl(event.currentTarget);
-  const handleNotifClose = () => setNotifAnchorEl(null);
-
-  const handleMessageOpen = (event) => setMessageAnchorEl(event.currentTarget);
-  const handleMessageClose = () => setMessageAnchorEl(null);
-
   return (
     <AppBar position="sticky" sx={styles.navbar}>
       <Toolbar>
@@ -119,13 +70,11 @@ const Navbar = () => {
             </Badge>
           </IconButton> */}
 
-          <Avatar
-            alt="User"
-            src={profileData?.avatar || ""}
-            sx={styles.avatar}
-          >
+          <Avatar alt="User" src={profileData?.avatar || ""} sx={styles.avatar}>
             {profileData
-              ? `${profileData.firstName.charAt(0)}${profileData.lastName.charAt(0)}`
+              ? `${profileData.firstName.charAt(
+                  0
+                )}${profileData.lastName.charAt(0)}`
               : "U"}
           </Avatar>
 
@@ -146,16 +95,16 @@ const Navbar = () => {
           onClose={handleMenuClose}
           PaperProps={{ sx: styles.dropdownPaper }}
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          transformOrigin={{ vertical: "top", horizontal: "right" }}
-        >
+          transformOrigin={{ vertical: "top", horizontal: "right" }}>
           <Box sx={styles.profileBox} onClick={handleProfile}>
             <Avatar
               alt="User"
               src={profileData?.avatar || ""}
-              sx={styles.avatar}
-            >
+              sx={styles.avatar}>
               {profileData
-                ? `${profileData.firstName.charAt(0)}${profileData.lastName.charAt(0)}`
+                ? `${profileData.firstName.charAt(
+                    0
+                  )}${profileData.lastName.charAt(0)}`
                 : "U"}
             </Avatar>
             <Box>

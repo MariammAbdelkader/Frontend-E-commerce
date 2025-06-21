@@ -128,10 +128,6 @@ const StorePage = () => {
               <Typography variant="h6" gutterBottom>
                 Shophoria
               </Typography>
-              <Typography variant="body2" color="gray">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna.
-              </Typography>
               <Box mt={2}>
                 {[Facebook, Twitter, Instagram, YouTube].map((Icon, index) => (
                   <IconButton
@@ -204,13 +200,23 @@ const StorePage = () => {
                 Contact Info
               </Typography>
               <Typography variant="body2" color="gray">
-                +0123-456-789
+                01150437991
+              </Typography>
+              <Typography
+                variant="body2"
+                color="gray"
+                component="a"
+                href="https://mail.google.com/mail/?view=cm&to=sshophoriastore@gmail.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                sx={{
+                  textDecoration: "none",
+                  "&:hover": { textDecoration: "underline" },
+                }}>
+                sshophoriastore@gmail.com
               </Typography>
               <Typography variant="body2" color="gray">
-                example@gmail.com
-              </Typography>
-              <Typography variant="body2" color="gray">
-                8502 Preston Rd. Inglewood, Maine 98380
+                Faculty of Engineering, Ain Shams University
               </Typography>
             </Grid>
           </Grid>
