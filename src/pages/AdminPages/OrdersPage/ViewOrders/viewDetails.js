@@ -36,35 +36,36 @@ const OrderDetails = ({ open, onClose, order }) => {
         </IconButton>
       </DialogTitle>
 
-      <DialogContent dividers>
-        <Typography sx={styles.pageTitle}>
-          Order Date: {order.orderDate}
-        </Typography>
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell sx={styles.tableHeadCell}>Product Name</TableCell>
-                <TableCell sx={styles.tableHeadCell}>Quantity</TableCell>
-                <TableCell sx={styles.tableHeadCell}>Price</TableCell>
-                <TableCell sx={styles.tableHeadCell}>Total</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {order.products?.map((product, index) => (
-                <TableRow key={index}>
-                  <TableCell>{product.name}</TableCell>
-                  <TableCell>{product.quantity}</TableCell>
-                  <TableCell>{product.price}</TableCell>
-                  <TableCell>
-                    {(product.quantity * product.price).toFixed(2)}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </DialogContent>
+      <DialogContent dividers sx={{ maxHeight: '500px', overflowY: 'auto' }}>
+  <Typography sx={styles.pageTitle}>
+    Order Date: {order.orderDate}
+  </Typography>
+  <TableContainer>
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell sx={styles.tableHeadCell}>Product Name</TableCell>
+          <TableCell sx={styles.tableHeadCell}>Quantity</TableCell>
+          <TableCell sx={styles.tableHeadCell}>Price</TableCell>
+          <TableCell sx={styles.tableHeadCell}>Total</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {order.products?.map((product, index) => (
+          <TableRow key={index}>
+            <TableCell>{product.name}</TableCell>
+            <TableCell>{product.quantity}</TableCell>
+            <TableCell>{product.price}</TableCell>
+            <TableCell>
+              {(product.quantity * product.price).toFixed(2)}
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  </TableContainer>
+</DialogContent>
+
     </Dialog>
   );
 };
